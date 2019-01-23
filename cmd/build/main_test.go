@@ -10,16 +10,16 @@ import (
 	"github.com/sclevine/spec/report"
 )
 
-func TestUnitDetect(t *testing.T) {
-	spec.Run(t, "Detect", testDetect, spec.Report(report.Terminal{}))
+func TestUnitBuild(t *testing.T) {
+	spec.Run(t, "Build", testBuild, spec.Report(report.Terminal{}))
 }
 
-func testDetect(t *testing.T, _ spec.G, it spec.S) {
+func testBuild(t *testing.T, _ spec.G, it spec.S) {
 	it("always passes", func() {
-		f := test.NewDetectFactory(t)
-		code, err := runDetect(f.Detect)
+		f := test.NewBuildFactory(t)
+		code, err := runBuild(f.Build)
 		if err != nil {
-			t.Error("Err in detect : ", err)
+			t.Error("Err in build : ", err)
 		}
 
 		if diff := cmp.Diff(code, detect.PassStatusCode); diff != "" {
