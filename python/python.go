@@ -1,8 +1,6 @@
 package python
 
 import (
-	"path/filepath"
-
 	"github.com/cloudfoundry/libcfbuildpack/build"
 	"github.com/cloudfoundry/libcfbuildpack/helper"
 	"github.com/cloudfoundry/libcfbuildpack/layers"
@@ -48,7 +46,7 @@ func NewContributor(context build.Build) (Contributor, bool, error) {
 func (n Contributor) Contribute() error {
 	return n.layer.Contribute(func(artifact string, layer layers.DependencyLayer) error {
 		layer.Logger.SubsequentLine("Expanding to %s", layer.Root)
-		if err := helper.ExtractTarGz(artifact, layer.Root, 1); err != nil {
+		if err := helper.ExtractTarGz(artifact, layer.Root, 0); err != nil {
 			return err
 		}
 
@@ -56,7 +54,7 @@ func (n Contributor) Contribute() error {
 			return err
 		}
 
-		if err := layer.OverrideSharedEnv("PYTHONHOME", filepath.Join(layer.Root, "python")); err != nil {
+		if err := layer.OverrideSharedEnv("PYTHONHOME", layer.Root); err != nil {
 			return err
 		}
 
