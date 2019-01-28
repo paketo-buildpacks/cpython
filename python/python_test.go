@@ -67,9 +67,9 @@ func testPython(t *testing.T, when spec.G, it spec.S) {
 
 			Expect(layer).To(test.HaveLayerMetadata(true, true, false))
 
-			Expect(filepath.Join(layer.Root, "stub.txt")).To(BeARegularFile())
+			Expect(filepath.Join(layer.Root, "stub-dir", "stub.txt")).To(BeARegularFile())
 			Expect(layer).To(test.HaveOverrideSharedEnvironment("PYTHONPATH", layer.Root)) //s.Stager.DepDir()
-			Expect(layer).To(test.HaveOverrideSharedEnvironment("PYTHONHOME", filepath.Join(layer.Root, "python")))
+			Expect(layer).To(test.HaveOverrideSharedEnvironment("PYTHONHOME", layer.Root))
 			Expect(layer).To(test.HaveOverrideSharedEnvironment("PYTHONUNBUFFERED", "1"))
 			Expect(layer).To(test.HaveOverrideSharedEnvironment("PYTHONHASHSEED", "random"))
 			Expect(layer).To(test.HaveOverrideSharedEnvironment("LANG", "en_US.UTF-8"))
@@ -91,9 +91,9 @@ func testPython(t *testing.T, when spec.G, it spec.S) {
 
 			layer := f.Build.Layers.Layer(Dependency)
 			Expect(layer).To(test.HaveLayerMetadata(false, true, true))
-			Expect(filepath.Join(layer.Root, "stub.txt")).To(BeARegularFile())
+			Expect(filepath.Join(layer.Root, "stub-dir", "stub.txt")).To(BeARegularFile())
 			Expect(layer).To(test.HaveOverrideSharedEnvironment("PYTHONPATH", layer.Root)) //s.Stager.DepDir()
-			Expect(layer).To(test.HaveOverrideSharedEnvironment("PYTHONHOME", filepath.Join(layer.Root, "python")))
+			Expect(layer).To(test.HaveOverrideSharedEnvironment("PYTHONHOME", layer.Root))
 			Expect(layer).To(test.HaveOverrideSharedEnvironment("PYTHONUNBUFFERED", "1"))
 			Expect(layer).To(test.HaveOverrideSharedEnvironment("PYTHONHASHSEED", "random"))
 			Expect(layer).To(test.HaveOverrideSharedEnvironment("LANG", "en_US.UTF-8"))
