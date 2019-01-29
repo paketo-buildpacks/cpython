@@ -70,7 +70,6 @@ version = "3.4.9"
 
 [[metadata.dependencies]]
 id = "python"
-name = "Python"
 sha256 = "e1524caeacf64bfba97e8034c108c959a8c7f188e15e11419cc0bd83e53f56f2"
 stacks = ["org.cloudfoundry.stacks.cflinuxfs2"]
 uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.5.5-linux-x64-cflinuxfs2-e1524cae.tgz"
@@ -78,7 +77,6 @@ version = "3.5.5"
 
 [[metadata.dependencies]]
 id = "python"
-name = "Python"
 sha256 = "0d1517b8d13750a0222e63ebcd92a09c4ae2e5739b728179d967ee66ae031fae"
 stacks = ["org.cloudfoundry.stacks.cflinuxfs3"]
 uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.5.5-linux-x64-cflinuxfs3-0d1517b8.tgz"
