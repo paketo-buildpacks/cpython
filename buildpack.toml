@@ -7,17 +7,17 @@ version = "0.0.1"
 [[metadata.dependencies]]
 id = "python"
 name = "Python"
-sha256 = "972402429ca6cd32a0728b7856aed86c6690d6233161d68b36e7709bf4927f01"
+sha256 = "61573fffe50ebe535f53ba5c759e00962b42c0894b8ff78453bc1d9a5fc5c46e"
 stacks = ["org.cloudfoundry.stacks.cflinuxfs2"]
-uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-2.7.14-linux-x64-cflinuxfs2-97240242.tgz"
+uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-2.7.14-linux-x64-cflinuxfs2-61573fff.tgz"
 version = "2.7.14"
 
 [[metadata.dependencies]]
 id = "python"
 name = "Python"
-sha256 = "95f23a26eb66cb2a569e404f0c15c6966f613591031eb5e7f988bd6e3f5b6ab4"
+sha256 = "bd03ec4ba92fafbc4dcf50bed378c56e93d0d1bcf85a1f070977faf189cdc441"
 stacks = ["org.cloudfoundry.stacks.cflinuxfs3"]
-uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-2.7.14-linux-x64-cflinuxfs3-95f23a26.tgz"
+uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-2.7.14-linux-x64-cflinuxfs3-bd03ec4b.tgz"
 version = "2.7.14"
 
 [[metadata.dependencies]]
