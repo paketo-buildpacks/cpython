@@ -8,4 +8,5 @@ require (
 	github.com/google/go-cmp v0.2.0
 	github.com/onsi/gomega v1.4.3
 	github.com/sclevine/spec v1.2.0
+	gopkg.in/yaml.v2 v2.2.2
 )
