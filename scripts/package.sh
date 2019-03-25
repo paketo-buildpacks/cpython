@@ -28,6 +28,8 @@ done
 fullPath=$(realpath "$bp_dir")
 echo "Buildpack packaged into: $fullPath"
 
+buildpack_name="$(basename `pwd`)"
+
 pushd $bp_dir
-    tar czvf ../nodejs-cnb.tgz *
+    tar czvf "../$buildpack_name.tgz" *
 popd
