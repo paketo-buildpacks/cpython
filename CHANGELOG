@@ -1,3 +1,21 @@
+v0.0.3 Apr 01, 2019
+====================
+
+* Move runtime.txt logic into python-compat-cnb
+  (https://www.pivotaltracker.com/story/show/163886457)
+
+* Add python 3.7.3, remove python 3.7.1
+  for stack(s) org.cloudfoundry.stacks.cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/164884985)
+
+* Add python 3.5.7, remove python 3.5.5
+  for stack(s) org.cloudfoundry.stacks.cflinuxfs2, org.cloudfoundry.stacks.cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/164712763)
+
+* Add python 3.4.10, remove python 3.4.8
+  for stack(s) org.cloudfoundry.stacks.cflinuxfs2, org.cloudfoundry.stacks.cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/164712798)
+
 v0.0.2 Mar 15, 2019
 ====================
 
