@@ -19,6 +19,11 @@ func main() {
 	context, err := detect.DefaultDetect()
 	if err != nil {
 		_, _ = fmt.Fprintf(os.Stderr, "failed to create a default detection context: %s", err)
+		os.Exit(100)
+	}
+
+	if err := context.BuildPlan.Init(); err != nil {
+		_, _ = fmt.Fprintf(os.Stderr, "Failed to initialize Build Plan: %s\n", err)
 		os.Exit(101)
 	}
 
@@ -31,26 +36,14 @@ func main() {
 }
 
 func runDetect(context detect.Detect) (int, error) {
-	runtimePath := filepath.Join(context.Application.Root, "runtime.txt")
-	exists, err := helper.FileExists(runtimePath)
-	if err != nil {
-		return detect.FailStatusCode, err
-	}
-
-	var version string
-	if exists {
-		version, err = readRuntimeTxtVersion(runtimePath)
-		if err != nil {
-			return detect.FailStatusCode, err
-		}
-	}
 
 	buildpackYAMLPath := filepath.Join(context.Application.Root, "buildpack.yml")
-	exists, err = helper.FileExists(buildpackYAMLPath)
+	exists, err := helper.FileExists(buildpackYAMLPath)
 	if err != nil {
 		return detect.FailStatusCode, err
 	}
 
+	version := context.BuildPlan[python.Dependency].Version
 	if exists {
 		version, err = readBuildpackYamlVersion(buildpackYAMLPath)
 		if err != nil {
@@ -64,11 +57,6 @@ func runDetect(context detect.Detect) (int, error) {
 			Metadata: buildplan.Metadata{"build": true, "launch": true},
 		},
 	})
-}
-
-func readRuntimeTxtVersion(runtimePath string) (string, error) {
-	buf, err := ioutil.ReadFile(runtimePath)
-	return string(buf), err
 }
 
 func readBuildpackYamlVersion(buildpackYAMLPath string) (string, error) {

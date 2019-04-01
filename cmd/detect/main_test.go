@@ -42,7 +42,7 @@ func testDetect(t *testing.T, when spec.G, it spec.S) {
 
 	when("testing versions", func() {
 
-		when("there is no runtime.txt or buildpack.yml", func() {
+		when("there is no buildpack.yml", func() {
 			it("shouldn't set the version in the buildplan", func() {
 				code, err := runDetect(factory.Detect)
 				Expect(err).NotTo(HaveOccurred())
@@ -57,28 +57,7 @@ func testDetect(t *testing.T, when spec.G, it spec.S) {
 			})
 		})
 
-		when("there is a runtime.txt but no buildpack.yml", func() {
-			const version string = "1.2.3"
-
-			it.Before(func() {
-				Expect(helper.WriteFile(filepath.Join(factory.Detect.Application.Root, "runtime.txt"), 0666, version)).To(Succeed())
-			})
-
-			it("should pass with the requested version of python", func() {
-				code, err := runDetect(factory.Detect)
-				Expect(err).NotTo(HaveOccurred())
-				Expect(code).To(Equal(detect.PassStatusCode))
-
-				Expect(factory.Output).To(Equal(buildplan.BuildPlan{
-					python.Dependency: buildplan.Dependency{
-						Version:  version,
-						Metadata: buildplan.Metadata{"build": true, "launch": true},
-					},
-				}))
-			})
-		})
-
-		when("there is a buildpack.yml but no runtime.txt", func() {
+		when("there is a buildpack.yml", func() {
 			const version string = "1.2.3"
 
 			it.Before(func() {
@@ -100,14 +79,17 @@ func testDetect(t *testing.T, when spec.G, it spec.S) {
 			})
 		})
 
-		when("there is a buildpack.yml and a runtime.txt", func() {
+		when("there is a is an existing version from the build plan and a buildpack.yml", func() {
 			const buildpackYAMLVersion string = "1.2.3"
-			const runtimeVersion string = "4.5.6"
+			const existingVersion string = "4.5.6"
 
 			it.Before(func() {
+				factory.AddBuildPlan(python.Dependency, buildplan.Dependency{
+					Version: existingVersion,
+				})
+
 				buildpackYAMLString := fmt.Sprintf("python:\n  version: %s", buildpackYAMLVersion)
 				Expect(helper.WriteFile(filepath.Join(factory.Detect.Application.Root, "buildpack.yml"), 0666, buildpackYAMLString)).To(Succeed())
-				Expect(helper.WriteFile(filepath.Join(factory.Detect.Application.Root, "runtime.txt"), 0666, runtimeVersion)).To(Succeed())
 			})
 
 			it("should pass with the requested version of python defined in buildpack.yml", func() {
