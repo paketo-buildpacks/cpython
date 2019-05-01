@@ -14,13 +14,6 @@ github.com/buildpack/libbuildpack/logger
 github.com/buildpack/libbuildpack/platform
 github.com/buildpack/libbuildpack/services
 github.com/buildpack/libbuildpack/stack
-# github.com/cloudfoundry/cnb-tools v0.0.0-20190219172305-154ea1cc62b2
-github.com/cloudfoundry/cnb-tools/install_tools
-github.com/cloudfoundry/cnb-tools/integration
-github.com/cloudfoundry/cnb-tools/package
-github.com/cloudfoundry/cnb-tools/unit
-github.com/cloudfoundry/cnb-tools/action
-github.com/cloudfoundry/cnb-tools/utils
 # github.com/cloudfoundry/libcfbuildpack v1.42.0
 github.com/cloudfoundry/libcfbuildpack/build
 github.com/cloudfoundry/libcfbuildpack/detect
