@@ -2,7 +2,7 @@
 [buildpack]
 id = "org.cloudfoundry.python"
 name = "Python Buildpack"
-version = "0.0.4"
+version = "0.0.5"
 
 [[metadata.dependencies]]
 id = "python"
