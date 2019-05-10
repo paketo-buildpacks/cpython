@@ -4,6 +4,10 @@ id = "org.cloudfoundry.python"
 name = "Python Buildpack"
 version = "0.0.5"
 
+[metadata]
+include_files = ["bin/build","bin/detect","buildpack.toml"]
+pre_package = "./scripts/build.sh"
+
 [[metadata.dependencies]]
 id = "python"
 name = "Python"
