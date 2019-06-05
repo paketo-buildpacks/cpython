@@ -20,25 +20,14 @@ func NewContributor(context build.Build) (Contributor, bool, error) {
 		return Contributor{}, false, nil
 	}
 
-	deps, err := context.Buildpack.Dependencies()
-	if err != nil {
-		return Contributor{}, false, err
-	}
-
-	dep, err := deps.Best(Dependency, plan.Version, context.Stack)
+	dep, err := context.Buildpack.RuntimeDependency(Dependency, plan.Version, context.Stack)
 	if err != nil {
 		return Contributor{}, false, err
 	}
 
 	contributor := Contributor{layer: context.Layers.DependencyLayer(dep)}
-
-	if _, ok := plan.Metadata["build"]; ok {
-		contributor.buildContribution = true
-	}
-
-	if _, ok := plan.Metadata["launch"]; ok {
-		contributor.launchContribution = true
-	}
+	contributor.buildContribution, _ = plan.Metadata["build"].(bool)
+	contributor.launchContribution, _ = plan.Metadata["launch"].(bool)
 
 	return contributor, true, nil
 }
