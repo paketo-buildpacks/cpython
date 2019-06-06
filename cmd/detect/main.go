@@ -2,11 +2,8 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
-
-	"gopkg.in/yaml.v2"
 
 	"github.com/buildpack/libbuildpack/buildplan"
 	"github.com/cloudfoundry/libcfbuildpack/helper"
@@ -36,7 +33,6 @@ func main() {
 }
 
 func runDetect(context detect.Detect) (int, error) {
-
 	buildpackYAMLPath := filepath.Join(context.Application.Root, "buildpack.yml")
 	exists, err := helper.FileExists(buildpackYAMLPath)
 	if err != nil {
@@ -45,7 +41,7 @@ func runDetect(context detect.Detect) (int, error) {
 
 	version := context.BuildPlan[python.Dependency].Version
 	if exists {
-		version, err = readBuildpackYamlVersion(buildpackYAMLPath)
+		version, err = helper.ReadBuildpackYamlVersion(buildpackYAMLPath, "python")
 		if err != nil {
 			return detect.FailStatusCode, err
 		}
@@ -57,22 +53,4 @@ func runDetect(context detect.Detect) (int, error) {
 			Metadata: buildplan.Metadata{"build": true, "launch": true},
 		},
 	})
-}
-
-func readBuildpackYamlVersion(buildpackYAMLPath string) (string, error) {
-	buf, err := ioutil.ReadFile(buildpackYAMLPath)
-	if err != nil {
-		return "", err
-	}
-
-	config := struct {
-		Python struct {
-			Version string `yaml:"version"`
-		} `yaml:"python"`
-	}{}
-	if err := yaml.Unmarshal(buf, &config); err != nil {
-		return "", err
-	}
-
-	return config.Python.Version, nil
 }
