@@ -100,11 +100,29 @@ version = "3.5.6"
 [[metadata.dependencies]]
 id = "python"
 name = "Python"
-sha256 = "7108e0950224fb5becfae80682625d34247458c223a9553605d5145e8e9d050c"
+sha256 = "b17939ee9bcb8538baf4642d561c35754cba822b9672cde531c430a320995669"
+source = "https://www.python.org/ftp/python/3.5.7/Python-3.5.7.tgz"
+source_sha256 = "542d94920a2a06a471a73b51614805ad65366af98145b0369bc374cf248b521b"
+stacks = ["org.cloudfoundry.stacks.cflinuxfs2"]
+uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.5.7-linux-x64-cflinuxfs2-b17939ee.tgz"
+version = "3.5.7"
+
+[[metadata.dependencies]]
+id = "python"
+name = "Python"
+sha256 = "8260b09fad168683694e6ef4f7d126c83730b606f8af835e46f83b9665416f1d"
+stacks = ["org.cloudfoundry.stacks.cflinuxfs2"]
+uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.5.7-linux-x64-cflinuxfs2-8260b09f.tgz"
+version = "3.5.7"
+
+[[metadata.dependencies]]
+id = "python"
+name = "Python"
+sha256 = "66c1605d7a4819ff66588d9d984a014a1cf53526b9bae642040ecb2eaf655e5a"
 source = "https://www.python.org/ftp/python/3.5.7/Python-3.5.7.tgz"
 source_sha256 = "542d94920a2a06a471a73b51614805ad65366af98145b0369bc374cf248b521b"
 stacks = ["org.cloudfoundry.stacks.cflinuxfs3"]
-uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.5.7-linux-x64-cflinuxfs3-7108e095.tgz"
+uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.5.7-linux-x64-cflinuxfs3-66c1605d.tgz"
 version = "3.5.7"
 
 [[metadata.dependencies]]
@@ -176,6 +194,12 @@ date = 2019-03-16T00:00:00Z
 link = "https://www.python.org/dev/peps/pep-0429/"
 name = "python"
 version_line = "3.4.x"
+
+[[metadata.dependency_deprecation_dates]]
+date = 2020-09-13T00:00:00Z
+link = "https://www.python.org/dev/peps/pep-0478/"
+name = "python"
+version_line = "3.5.x"
 
 [[metadata.dependency_deprecation_dates]]
 date = 2021-12-23T00:00:00Z
