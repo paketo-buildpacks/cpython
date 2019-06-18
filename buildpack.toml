@@ -158,11 +158,11 @@ version = "3.7.2"
 [[metadata.dependencies]]
 id = "python"
 name = "Python"
-sha256 = "827f07e197aead8bd7f2a6387db97b956dd258262108a2ef893a16669682858c"
+sha256 = "8fad39c254588162e9c46af501da94fa268c34ac89fe31e08fa50c863f28b02e"
 source = "https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz"
 source_sha256 = "d62e3015f2f89c970ac52343976b406694931742fbde2fed8d1ce8ebb4e1f8ff"
 stacks = ["org.cloudfoundry.stacks.cflinuxfs3"]
-uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.7.3-linux-x64-cflinuxfs3-827f07e1.tgz"
+uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.7.3-linux-x64-cflinuxfs3-8fad39c2.tgz"
 version = "3.7.3"
 
 [[metadata.dependency_deprecation_dates]]
@@ -182,6 +182,12 @@ date = 2021-12-23T00:00:00Z
 link = "https://www.python.org/dev/peps/pep-0494/"
 name = "python"
 version_line = "3.6.x"
+
+[[metadata.dependency_deprecation_dates]]
+date = 2023-06-27T00:00:00Z
+link = "https://www.python.org/dev/peps/pep-0537/"
+name = "python"
+version_line = "3.7.x"
 
 [[stacks]]
 id = "org.cloudfoundry.stacks.cflinuxfs3"
