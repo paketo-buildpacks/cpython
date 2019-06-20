@@ -32,18 +32,30 @@ func main() {
 	os.Exit(code)
 }
 
+type Config struct {
+	Version string `yaml:"version"`
+}
+
+type BuildpackYAML struct {
+	Config Config `yaml:"python"`
+}
+
 func runDetect(context detect.Detect) (int, error) {
 	buildpackYAMLPath := filepath.Join(context.Application.Root, "buildpack.yml")
 	exists, err := helper.FileExists(buildpackYAMLPath)
 	if err != nil {
 		return detect.FailStatusCode, err
 	}
+	buildpackYAML := BuildpackYAML{}
 
 	version := context.BuildPlan[python.Dependency].Version
 	if exists {
-		version, err = helper.ReadBuildpackYamlVersion(buildpackYAMLPath, "python")
+		err = helper.ReadBuildpackYaml(buildpackYAMLPath, &buildpackYAML)
 		if err != nil {
 			return detect.FailStatusCode, err
+		}
+		if buildpackYAML.Config.Version != "" {
+			version = buildpackYAML.Config.Version
 		}
 	}
 
