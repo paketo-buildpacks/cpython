@@ -90,11 +90,11 @@ version = "3.4.10"
 [[metadata.dependencies]]
 id = "python"
 name = "Python"
-sha256 = "c9eedd806db6ead7039cdc1e4bcada8ef295c95d329b191c03ddf3deb604df7e"
+sha256 = "e81fac006b856cbd9d293e77fb09204f4c6aa9465ae9b91cdf49514743d025d2"
 source = "https://www.python.org/ftp/python/3.5.6/Python-3.5.6.tgz"
 source_sha256 = "30d2ff093988e74283e1abfee823292c6b59590796b9827e95ba4940b27d26f8"
 stacks = ["org.cloudfoundry.stacks.cflinuxfs3"]
-uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.5.6-linux-x64-cflinuxfs3-c9eedd80.tgz"
+uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.5.6-linux-x64-cflinuxfs3-e81fac00.tgz"
 version = "3.5.6"
 
 [[metadata.dependencies]]
