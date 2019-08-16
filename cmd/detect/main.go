@@ -19,11 +19,6 @@ func main() {
 		os.Exit(100)
 	}
 
-	if err := context.BuildPlan.Init(); err != nil {
-		_, _ = fmt.Fprintf(os.Stderr, "Failed to initialize Build Plan: %s\n", err)
-		os.Exit(101)
-	}
-
 	code, err := runDetect(context)
 	if err != nil {
 		context.Logger.Info(err.Error())
@@ -41,28 +36,38 @@ type BuildpackYAML struct {
 }
 
 func runDetect(context detect.Detect) (int, error) {
+	var version string
+
 	buildpackYAMLPath := filepath.Join(context.Application.Root, "buildpack.yml")
-	exists, err := helper.FileExists(buildpackYAMLPath)
+	buildpackYAMLExists, err := helper.FileExists(buildpackYAMLPath)
 	if err != nil {
 		return detect.FailStatusCode, err
 	}
-	buildpackYAML := BuildpackYAML{}
 
-	version := context.BuildPlan[python.Dependency].Version
-	if exists {
+	if buildpackYAMLExists {
+		buildpackYAML := BuildpackYAML{}
 		err = helper.ReadBuildpackYaml(buildpackYAMLPath, &buildpackYAML)
 		if err != nil {
 			return detect.FailStatusCode, err
 		}
+
 		if buildpackYAML.Config.Version != "" {
 			version = buildpackYAML.Config.Version
 		}
 	}
 
-	return context.Pass(buildplan.BuildPlan{
-		python.Dependency: buildplan.Dependency{
-			Version:  version,
-			Metadata: buildplan.Metadata{"build": true, "launch": true},
-		},
+	if version != "" {
+		return context.Pass(buildplan.Plan{
+			Provides: []buildplan.Provided{{Name: python.Dependency}},
+			Requires: []buildplan.Required{{
+				Name:     python.Dependency,
+				Version:  version,
+				Metadata: buildplan.Metadata{"launch": true},
+			}},
+		})
+	}
+
+	return context.Pass(buildplan.Plan{
+		Provides: []buildplan.Provided{{Name: python.Dependency}},
 	})
 }

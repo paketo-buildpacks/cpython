@@ -11,7 +11,6 @@ import (
 
 	"github.com/cloudfoundry/libcfbuildpack/detect"
 	"github.com/cloudfoundry/libcfbuildpack/test"
-	"github.com/google/go-cmp/cmp"
 	. "github.com/onsi/gomega"
 	"github.com/sclevine/spec"
 	"github.com/sclevine/spec/report"
@@ -29,31 +28,12 @@ func testDetect(t *testing.T, when spec.G, it spec.S) {
 		factory = test.NewDetectFactory(t)
 	})
 
-	it("always passes", func() {
-		code, err := runDetect(factory.Detect)
-		if err != nil {
-			t.Error("Err in detect : ", err)
-		}
-
-		if diff := cmp.Diff(code, detect.PassStatusCode); diff != "" {
-			t.Error("Problem : ", diff)
-		}
-	})
-
 	when("testing versions", func() {
-
 		when("there is no buildpack.yml", func() {
 			it("shouldn't set the version in the buildplan", func() {
-				code, err := runDetect(factory.Detect)
-				Expect(err).NotTo(HaveOccurred())
-				Expect(code).To(Equal(detect.PassStatusCode))
-
-				Expect(factory.Output).To(Equal(buildplan.BuildPlan{
-					python.Dependency: buildplan.Dependency{
-						Version:  "",
-						Metadata: buildplan.Metadata{"build": true, "launch": true},
-					},
-				}))
+				runDetectAndExpectBuildplan(factory, buildplan.Plan{
+					Provides: []buildplan.Provided{{Name: python.Dependency}},
+				}, t)
 			})
 		})
 
@@ -66,44 +46,25 @@ func testDetect(t *testing.T, when spec.G, it spec.S) {
 			})
 
 			it("should pass with the requested version of python", func() {
-				code, err := runDetect(factory.Detect)
-				Expect(err).NotTo(HaveOccurred())
-				Expect(code).To(Equal(detect.PassStatusCode))
-
-				Expect(factory.Output).To(Equal(buildplan.BuildPlan{
-					python.Dependency: buildplan.Dependency{
+				runDetectAndExpectBuildplan(factory, buildplan.Plan{
+					Provides: []buildplan.Provided{{Name: python.Dependency}},
+					Requires: []buildplan.Required{{Name: python.Dependency,
 						Version:  version,
-						Metadata: buildplan.Metadata{"build": true, "launch": true},
-					},
-				}))
-			})
-		})
-
-		when("there is a is an existing version from the build plan and a buildpack.yml", func() {
-			const buildpackYAMLVersion string = "1.2.3"
-			const existingVersion string = "4.5.6"
-
-			it.Before(func() {
-				factory.AddBuildPlan(python.Dependency, buildplan.Dependency{
-					Version: existingVersion,
-				})
-
-				buildpackYAMLString := fmt.Sprintf("python:\n  version: %s", buildpackYAMLVersion)
-				Expect(helper.WriteFile(filepath.Join(factory.Detect.Application.Root, "buildpack.yml"), 0666, buildpackYAMLString)).To(Succeed())
-			})
-
-			it("should pass with the requested version of python defined in buildpack.yml", func() {
-				code, err := runDetect(factory.Detect)
-				Expect(err).NotTo(HaveOccurred())
-				Expect(code).To(Equal(detect.PassStatusCode))
-
-				Expect(factory.Output).To(Equal(buildplan.BuildPlan{
-					python.Dependency: buildplan.Dependency{
-						Version:  buildpackYAMLVersion,
-						Metadata: buildplan.Metadata{"build": true, "launch": true},
-					},
-				}))
+						Metadata: buildplan.Metadata{"launch": true},
+					}},
+				}, t)
 			})
 		})
 	})
+}
+
+func runDetectAndExpectBuildplan(factory *test.DetectFactory, buildplan buildplan.Plan, t *testing.T) {
+	Expect := NewWithT(t).Expect
+
+	code, err := runDetect(factory.Detect)
+	Expect(err).NotTo(HaveOccurred())
+
+	Expect(code).To(Equal(detect.PassStatusCode))
+
+	Expect(factory.Plans.Plan).To(Equal(buildplan))
 }

@@ -15,9 +15,9 @@ type Contributor struct {
 }
 
 func NewContributor(context build.Build) (Contributor, bool, error) {
-	plan, wantDependency := context.BuildPlan[Dependency]
-	if !wantDependency {
-		return Contributor{}, false, nil
+	plan, wantDependency, err := context.Plans.GetShallowMerged(Dependency)
+	if err != nil || !wantDependency {
+		return Contributor{}, false, err
 	}
 
 	dep, err := context.Buildpack.RuntimeDependency(Dependency, plan.Version, context.Stack)

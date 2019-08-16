@@ -1,11 +1,12 @@
-package python
+package python_test
 
 import (
 	"path/filepath"
 	"testing"
 
-	"github.com/buildpack/libbuildpack/buildplan"
+	"github.com/buildpack/libbuildpack/buildpackplan"
 	"github.com/cloudfoundry/libcfbuildpack/test"
+	"github.com/cloudfoundry/python-cnb/python"
 	"github.com/google/go-cmp/cmp"
 	. "github.com/onsi/gomega"
 	"github.com/sclevine/spec"
@@ -18,15 +19,15 @@ func TestUnitPython(t *testing.T) {
 }
 
 func testPython(t *testing.T, when spec.G, it spec.S) {
-	when("NewContributor", func() {
-		var stubPythonFixture = filepath.Join("testdata", "stub-python.tar.gz")
+	var stubPythonFixture = filepath.Join("testdata", "stub-python.tar.gz")
 
+	when("NewContributor", func() {
 		it("returns true if python is in the build plan", func() {
 			f := test.NewBuildFactory(t)
-			f.AddBuildPlan(Dependency, buildplan.Dependency{})
-			f.AddDependency(Dependency, stubPythonFixture)
+			f.AddPlan(buildpackplan.Plan{Name: python.Dependency})
+			f.AddDependency(python.Dependency, stubPythonFixture)
 
-			_, willContribute, err := NewContributor(f.Build)
+			_, willContribute, err := python.NewContributor(f.Build)
 			if err != nil {
 				t.Error("Could not create contributor")
 			}
@@ -40,7 +41,7 @@ func testPython(t *testing.T, when spec.G, it spec.S) {
 		it("returns false if python is not in the build plan", func() {
 			f := test.NewBuildFactory(t)
 
-			_, willContribute, err := NewContributor(f.Build)
+			_, willContribute, err := python.NewContributor(f.Build)
 			if err != nil {
 				t.Error("Could not create contributor")
 			}
@@ -49,50 +50,53 @@ func testPython(t *testing.T, when spec.G, it spec.S) {
 				t.Error("Python should not contribute to the build plan")
 			}
 		})
+	})
 
+	when("Contribute", func() {
 		it("contributes python to the cache layer when included in the build plan", func() {
 			f := test.NewBuildFactory(t)
-			f.AddBuildPlan(Dependency, buildplan.Dependency{
-				Metadata: buildplan.Metadata{"build": true},
+			f.AddPlan(buildpackplan.Plan{
+				Name:     python.Dependency,
+				Metadata: buildpackplan.Metadata{"build": true},
 			})
-			f.AddDependency(Dependency, stubPythonFixture)
+			f.AddDependency(python.Dependency, stubPythonFixture)
 
-			pythonDep, _, err := NewContributor(f.Build)
+			pythonDep, _, err := python.NewContributor(f.Build)
 			Expect(err).NotTo(HaveOccurred())
 
 			err = pythonDep.Contribute()
 			Expect(err).NotTo(HaveOccurred())
 
-			layer := f.Build.Layers.Layer(Dependency)
+			layer := f.Build.Layers.Layer(python.Dependency)
 
 			Expect(layer).To(test.HaveLayerMetadata(true, true, false))
 
 			Expect(filepath.Join(layer.Root, "stub-dir", "stub.txt")).To(BeARegularFile())
-			Expect(layer).To(test.HaveOverrideSharedEnvironment("PYTHONPATH", layer.Root)) //s.Stager.DepDir()
+			Expect(layer).To(test.HaveOverrideSharedEnvironment("PYTHONPATH", layer.Root))
 			Expect(layer).To(test.HaveOverrideSharedEnvironment("PYTHONHOME", layer.Root))
 			Expect(layer).To(test.HaveOverrideSharedEnvironment("PYTHONUNBUFFERED", "1"))
 			Expect(layer).To(test.HaveOverrideSharedEnvironment("PYTHONHASHSEED", "random"))
 			Expect(layer).To(test.HaveOverrideSharedEnvironment("LANG", "en_US.UTF-8"))
-
 		})
 
 		it("contributes python to the launch layer when included in the build plan", func() {
 			f := test.NewBuildFactory(t)
-			f.AddBuildPlan(Dependency, buildplan.Dependency{
-				Metadata: buildplan.Metadata{"launch": true},
+			f.AddPlan(buildpackplan.Plan{
+				Name:     python.Dependency,
+				Metadata: buildpackplan.Metadata{"launch": true},
 			})
-			f.AddDependency(Dependency, stubPythonFixture)
+			f.AddDependency(python.Dependency, stubPythonFixture)
 
-			pythonContributor, _, err := NewContributor(f.Build)
+			pythonContributor, _, err := python.NewContributor(f.Build)
 			Expect(err).NotTo(HaveOccurred())
 
 			err = pythonContributor.Contribute()
 			Expect(err).NotTo(HaveOccurred())
 
-			layer := f.Build.Layers.Layer(Dependency)
+			layer := f.Build.Layers.Layer(python.Dependency)
 			Expect(layer).To(test.HaveLayerMetadata(false, true, true))
 			Expect(filepath.Join(layer.Root, "stub-dir", "stub.txt")).To(BeARegularFile())
-			Expect(layer).To(test.HaveOverrideSharedEnvironment("PYTHONPATH", layer.Root)) //s.Stager.DepDir()
+			Expect(layer).To(test.HaveOverrideSharedEnvironment("PYTHONPATH", layer.Root))
 			Expect(layer).To(test.HaveOverrideSharedEnvironment("PYTHONHOME", layer.Root))
 			Expect(layer).To(test.HaveOverrideSharedEnvironment("PYTHONUNBUFFERED", "1"))
 			Expect(layer).To(test.HaveOverrideSharedEnvironment("PYTHONHASHSEED", "random"))

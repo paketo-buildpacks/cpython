@@ -4,24 +4,26 @@ github.com/BurntSushi/toml
 github.com/Masterminds/semver
 # github.com/buildpack/libbuildpack v1.21.0
 github.com/buildpack/libbuildpack/buildplan
-github.com/buildpack/libbuildpack/internal
 github.com/buildpack/libbuildpack/build
 github.com/buildpack/libbuildpack/layers
+github.com/buildpack/libbuildpack/buildpackplan
+github.com/buildpack/libbuildpack/internal
 github.com/buildpack/libbuildpack/detect
 github.com/buildpack/libbuildpack/application
 github.com/buildpack/libbuildpack/buildpack
-github.com/buildpack/libbuildpack/buildpackplan
 github.com/buildpack/libbuildpack/logger
 github.com/buildpack/libbuildpack/platform
 github.com/buildpack/libbuildpack/services
 github.com/buildpack/libbuildpack/stack
-# github.com/cloudfoundry/libcfbuildpack v1.82.0
+# github.com/cloudfoundry/dagger v0.0.0-20190813205748-e53989179538
+github.com/cloudfoundry/dagger
+# github.com/cloudfoundry/libcfbuildpack v1.83.0
 github.com/cloudfoundry/libcfbuildpack/build
+github.com/cloudfoundry/libcfbuildpack/buildpackplan
 github.com/cloudfoundry/libcfbuildpack/detect
 github.com/cloudfoundry/libcfbuildpack/helper
 github.com/cloudfoundry/libcfbuildpack/layers
 github.com/cloudfoundry/libcfbuildpack/buildpack
-github.com/cloudfoundry/libcfbuildpack/buildpackplan
 github.com/cloudfoundry/libcfbuildpack/logger
 github.com/cloudfoundry/libcfbuildpack/runner
 github.com/cloudfoundry/libcfbuildpack/services
@@ -29,11 +31,17 @@ github.com/cloudfoundry/libcfbuildpack/test
 github.com/cloudfoundry/libcfbuildpack/internal
 # github.com/fatih/color v1.7.0
 github.com/fatih/color
+# github.com/golang/protobuf v1.3.2
+github.com/golang/protobuf/proto
 # github.com/google/go-cmp v0.2.0
 github.com/google/go-cmp/cmp
 github.com/google/go-cmp/cmp/internal/diff
 github.com/google/go-cmp/cmp/internal/function
 github.com/google/go-cmp/cmp/internal/value
+# github.com/google/go-github v17.0.0+incompatible
+github.com/google/go-github/github
+# github.com/google/go-querystring v1.0.0
+github.com/google/go-querystring/query
 # github.com/mattn/go-colorable v0.1.2
 github.com/mattn/go-colorable
 # github.com/mattn/go-isatty v0.0.8
@@ -53,6 +61,8 @@ github.com/onsi/gomega/matchers/support/goraph/bipartitegraph
 github.com/onsi/gomega/matchers/support/goraph/edge
 github.com/onsi/gomega/matchers/support/goraph/node
 github.com/onsi/gomega/matchers/support/goraph/util
+# github.com/pkg/errors v0.8.1
+github.com/pkg/errors
 # github.com/sclevine/spec v1.2.0
 github.com/sclevine/spec
 github.com/sclevine/spec/report
@@ -61,7 +71,12 @@ github.com/xi2/xz
 # golang.org/x/net v0.0.0-20190724013045-ca1201d0de80
 golang.org/x/net/html/charset
 golang.org/x/net/html
+golang.org/x/net/context/ctxhttp
 golang.org/x/net/html/atom
+golang.org/x/net/context
+# golang.org/x/oauth2 v0.0.0-20190319182350-c85d3e98c914
+golang.org/x/oauth2
+golang.org/x/oauth2/internal
 # golang.org/x/sys v0.0.0-20190804053845-51ab0e2deafa
 golang.org/x/sys/unix
 # golang.org/x/text v0.3.2
@@ -82,5 +97,13 @@ golang.org/x/text/runes
 golang.org/x/text/internal/language
 golang.org/x/text/internal/language/compact
 golang.org/x/text/internal/tag
+# google.golang.org/appengine v1.4.0
+google.golang.org/appengine/urlfetch
+google.golang.org/appengine/internal
+google.golang.org/appengine/internal/urlfetch
+google.golang.org/appengine/internal/base
+google.golang.org/appengine/internal/datastore
+google.golang.org/appengine/internal/log
+google.golang.org/appengine/internal/remote_api
 # gopkg.in/yaml.v2 v2.2.2
 gopkg.in/yaml.v2
