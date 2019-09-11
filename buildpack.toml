@@ -25,11 +25,11 @@ version = "2.7.15"
 [[metadata.dependencies]]
 id = "python"
 name = "Python"
-sha256 = "cb0dd1e4e4c7a37fb7397774edb75b67ea9532e0b93b31f0b10bf11f666081b6"
+sha256 = "3a775f67c843d53eb8429aafd260a9f908e67671ae2d72d09c77c15dcaf789a1"
 source = "https://www.python.org/ftp/python/2.7.16/Python-2.7.16.tgz"
 source_sha256 = "01da813a3600876f03f46db11cc5c408175e99f03af2ba942ef324389a83bad5"
 stacks = ["org.cloudfoundry.stacks.cflinuxfs3"]
-uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-2.7.16-linux-x64-cflinuxfs3-cb0dd1e4.tgz"
+uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-2.7.16-linux-x64-cflinuxfs3-3a775f67.tgz"
 version = "2.7.16"
 
 [[metadata.dependencies]]
