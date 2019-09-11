@@ -1,8 +1,8 @@
 api = "0.2"
 
 [buildpack]
-id = "org.cloudfoundry.python"
-name = "Python Buildpack"
+id = "org.cloudfoundry.python-runtime"
+name = "Python Runtime Buildpack"
 version = "{{ .Version }}"
 
 [metadata]

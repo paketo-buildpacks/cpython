@@ -6,7 +6,7 @@ import (
 
 	"github.com/cloudfoundry/libcfbuildpack/build"
 	"github.com/cloudfoundry/libcfbuildpack/buildpackplan"
-	"github.com/cloudfoundry/python-cnb/python"
+	"github.com/cloudfoundry/python-runtime-cnb/python"
 )
 
 func main() {

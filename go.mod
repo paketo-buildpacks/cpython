@@ -1,4 +1,4 @@
-module github.com/cloudfoundry/python-cnb
+module github.com/cloudfoundry/python-runtime-cnb
 
 require (
 	github.com/buildpack/libbuildpack v1.23.0

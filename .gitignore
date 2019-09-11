@@ -1,6 +1,6 @@
 .DS_Store
 .idea
 .bin
-python-cnb_*
-python-cnb.tgz
+python-runtime-cnb_*
+python-runtime-cnb.tgz
 /bin

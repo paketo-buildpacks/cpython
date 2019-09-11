@@ -6,7 +6,7 @@ import (
 
 	"github.com/buildpack/libbuildpack/buildpackplan"
 	"github.com/cloudfoundry/libcfbuildpack/test"
-	"github.com/cloudfoundry/python-cnb/python"
+	"github.com/cloudfoundry/python-runtime-cnb/python"
 	"github.com/google/go-cmp/cmp"
 	. "github.com/onsi/gomega"
 	"github.com/sclevine/spec"
