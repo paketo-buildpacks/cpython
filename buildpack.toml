@@ -114,7 +114,7 @@ name = "Python"
 sha256 = "6af4e50334d3792c751c2f5eb9c16bf7e2cb7fdb5f90cbd2ac4af398a73bff0f"
 source = "https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tgz"
 source_sha256 = "f1069ad3cae8e7ec467aa98a6565a62a48ef196cb8f1455a245a08db5e1792df"
-stacks = ["org.cloudfoundry.stacks.tiny"]
+stacks = ["org.cloudfoundry.stacks.cflinuxfs3"]
 uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.8.0-linux-x64-cflinuxfs3-6af4e503.tgz"
 version = "3.8.0"
 
