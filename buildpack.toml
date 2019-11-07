@@ -3,7 +3,7 @@ api = "0.2"
 [buildpack]
   id = "org.cloudfoundry.python-runtime"
   name = "python runtime buildpack"
-  version = "{{ .version }}"
+  version = "{{ .Version }}"
 
 [metadata]
   include_files = ["bin/build", "bin/detect", "buildpack.toml"]
@@ -121,37 +121,37 @@ api = "0.2"
     source_sha256 = "f1069ad3cae8e7ec467aa98a6565a62a48ef196cb8f1455a245a08db5e1792df"
 
   [[metadata.dependency_deprecation_dates]]
-    date = 2020-01-01t00:00:00z
+    date = 2020-01-01T00:00:00Z
     link = "https://www.python.org/dev/peps/pep-0373/"
     name = "Python"
     version_line = "2.7.x"
 
   [[metadata.dependency_deprecation_dates]]
-    date = 2019-03-16t00:00:00z
+    date = 2019-03-16T00:00:00Z
     link = "https://www.python.org/dev/peps/pep-0429/"
     name = "Python"
     version_line = "3.4.x"
 
   [[metadata.dependency_deprecation_dates]]
-    date = 2020-09-13t00:00:00z
+    date = 2020-09-13T00:00:00Z
     link = "https://www.python.org/dev/peps/pep-0478/"
     name = "Python"
     version_line = "3.5.x"
 
   [[metadata.dependency_deprecation_dates]]
-    date = 2021-12-23t00:00:00z
+    date = 2021-12-23T00:00:00Z
     link = "https://www.python.org/dev/peps/pep-0494/"
     name = "Python"
     version_line = "3.6.x"
 
   [[metadata.dependency_deprecation_dates]]
-    date = 2023-06-27t00:00:00z
+    date = 2023-06-27T00:00:00Z
     link = "https://www.python.org/dev/peps/pep-0537/"
     name = "Python"
     version_line = "3.7.x"
 
   [[metadata.dependency_deprecation_dates]]
-    date = 2023-06-27t00:00:00z
+    date = 2023-06-27T00:00:00Z
     link = "https://www.python.org/dev/peps/pep-0537/"
     name = "Python"
     version_line = "3.8.x"
