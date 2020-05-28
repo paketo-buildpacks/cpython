@@ -20,16 +20,19 @@ func (p BuildpackYMLParser) ParseVersion(path string) (string, error) {
 	}
 
 	file, err := os.Open(path)
-	if err != nil && !os.IsNotExist(err) {
+	if err != nil {
+		if os.IsNotExist(err) {
+			return "", nil
+		}
+
 		return "", err
 	}
+
 	defer file.Close()
 
-	if !os.IsNotExist(err) {
-		err = yaml.NewDecoder(file).Decode(&buildpack)
-		if err != nil {
-			return "", err
-		}
+	err = yaml.NewDecoder(file).Decode(&buildpack)
+	if err != nil {
+		return "", err
 	}
 
 	return buildpack.Python.Version, nil

@@ -27,11 +27,17 @@ file that looks like the following:
   version = "3.8.2"
   # The Python buildpack supports some non-required metadata options.
   [requires.metadata]
+
     # Setting the build flag to true will ensure that the Python
     # depdendency is available on the $PATH for subsequent buildpacks during
     # their build phase. If you are writing a buildpack that needs to use Python
     # during its build process, this flag should be set to true.
     build = true
+
+    # Setting the launch flag to true will ensure that the python runtime is
+    # available to the running application. If you are writing an application that needs to run
+    # python at runtime, this flag should be set to true.
+    launch = true
 ```
 
 To package this buildpack for consumption:
