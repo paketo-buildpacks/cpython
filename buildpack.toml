@@ -32,12 +32,13 @@ api = "0.2"
     version = "3.4.10"
 
   [[metadata.dependencies]]
+    deprecation_date = "2020-09-13T00:00:00Z"
     id = "python"
     name = "Python"
     sha256 = "a278e2f47f3c38a785647cc8924f67b2512a7a07b12861b6ad69497e71605782"
     source = "https://www.python.org/ftp/python/3.5.8/Python-3.5.8.tgz"
     source_sha256 = "18c88dfd260147bc7247e6356010e5d4916dfbfc480f6434917f88e61228177a"
-    stacks = ["org.cloudfoundry.stacks.cflinuxfs3"]
+    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
     uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.5.8-linux-x64-cflinuxfs3-a278e2f4.tgz"
     version = "3.5.8"
 
