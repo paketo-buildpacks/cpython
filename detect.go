@@ -13,7 +13,6 @@ type VersionParser interface {
 
 type BuildPlanMetadata struct {
 	VersionSource string `toml:"version-source"`
-	Launch        bool   `toml:"launch"`
 }
 
 func Detect(buildpackYMLParser VersionParser) packit.DetectFunc {

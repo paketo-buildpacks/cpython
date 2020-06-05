@@ -1,6 +1,7 @@
 package main_test
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/paketo-buildpacks/packit"
@@ -14,13 +15,13 @@ func testPlanEntryResolver(t *testing.T, context spec.G, it spec.S) {
 	var (
 		Expect = NewWithT(t).Expect
 
-		// buffer   *bytes.Buffer
+		buffer   *bytes.Buffer
 		resolver main.PlanEntryResolver
 	)
 
 	it.Before(func() {
-		// buffer = bytes.NewBuffer(nil)
-		resolver = main.NewPlanEntryResolver()
+		buffer = bytes.NewBuffer(nil)
+		resolver = main.NewPlanEntryResolver(main.NewLogEmitter(buffer))
 	})
 
 	context("when a buildpack.yml entry is included", func() {
@@ -46,9 +47,9 @@ func testPlanEntryResolver(t *testing.T, context spec.G, it spec.S) {
 				},
 			}))
 
-			// Expect(buffer.String()).To(ContainSubstring("    Candidate version sources (in priority order):"))
-			// Expect(buffer.String()).To(ContainSubstring("      buildpack.yml -> \"buildpack-yml-version\""))
-			// Expect(buffer.String()).To(ContainSubstring("      <unknown>     -> \"other-version\""))
+			Expect(buffer.String()).To(ContainSubstring("    Candidate version sources (in priority order):"))
+			Expect(buffer.String()).To(ContainSubstring("      buildpack.yml -> \"buildpack-yml-version\""))
+			Expect(buffer.String()).To(ContainSubstring("      <unknown>     -> \"other-version\""))
 		})
 	})
 

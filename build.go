@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/paketo-buildpacks/packit"
+	"github.com/paketo-buildpacks/packit/chronos"
 	"github.com/paketo-buildpacks/packit/postal"
 )
 
@@ -26,14 +27,12 @@ type PlanRefinery interface {
 	BillOfMaterials(dependency postal.Dependency) packit.BuildpackPlanEntry
 }
 
-func Build(entries EntryResolver, dependencies DependencyManager, planRefinery PlanRefinery, clock Clock, logs LogEmitter) packit.BuildFunc {
+func Build(entries EntryResolver, dependencies DependencyManager, planRefinery PlanRefinery, logs LogEmitter, clock chronos.Clock) packit.BuildFunc {
 	return func(context packit.BuildContext) (packit.BuildResult, error) {
 		logs.Title(context.BuildpackInfo)
 
 		logs.Process("Resolving Python version")
 		entry := entries.Resolve(context.Plan.Entries)
-
-		logs.Candidates(context.Plan.Entries)
 
 		dependency, err := dependencies.Resolve(filepath.Join(context.CNBPath, "buildpack.toml"), entry.Name, entry.Version, context.Stack)
 		if err != nil {
@@ -73,12 +72,13 @@ func Build(entries EntryResolver, dependencies DependencyManager, planRefinery P
 		pythonLayer.Launch = entry.Metadata["launch"] == true
 
 		logs.Subprocess("Installing Python %s", dependency.Version)
-		then := clock.Now()
-		err = dependencies.Install(dependency, context.CNBPath, pythonLayer.Path)
+		duration, err := clock.Measure(func() error {
+			return dependencies.Install(dependency, context.CNBPath, pythonLayer.Path)
+		})
 		if err != nil {
 			return packit.BuildResult{}, err
 		}
-		logs.Action("Completed in %s", clock.Now().Sub(then).Round(time.Millisecond))
+		logs.Action("Completed in %s", duration.Round(time.Millisecond))
 
 		pythonLayer.Metadata = map[string]interface{}{
 			DepKey:     dependency.SHA256,

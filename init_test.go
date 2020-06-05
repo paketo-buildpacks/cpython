@@ -14,6 +14,5 @@ func TestUnitPython(t *testing.T) {
 	suite("Detect", testDetect)
 	suite("PlanEntryResolver", testPlanEntryResolver)
 	suite("PlanRefinery", testPlanRefinery)
-	suite("Clock", testClock)
 	suite.Run(t)
 }

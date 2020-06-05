@@ -69,22 +69,25 @@ func testBuildpackYAML(t *testing.T, context spec.G, it spec.S) {
 			Expect(err).NotTo(HaveOccurred())
 			Expect(string(content)).To(ContainSubstring("hello world"))
 
-			// buildpackVersion, err := GetGitVersion()
-			// Expect(err).ToNot(HaveOccurred())
-			//
-			// Expect(logs).To(ContainLines(
-			// 	fmt.Sprintf("Go Compiler Buildpack %s", buildpackVersion),
-			// 	"  Resolving Go version",
-			// 	"    Candidate version sources (in priority order):",
-			// 	"      buildpack.yml -> \"1.14.*\"",
-			// 	"      <unknown>     -> \"\"",
-			// 	"",
-			// 	MatchRegexp(`    Selected Go version \(using buildpack\.yml\): 1\.14\.\d+`),
-			// 	"",
-			// 	"  Executing build process",
-			// 	MatchRegexp(`    Installing Go 1\.14\.\d+`),
-			// 	MatchRegexp(`      Completed in \d+\.\d+`),
-			// ))
+			buildpackVersion, err := GetGitVersion()
+			Expect(err).ToNot(HaveOccurred())
+
+			Expect(logs).To(ContainLines(
+				fmt.Sprintf("Python Runtime Buildpack %s", buildpackVersion),
+				"  Resolving Python version",
+				"    Candidate version sources (in priority order):",
+				"      buildpack.yml -> \"~3\"",
+				"      <unknown>     -> \"\"",
+				"",
+				MatchRegexp(`    Selected Python version \(using buildpack.yml\): 3\.8\.\d+`),
+				"",
+				"  Executing build process",
+				MatchRegexp(`    Installing Python 3\.8\.\d+`),
+				MatchRegexp(`      Completed in \d+\.\d+`),
+				"",
+				"  Configuring environment",
+				MatchRegexp(`    PYTHONPATH -> "/layers/paketo-community_python-runtime/python"`),
+			))
 		})
 	})
 }

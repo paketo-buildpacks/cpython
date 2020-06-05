@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/paketo-buildpacks/packit"
+	"github.com/paketo-buildpacks/packit/chronos"
 	"github.com/paketo-buildpacks/packit/postal"
 	main "github.com/paketo-community/python-runtime"
 	"github.com/paketo-community/python-runtime/fakes"
@@ -24,7 +25,8 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 
 		layersDir         string
 		cnbDir            string
-		timestamp         time.Time
+		timeStamp         time.Time
+		clock             chronos.Clock
 		entryResolver     *fakes.EntryResolver
 		dependencyManager *fakes.DependencyManager
 		planRefinery      *fakes.PlanRefinery
@@ -41,9 +43,9 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		cnbDir, err = ioutil.TempDir("", "cnb")
 		Expect(err).NotTo(HaveOccurred())
 
-		timestamp = time.Now()
-		clock := main.NewClock(func() time.Time {
-			return timestamp
+		timeStamp = time.Now()
+		clock = chronos.NewClock(func() time.Time {
+			return timeStamp
 		})
 
 		entryResolver = &fakes.EntryResolver{}
@@ -76,7 +78,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		buffer = bytes.NewBuffer(nil)
 		logEmitter := main.NewLogEmitter(buffer)
 
-		build = main.Build(entryResolver, dependencyManager, planRefinery, clock, logEmitter)
+		build = main.Build(entryResolver, dependencyManager, planRefinery, logEmitter, clock)
 	})
 
 	it.After(func() {
@@ -130,7 +132,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 					Cache:     false,
 					Metadata: map[string]interface{}{
 						"dependency-sha": "python-dependency-sha",
-						"built_at":       timestamp.Format(time.RFC3339Nano),
+						"built_at":       timeStamp.Format(time.RFC3339Nano),
 					},
 				},
 			},
@@ -232,7 +234,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 						Cache:     true,
 						Metadata: map[string]interface{}{
 							"dependency-sha": "python-dependency-sha",
-							"built_at":       timestamp.Format(time.RFC3339Nano),
+							"built_at":       timeStamp.Format(time.RFC3339Nano),
 						},
 					},
 				},
