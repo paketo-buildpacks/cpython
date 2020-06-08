@@ -1,4 +1,4 @@
-package main_test
+package pythonruntime_test
 
 import (
 	"testing"
