@@ -1,12 +1,11 @@
 api = "0.2"
 
 [buildpack]
-  id = "org.cloudfoundry.python-runtime"
-  name = "python runtime buildpack"
-  version = "{{ .Version }}"
+  id = "paketo-community/python-runtime"
+  name = "Python Runtime Buildpack"
 
 [metadata]
-  include_files = ["bin/build", "bin/detect", "buildpack.toml"]
+  include_files = ["bin/run", "bin/build", "bin/detect", "buildpack.toml", "go.mod", "go.sum"]
   pre_package = "./scripts/build.sh"
   [metadata.default-versions]
     python = "3.8.x"
