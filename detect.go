@@ -1,4 +1,4 @@
-package main
+package pythonruntime
 
 import (
 	"path/filepath"

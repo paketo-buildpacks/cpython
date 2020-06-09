@@ -1,11 +1,11 @@
-package main_test
+package pythonruntime_test
 
 import (
 	"errors"
 	"testing"
 
 	"github.com/paketo-buildpacks/packit"
-	main "github.com/paketo-community/python-runtime"
+	pythonruntime "github.com/paketo-community/python-runtime"
 	"github.com/paketo-community/python-runtime/fakes"
 	"github.com/sclevine/spec"
 
@@ -25,7 +25,7 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 
 		buildpackYMLParser = &fakes.VersionParser{}
 
-		detect = main.Detect(buildpackYMLParser)
+		detect = pythonruntime.Detect(buildpackYMLParser)
 	})
 
 	it("returns a plan that provides python", func() {
@@ -53,13 +53,13 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 			Expect(err).NotTo(HaveOccurred())
 			Expect(result.Plan).To(Equal(packit.BuildPlan{
 				Provides: []packit.BuildPlanProvision{
-					{Name: main.Python},
+					{Name: pythonruntime.Python},
 				},
 				Requires: []packit.BuildPlanRequirement{
 					{
 						Name:    "python",
 						Version: "some-version",
-						Metadata: main.BuildPlanMetadata{
+						Metadata: pythonruntime.BuildPlanMetadata{
 							VersionSource: "buildpack.yml",
 						},
 					},

@@ -1,11 +1,11 @@
-package main_test
+package pythonruntime_test
 
 import (
 	"testing"
 
 	"github.com/paketo-buildpacks/packit"
 	"github.com/paketo-buildpacks/packit/postal"
-	main "github.com/paketo-community/python-runtime"
+	pythonruntime "github.com/paketo-community/python-runtime"
 	"github.com/sclevine/spec"
 
 	. "github.com/onsi/gomega"
@@ -15,11 +15,11 @@ func testPlanRefinery(t *testing.T, context spec.G, it spec.S) {
 	var (
 		Expect = NewWithT(t).Expect
 
-		planRefinery main.PlanRefinery
+		planRefinery pythonruntime.PlanRefinery
 	)
 
 	it.Before(func() {
-		planRefinery = main.NewBuildPlanRefinery()
+		planRefinery = pythonruntime.NewBuildPlanRefinery()
 	})
 
 	context("BillOfMaterial", func() {

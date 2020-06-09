@@ -1,4 +1,4 @@
-package main_test
+package pythonruntime_test
 
 import (
 	"bytes"
@@ -12,7 +12,7 @@ import (
 	"github.com/paketo-buildpacks/packit"
 	"github.com/paketo-buildpacks/packit/chronos"
 	"github.com/paketo-buildpacks/packit/postal"
-	main "github.com/paketo-community/python-runtime"
+	pythonruntime "github.com/paketo-community/python-runtime"
 	"github.com/paketo-community/python-runtime/fakes"
 	"github.com/sclevine/spec"
 
@@ -76,9 +76,9 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		}
 
 		buffer = bytes.NewBuffer(nil)
-		logEmitter := main.NewLogEmitter(buffer)
+		logEmitter := pythonruntime.NewLogEmitter(buffer)
 
-		build = main.Build(entryResolver, dependencyManager, planRefinery, logEmitter, clock)
+		build = pythonruntime.Build(entryResolver, dependencyManager, planRefinery, logEmitter, clock)
 	})
 
 	it.After(func() {

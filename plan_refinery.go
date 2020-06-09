@@ -1,4 +1,4 @@
-package main
+package pythonruntime
 
 import (
 	"github.com/paketo-buildpacks/packit"
