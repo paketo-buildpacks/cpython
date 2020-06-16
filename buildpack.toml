@@ -11,12 +11,13 @@ api = "0.2"
     python = "3.8.x"
 
   [[metadata.dependencies]]
+    deprecation_date = "2020-09-13T00:00:00Z"
     id = "python"
     name = "Python"
     sha256 = "a278e2f47f3c38a785647cc8924f67b2512a7a07b12861b6ad69497e71605782"
     source = "https://www.python.org/ftp/python/3.5.8/Python-3.5.8.tgz"
     source_sha256 = "18c88dfd260147bc7247e6356010e5d4916dfbfc480f6434917f88e61228177a"
-    stacks = ["org.cloudfoundry.stacks.cflinuxfs3"]
+    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
     uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.5.8-linux-x64-cflinuxfs3-a278e2f4.tgz"
     version = "3.5.8"
 
@@ -32,12 +33,13 @@ api = "0.2"
     version = "3.5.9"
 
   [[metadata.dependencies]]
+    deprecation_date = "2021-12-23T00:00:00Z"
     id = "python"
     name = "Python"
     sha256 = "f30bc832807402a93c24d6984182e00575bde327e2e43f00a0a1c5e680ad53b6"
     source = "https://www.python.org/ftp/python/3.6.9/Python-3.6.9.tgz"
     source_sha256 = "47fc92a1dcb946b9ed0abc311d3767b7215c54e655b17fd1d3f9b538195525aa"
-    stacks = ["org.cloudfoundry.stacks.cflinuxfs3"]
+    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
     uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.6.9-linux-x64-cflinuxfs3-f30bc832.tgz"
     version = "3.6.9"
 
@@ -53,6 +55,7 @@ api = "0.2"
     version = "3.6.10"
 
   [[metadata.dependencies]]
+    deprecation_date = "2023-06-27T00:00:00Z"
     id = "python"
     name = "Python"
     sha256 = "bb141b1efab045e5374ac583f116f8e37034b6c0b95fd7e9d6e0292a33baafc3"
@@ -74,6 +77,7 @@ api = "0.2"
     version = "3.7.7"
 
   [[metadata.dependencies]]
+    deprecation_date = "2023-06-27T00:00:00Z"
     id = "python"
     name = "Python"
     sha256 = "580151dd49bee64fef5dda285a7e7308770d23523a0628580954bdfb3c7ba7df"
@@ -117,15 +121,6 @@ api = "0.2"
     link = "https://www.python.org/dev/peps/pep-0537/"
     name = "Python"
     version_line = "3.8.x"
-
-[[stacks]]
-  id = "io.buildpacks.stacks.bionic"
-
-[[stacks]]
-  id = "io.buildpacks.stacks.bionic"
-
-[[stacks]]
-  id = "io.buildpacks.stacks.bionic"
 
 [[stacks]]
   id = "io.buildpacks.stacks.bionic"
