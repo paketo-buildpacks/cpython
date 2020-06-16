@@ -1,12 +1,11 @@
 api = "0.2"
 
 [buildpack]
-  id = "org.cloudfoundry.python-runtime"
-  name = "python runtime buildpack"
-  version = "{{ .Version }}"
+  id = "paketo-community/python-runtime"
+  name = "Python Runtime Buildpack"
 
 [metadata]
-  include_files = ["bin/build", "bin/detect", "buildpack.toml"]
+  include_files = ["bin/run", "bin/build", "bin/detect", "buildpack.toml", "go.mod", "go.sum"]
   pre_package = "./scripts/build.sh"
   [metadata.default-versions]
     python = "3.8.x"
@@ -43,12 +42,13 @@ api = "0.2"
     version = "3.5.8"
 
   [[metadata.dependencies]]
+    deprecation_date = "2020-09-13T00:00:00Z"
     id = "python"
     name = "Python"
     sha256 = "6a6ff81f5a58640a0cbd7fa0493121bb9f1c754def930a69dc54f19a53fc800b"
     source = "https://www.python.org/ftp/python/3.5.9/Python-3.5.9.tgz"
     source_sha256 = "67a1d4fc6e4540d6a092cadc488e533afa961b3c9becc74dc3d6b55cb56e0cc1"
-    stacks = ["org.cloudfoundry.stacks.cflinuxfs3"]
+    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
     uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.5.9-linux-x64-cflinuxfs3-6a6ff81f.tgz"
     version = "3.5.9"
 
@@ -63,12 +63,13 @@ api = "0.2"
     version = "3.6.9"
 
   [[metadata.dependencies]]
+    deprecation_date = "2021-12-23T00:00:00Z"
     id = "python"
     name = "Python"
     sha256 = "3bb086eb29e7385618a23dff6dbff0e7065bd289b5e075db05613046132a4500"
     source = "https://www.python.org/ftp/python/3.6.10/Python-3.6.10.tgz"
     source_sha256 = "7034dd7cba98d4f94c74f9edd7345bac71c8814c41672c64d9044fa2f96f334d"
-    stacks = ["org.cloudfoundry.stacks.cflinuxfs3"]
+    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
     uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.6.10-linux-x64-cflinuxfs3-3bb086eb.tgz"
     version = "3.6.10"
 
@@ -89,19 +90,9 @@ api = "0.2"
     sha256 = "50fae53c7c3cdd1a9924e25996fb00ccd870bc145ed74b37d5c470260b602b7c"
     source = "https://www.python.org/ftp/python/3.7.7/Python-3.7.7.tgz"
     source_sha256 = "8c8be91cd2648a1a0c251f04ea0bb4c2a5570feb9c45eaaa2241c785585b475a"
-    stacks = ["org.cloudfoundry.stacks.cflinuxfs3"]
+    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
     uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.7.7-linux-x64-cflinuxfs3-50fae53c.tgz"
     version = "3.7.7"
-
-  [[metadata.dependencies]]
-    id = "python"
-    name = "Python"
-    sha256 = "827e8543654392a380e76bbba76136910efbcd93d33c42badd48fe375f66b232"
-    source = "https://www.python.org/ftp/python/3.8.1/Python-3.8.1.tgz"
-    source_sha256 = "c7cfa39a43b994621b245e029769e9126caa2a93571cee2e743b213cceac35fb"
-    stacks = ["org.cloudfoundry.stacks.cflinuxfs3"]
-    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.8.1-linux-x64-cflinuxfs3-827e8543.tgz"
-    version = "3.8.1"
 
   [[metadata.dependencies]]
     id = "python"
@@ -113,11 +104,16 @@ api = "0.2"
     uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.8.2-linux-x64-cflinuxfs3-580151dd.tgz"
     version = "3.8.2"
 
-  [[metadata.dependency_deprecation_dates]]
-    date = 2019-03-16T00:00:00Z
-    link = "https://www.python.org/dev/peps/pep-0429/"
+  [[metadata.dependencies]]
+    deprecation_date = "2023-06-27T00:00:00Z"
+    id = "python"
     name = "Python"
-    version_line = "3.4.x"
+    sha256 = "b4dbe9269f76d37f0ddc8315443e145b1aa9103a64218339d9fcbd3733304e5d"
+    source = "https://www.python.org/ftp/python/3.8.3/Python-3.8.3.tgz"
+    source_sha256 = "6af6d4d2e010f9655518d0fc6738c7ff7069f10a4d2fbd55509e467f092a8b90"
+    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
+    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.8.3_linux_x64_cflinuxfs3_b4dbe926.tgz"
+    version = "3.8.3"
 
   [[metadata.dependency_deprecation_dates]]
     date = 2020-09-13T00:00:00Z
@@ -141,24 +137,6 @@ api = "0.2"
     date = 2023-06-27T00:00:00Z
     link = "https://www.python.org/dev/peps/pep-0537/"
     name = "Python"
-    version_line = "3.8.x"
-
-  [[metadata.dependency_deprecation_dates]]
-    date = 2021-12-23T00:00:00Z
-    link = "https://www.python.org/dev/peps/pep-0494/"
-    name = "python"
-    version_line = "3.6.x"
-
-  [[metadata.dependency_deprecation_dates]]
-    date = 2023-06-27T00:00:00Z
-    link = "https://www.python.org/dev/peps/pep-0537/"
-    name = "python"
-    version_line = "3.7.x"
-
-  [[metadata.dependency_deprecation_dates]]
-    date = 2023-06-27T00:00:00Z
-    link = "https://www.python.org/dev/peps/pep-0537/"
-    name = "python"
     version_line = "3.8.x"
 
 [[stacks]]
