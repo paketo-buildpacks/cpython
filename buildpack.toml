@@ -61,7 +61,7 @@ api = "0.2"
     sha256 = "bb141b1efab045e5374ac583f116f8e37034b6c0b95fd7e9d6e0292a33baafc3"
     source = "https://www.python.org/ftp/python/3.7.6/Python-3.7.6.tgz"
     source_sha256 = "aeee681c235ad336af116f08ab6563361a0c81c537072c1b309d6e4050aa2114"
-    stacks = ["org.cloudfoundry.stacks.cflinuxfs3"]
+    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
     uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.7.6-linux-x64-cflinuxfs3-bb141b1e.tgz"
     version = "3.7.6"
 
@@ -83,7 +83,7 @@ api = "0.2"
     sha256 = "580151dd49bee64fef5dda285a7e7308770d23523a0628580954bdfb3c7ba7df"
     source = "https://www.python.org/ftp/python/3.8.2/Python-3.8.2.tgz"
     source_sha256 = "e634a7a74776c2b89516b2e013dda1728c89c8149b9863b8cea21946daf9d561"
-    stacks = ["org.cloudfoundry.stacks.cflinuxfs3"]
+    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
     uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.8.2-linux-x64-cflinuxfs3-580151dd.tgz"
     version = "3.8.2"
 
