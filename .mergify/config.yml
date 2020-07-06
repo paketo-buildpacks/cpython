@@ -6,6 +6,6 @@ pull_request_rules:
       - status-success=Integration Tests
     actions:
       merge:
-        strict: true
+        strict: smart
         method: rebase
       delete_head_branch: {}
