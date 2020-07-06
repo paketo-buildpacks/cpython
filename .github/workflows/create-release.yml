@@ -1,0 +1,86 @@
+name: Create Release
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  unit:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup Go
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.14
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Run Unit Tests
+      run: ./scripts/unit.sh
+
+  integration:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: unit
+    steps:
+    - name: Setup Go
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.14
+    - name: Checkout
+      uses: actions/checkout@v2
+    - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* || true
+    - name: Run Integration Tests
+      run: ./scripts/integration.sh
+      env:
+        GIT_TOKEN: ${{ github.token }}
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: integration
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* || true
+    - name: Tag
+      id: tag
+      uses: paketo-buildpacks/github-config/actions/tag@master
+    - name: Package
+      run: PACKAGE_DIR=artifact ./scripts/package.sh --version "${{ steps.tag.outputs.tag }}" --archive
+    - name: Create Release Notes
+      id: create-release-notes
+      run: |
+        mkdir -p "${HOME}/bin"
+        export PATH="${PATH}:${HOME}/bin"
+        curl "https://github.com/paketo-buildpacks/packit/releases/download/v0.0.14/jam-linux" \
+          --silent \
+          --location \
+          --output "${HOME}/bin/jam"
+        chmod +x "${HOME}/bin/jam"
+        RELEASE_BODY=$(jam summarize --buildpack "${PWD}/artifact.tgz" --format markdown)
+        # Coz of this messed up issue
+        # https://github.community/t5/GitHub-Actions/set-output-Truncates-Multiline-Strings/m-p/38372#M3322
+        RELEASE_BODY="${RELEASE_BODY//'%'/'%25'}"
+        RELEASE_BODY="${RELEASE_BODY//$'\n'/'%0A'}"
+        RELEASE_BODY="${RELEASE_BODY//$'\r'/'%0D'}"
+        echo "::set-output name=release_body::$RELEASE_BODY"
+    - name: Create Release
+      uses: paketo-buildpacks/github-config/actions/release/create@master
+      with:
+        repo: ${{ github.repository }}
+        token: ${{ secrets.PAKETO_BOT_GITHUB_TOKEN }}
+        tag_name: v${{ steps.tag.outputs.tag }}
+        target_commitish: ${{ github.sha }}
+        name: v${{ steps.tag.outputs.tag }}
+        body: ${{ steps.create-release-notes.outputs.release_body }}
+        draft: false
+        assets: |
+          [
+            {
+              "path": "artifact.tgz",
+              "name": "${{ github.event.repository.name }}-${{ steps.tag.outputs.tag }}.tgz",
+              "content_type": "application/gzip"
+            }
+          ]
