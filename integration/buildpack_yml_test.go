@@ -52,7 +52,10 @@ func testBuildpackYAML(t *testing.T, context spec.G, it spec.S) {
 			var logs fmt.Stringer
 			image, logs, err = pack.WithNoColor().Build.
 				WithNoPull().
-				WithBuildpacks(buildpack, buildPlanBuildpack).
+				WithBuildpacks(
+					settings.Buildpacks.PythonRuntime.Online,
+					settings.Buildpacks.BuildPlan.Online,
+				).
 				Execute(name, filepath.Join("testdata", "buildpack_yml_app"))
 			Expect(err).ToNot(HaveOccurred(), logs.String)
 
@@ -69,11 +72,8 @@ func testBuildpackYAML(t *testing.T, context spec.G, it spec.S) {
 			Expect(err).NotTo(HaveOccurred())
 			Expect(string(content)).To(ContainSubstring("hello world"))
 
-			buildpackVersion, err := GetGitVersion()
-			Expect(err).ToNot(HaveOccurred())
-
 			Expect(logs).To(ContainLines(
-				fmt.Sprintf("Python Runtime Buildpack %s", buildpackVersion),
+				"Python Runtime Buildpack 1.2.3",
 				"  Resolving Python version",
 				"    Candidate version sources (in priority order):",
 				"      buildpack.yml -> \"~3\"",

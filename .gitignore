@@ -4,3 +4,4 @@
 python-runtime-cnb_*
 python-runtime-cnb.tgz
 /bin
+/build

@@ -52,7 +52,10 @@ func testOffline(t *testing.T, context spec.G, it spec.S) {
 			var err error
 			image, logs, err = pack.WithNoColor().Build.
 				WithNoPull().
-				WithBuildpacks(offlineBuildpack, buildPlanBuildpack).
+				WithBuildpacks(
+					settings.Buildpacks.PythonRuntime.Offline,
+					settings.Buildpacks.BuildPlan.Online,
+				).
 				WithNetwork("none").
 				Execute(name, filepath.Join("testdata", "default_app"))
 

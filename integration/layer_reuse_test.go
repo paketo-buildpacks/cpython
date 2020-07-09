@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"path/filepath"
 	"testing"
 
@@ -24,7 +25,9 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 
 		imageIDs     map[string]struct{}
 		containerIDs map[string]struct{}
-		name         string
+
+		name   string
+		source string
 	)
 
 	it.Before(func() {
@@ -36,7 +39,6 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 		pack = occam.NewPack()
 		imageIDs = map[string]struct{}{}
 		containerIDs = map[string]struct{}{}
-
 	})
 
 	it.After(func() {
@@ -49,6 +51,8 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 		}
 
 		Expect(docker.Volume.Remove.Execute(occam.CacheVolumeNames(name))).To(Succeed())
+
+		Expect(os.RemoveAll(source)).To(Succeed())
 	})
 
 	context("when an app is rebuilt and does not change", func() {
@@ -63,10 +67,18 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				secondContainer occam.Container
 			)
 
-			firstImage, logs, err = pack.WithNoColor().Build.
+			build := pack.WithNoColor().Build.
 				WithNoPull().
-				WithBuildpacks(buildpack, buildPlanBuildpack).
-				Execute(name, filepath.Join("testdata", "default_app"))
+				WithBuildpacks(
+					settings.Buildpacks.PythonRuntime.Online,
+					settings.Buildpacks.BuildPlan.Online,
+				)
+
+			source, err = occam.Source(filepath.Join("testdata", "default_app"))
+			Expect(err).NotTo(HaveOccurred())
+
+			firstImage, logs, err = build.
+				Execute(name, source)
 			Expect(err).NotTo(HaveOccurred())
 
 			imageIDs[firstImage.ID] = struct{}{}
@@ -75,11 +87,8 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			Expect(firstImage.Buildpacks[0].Key).To(Equal("paketo-community/python-runtime"))
 			Expect(firstImage.Buildpacks[0].Layers).To(HaveKey("python"))
 
-			buildpackVersion, err := GetGitVersion()
-			Expect(err).ToNot(HaveOccurred())
-
 			Expect(logs).To(ContainLines(
-				fmt.Sprintf("Python Runtime Buildpack %s", buildpackVersion),
+				"Python Runtime Buildpack 1.2.3",
 				"  Resolving Python version",
 				"    Candidate version sources (in priority order):",
 				"      <unknown> -> \"\"",
@@ -99,10 +108,8 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			Eventually(firstContainer).Should(BeAvailable())
 
 			// Second pack build
-			secondImage, logs, err = pack.WithNoColor().Build.
-				WithNoPull().
-				WithBuildpacks(buildpack, buildPlanBuildpack).
-				Execute(name, filepath.Join("testdata", "default_app"))
+			secondImage, logs, err = build.
+				Execute(name, source)
 			Expect(err).NotTo(HaveOccurred())
 
 			imageIDs[secondImage.ID] = struct{}{}
@@ -112,7 +119,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			Expect(secondImage.Buildpacks[0].Layers).To(HaveKey("python"))
 
 			Expect(logs).To(ContainLines(
-				fmt.Sprintf("Python Runtime Buildpack %s", buildpackVersion),
+				"Python Runtime Buildpack 1.2.3",
 				"  Resolving Python version",
 				"    Candidate version sources (in priority order):",
 				"      <unknown> -> \"\"",
@@ -153,10 +160,18 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				secondContainer occam.Container
 			)
 
-			firstImage, logs, err = pack.WithNoColor().Build.
+			source, err = occam.Source(filepath.Join("testdata", "buildpack_yml_app"))
+			Expect(err).NotTo(HaveOccurred())
+
+			build := pack.WithNoColor().Build.
 				WithNoPull().
-				WithBuildpacks(buildpack, buildPlanBuildpack).
-				Execute(name, filepath.Join("testdata", "buildpack_yml_app"))
+				WithBuildpacks(
+					settings.Buildpacks.PythonRuntime.Online,
+					settings.Buildpacks.BuildPlan.Online,
+				)
+
+			firstImage, logs, err = build.
+				Execute(name, source)
 			Expect(err).NotTo(HaveOccurred())
 
 			imageIDs[firstImage.ID] = struct{}{}
@@ -165,11 +180,8 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			Expect(firstImage.Buildpacks[0].Key).To(Equal("paketo-community/python-runtime"))
 			Expect(firstImage.Buildpacks[0].Layers).To(HaveKey("python"))
 
-			buildpackVersion, err := GetGitVersion()
-			Expect(err).ToNot(HaveOccurred())
-
 			Expect(logs).To(ContainLines(
-				fmt.Sprintf("Python Runtime Buildpack %s", buildpackVersion),
+				"Python Runtime Buildpack 1.2.3",
 				"  Resolving Python version",
 				"    Candidate version sources (in priority order):",
 				"      buildpack.yml -> \"~3\"",
@@ -189,11 +201,9 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 
 			Eventually(firstContainer).Should(BeAvailable())
 
+			Expect(ioutil.WriteFile(filepath.Join(source, "buildpack.yml"), []byte("---\npython:\n  version: 3.7.*"), 0644)).To(Succeed())
 			// Second pack build
-			secondImage, logs, err = pack.WithNoColor().Build.
-				WithNoPull().
-				WithBuildpacks(buildpack, buildPlanBuildpack).
-				Execute(name, filepath.Join("testdata", "different_version_buildpack_yml_app"))
+			secondImage, logs, err = build.Execute(name, source)
 			Expect(err).NotTo(HaveOccurred())
 
 			imageIDs[secondImage.ID] = struct{}{}
@@ -203,7 +213,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			Expect(secondImage.Buildpacks[0].Layers).To(HaveKey("python"))
 
 			Expect(logs).To(ContainLines(
-				fmt.Sprintf("Python Runtime Buildpack %s", buildpackVersion),
+				"Python Runtime Buildpack 1.2.3",
 				"  Resolving Python version",
 				"    Candidate version sources (in priority order):",
 				"      buildpack.yml -> \"3.7.*\"",
