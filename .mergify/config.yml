@@ -9,5 +9,4 @@ pull_request_rules:
         strict: smart
         method: rebase
         bot_account: paketo-bot
-        commit_message:
       delete_head_branch: {}
