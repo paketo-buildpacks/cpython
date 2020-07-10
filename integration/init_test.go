@@ -1,50 +1,63 @@
 package integration_test
 
 import (
-	"bytes"
-	"fmt"
-	"strings"
+	"encoding/json"
+	"os"
+	"path/filepath"
 	"testing"
 	"time"
 
-	"github.com/cloudfoundry/dagger"
-	"github.com/paketo-buildpacks/packit/pexec"
+	"github.com/paketo-buildpacks/occam"
 	"github.com/sclevine/spec"
 	"github.com/sclevine/spec/report"
 
 	. "github.com/onsi/gomega"
 )
 
-var (
-	buildpack          string
-	offlineBuildpack   string
-	buildPlanBuildpack string
-)
+var settings struct {
+	Buildpacks struct {
+		PythonRuntime struct {
+			Online  string
+			Offline string
+		}
+		BuildPlan struct {
+			Online string
+		}
+	}
+
+	Config struct {
+		BuildPlan string `json:"build-plan"`
+	}
+}
 
 func TestIntegration(t *testing.T) {
 	Expect := NewWithT(t).Expect
 
-	root, err := dagger.FindBPRoot()
+	file, err := os.Open("../integration.json")
+	Expect(err).NotTo(HaveOccurred())
+
+	Expect(json.NewDecoder(file).Decode(&settings.Config)).To(Succeed())
+	Expect(file.Close()).To(Succeed())
+
+	root, err := filepath.Abs("./..")
 	Expect(err).ToNot(HaveOccurred())
 
-	buildpack, err = dagger.PackageBuildpack(root)
+	buildpackStore := occam.NewBuildpackStore()
+
+	settings.Buildpacks.PythonRuntime.Online, err = buildpackStore.Get.
+		WithVersion("1.2.3").
+		Execute(root)
 	Expect(err).NotTo(HaveOccurred())
 
-	offlineBuildpack, _, err = dagger.PackageCachedBuildpack(root)
+	settings.Buildpacks.PythonRuntime.Offline, err = buildpackStore.Get.
+		WithVersion("1.2.3").
+		WithOfflineDependencies().
+		Execute(root)
 	Expect(err).NotTo(HaveOccurred())
 
-	buildPlanBuildpack, err = dagger.GetLatestCommunityBuildpack("ForestEckhardt", "build-plan")
+	settings.Buildpacks.BuildPlan.Online, err = buildpackStore.Get.
+		Execute(settings.Config.BuildPlan)
 	Expect(err).NotTo(HaveOccurred())
-
-	// HACK: we need to fix dagger and the package.sh scripts so that this isn't required
-	buildpack = fmt.Sprintf("%s.tgz", buildpack)
-	offlineBuildpack = fmt.Sprintf("%s.tgz", offlineBuildpack)
-
-	defer func() {
-		Expect(dagger.DeleteBuildpack(buildpack)).To(Succeed())
-		Expect(dagger.DeleteBuildpack(offlineBuildpack)).To(Succeed())
-		Expect(dagger.DeleteBuildpack(buildPlanBuildpack)).To(Succeed())
-	}()
 
 	SetDefaultEventuallyTimeout(5 * time.Second)
 
@@ -54,28 +67,4 @@ func TestIntegration(t *testing.T) {
 	suite("Offline", testOffline)
 	suite("LayerReuse", testLayerReuse)
 	suite.Run(t)
-}
-
-func GetGitVersion() (string, error) {
-	gitExec := pexec.NewExecutable("git")
-	revListOut := bytes.NewBuffer(nil)
-
-	err := gitExec.Execute(pexec.Execution{
-		Args:   []string{"rev-list", "--tags", "--max-count=1"},
-		Stdout: revListOut,
-	})
-	if err != nil {
-		return "", err
-	}
-
-	stdout := bytes.NewBuffer(nil)
-	err = gitExec.Execute(pexec.Execution{
-		Args:   []string{"describe", "--tags", strings.TrimSpace(revListOut.String())},
-		Stdout: stdout,
-	})
-	if err != nil {
-		return "", err
-	}
-
-	return strings.TrimSpace(strings.TrimPrefix(stdout.String(), "v")), nil
 }
