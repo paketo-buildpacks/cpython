@@ -14,4 +14,4 @@ jobs:
       uses: hmarr/auto-approve-action@v2.0.0
       if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
       with:
-        github-token: {{ secrets.PAKETO_BOT_GITHUB_TOKEN }}
+        github-token: {{ secrets.USER_GITHUB_TOKEN }}
