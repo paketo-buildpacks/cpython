@@ -1,4 +1,4 @@
-# Python Runtime Cloud Native Buildpack
+# Paketo Python Runtime Cloud Native Buildpack
 
 The Python Runtime CNB provides the Python 3 runtime.
 The buildpack installs Python onto the `$PATH` which makes it available
