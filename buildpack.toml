@@ -2,7 +2,7 @@ api = "0.2"
 
 [buildpack]
   id = "paketo-community/python-runtime"
-  name = "Python Runtime Buildpack"
+  name = "Paketo Python Runtime Buildpack"
 
 [metadata]
   include_files = ["bin/run", "bin/build", "bin/detect", "buildpack.toml", "go.mod", "go.sum"]
@@ -36,17 +36,6 @@ api = "0.2"
     deprecation_date = "2021-12-23T00:00:00Z"
     id = "python"
     name = "Python"
-    sha256 = "3bb086eb29e7385618a23dff6dbff0e7065bd289b5e075db05613046132a4500"
-    source = "https://www.python.org/ftp/python/3.6.10/Python-3.6.10.tgz"
-    source_sha256 = "7034dd7cba98d4f94c74f9edd7345bac71c8814c41672c64d9044fa2f96f334d"
-    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
-    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.6.10-linux-x64-cflinuxfs3-3bb086eb.tgz"
-    version = "3.6.10"
-
-  [[metadata.dependencies]]
-    deprecation_date = "2021-12-23T00:00:00Z"
-    id = "python"
-    name = "Python"
     sha256 = "959ca028a528646a416e0621c1698023832060ce8621fe703cb4549b68e09e22"
     source = "https://www.python.org/ftp/python/3.6.11/Python-3.6.11.tgz"
     source_sha256 = "96621902f89746fffc22f39749c07da7c2917b232e72352e6837d41850f7b90c"
@@ -55,15 +44,15 @@ api = "0.2"
     version = "3.6.11"
 
   [[metadata.dependencies]]
-    deprecation_date = "2023-06-27T00:00:00Z"
+    deprecation_date = "2021-12-23T00:00:00Z"
     id = "python"
     name = "Python"
-    sha256 = "50fae53c7c3cdd1a9924e25996fb00ccd870bc145ed74b37d5c470260b602b7c"
-    source = "https://www.python.org/ftp/python/3.7.7/Python-3.7.7.tgz"
-    source_sha256 = "8c8be91cd2648a1a0c251f04ea0bb4c2a5570feb9c45eaaa2241c785585b475a"
+    sha256 = "73aff787cb1ae9cd7b9d92b3cb3190a863bbdb5a8a913742924e4a57029b1f24"
+    source = "https://www.python.org/ftp/python/3.6.12/Python-3.6.12.tgz"
+    source_sha256 = "12dddbe52385a0f702fb8071e12dcc6b3cb2dde07cd8db3ed60e90d90ab78693"
     stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
-    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python-3.7.7-linux-x64-cflinuxfs3-50fae53c.tgz"
-    version = "3.7.7"
+    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.6.12_linux_x64_cflinuxfs3_73aff787.tgz"
+    version = "3.6.12"
 
   [[metadata.dependencies]]
     deprecation_date = "2023-06-27T00:00:00Z"
@@ -75,6 +64,17 @@ api = "0.2"
     stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
     uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.7.8_linux_x64_cflinuxfs3_e98a931c.tgz"
     version = "3.7.8"
+
+  [[metadata.dependencies]]
+    deprecation_date = "2023-06-27T00:00:00Z"
+    id = "python"
+    name = "Python"
+    sha256 = "14a1d89c6badc6084c4743a166951e33cf13ca7b2fc4d18545da1bd735a77554"
+    source = "https://www.python.org/ftp/python/3.7.9/Python-3.7.9.tgz"
+    source_sha256 = "39b018bc7d8a165e59aa827d9ae45c45901739b0bbb13721e4f973f3521c166a"
+    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
+    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.7.9_linux_x64_cflinuxfs3_14a1d89c.tgz"
+    version = "3.7.9"
 
   [[metadata.dependencies]]
     deprecation_date = "2023-06-27T00:00:00Z"

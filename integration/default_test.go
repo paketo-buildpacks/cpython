@@ -73,7 +73,7 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 			Expect(string(content)).To(ContainSubstring("hello world"))
 
 			Expect(logs).To(ContainLines(
-				"Python Runtime Buildpack 1.2.3",
+				"Paketo Python Runtime Buildpack 1.2.3",
 				"  Resolving Python version",
 				"    Candidate version sources (in priority order):",
 				"      <unknown> -> \"\"",
