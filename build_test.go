@@ -65,13 +65,13 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 
 		planRefinery = &fakes.PlanRefinery{}
 		planRefinery.BillOfMaterialsCall.Returns.BuildpackPlanEntry = packit.BuildpackPlanEntry{
-			Name:    "python",
-			Version: "python-dependency-version",
+			Name: "python",
 			Metadata: map[string]interface{}{
-				"name":   "python-dependency-name",
-				"sha256": "python-dependency-sha",
-				"stacks": []string{"some-stack"},
-				"uri":    "python-dependency-uri",
+				"name":    "python-dependency-name",
+				"sha256":  "python-dependency-sha",
+				"stacks":  []string{"some-stack"},
+				"uri":     "python-dependency-uri",
+				"version": "python-dependency-version",
 			},
 		}
 
@@ -107,13 +107,13 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 			Plan: packit.BuildpackPlan{
 				Entries: []packit.BuildpackPlanEntry{
 					{
-						Name:    "python",
-						Version: "python-dependency-version",
+						Name: "python",
 						Metadata: map[string]interface{}{
-							"name":   "python-dependency-name",
-							"sha256": "python-dependency-sha",
-							"stacks": []string{"some-stack"},
-							"uri":    "python-dependency-uri",
+							"name":    "python-dependency-name",
+							"sha256":  "python-dependency-sha",
+							"stacks":  []string{"some-stack"},
+							"uri":     "python-dependency-uri",
+							"version": "python-dependency-version",
 						},
 					},
 				},
@@ -209,13 +209,13 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 				Plan: packit.BuildpackPlan{
 					Entries: []packit.BuildpackPlanEntry{
 						{
-							Name:    "python",
-							Version: "python-dependency-version",
+							Name: "python",
 							Metadata: map[string]interface{}{
-								"name":   "python-dependency-name",
-								"sha256": "python-dependency-sha",
-								"stacks": []string{"some-stack"},
-								"uri":    "python-dependency-uri",
+								"name":    "python-dependency-name",
+								"sha256":  "python-dependency-sha",
+								"stacks":  []string{"some-stack"},
+								"uri":     "python-dependency-uri",
+								"version": "python-dependency-version",
 							},
 						},
 					},

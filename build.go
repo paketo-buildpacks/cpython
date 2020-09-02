@@ -33,8 +33,9 @@ func Build(entries EntryResolver, dependencies DependencyManager, planRefinery P
 
 		logs.Process("Resolving Python version")
 		entry := entries.Resolve(context.Plan.Entries)
+		entryVersion, _ := entry.Metadata["version"].(string)
 
-		dependency, err := dependencies.Resolve(filepath.Join(context.CNBPath, "buildpack.toml"), entry.Name, entry.Version, context.Stack)
+		dependency, err := dependencies.Resolve(filepath.Join(context.CNBPath, "buildpack.toml"), entry.Name, entryVersion, context.Stack)
 		if err != nil {
 			return packit.BuildResult{}, err
 		}

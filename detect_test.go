@@ -57,9 +57,9 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 				},
 				Requires: []packit.BuildPlanRequirement{
 					{
-						Name:    "python",
-						Version: "some-version",
+						Name: "python",
 						Metadata: pythonruntime.BuildPlanMetadata{
+							Version:       "some-version",
 							VersionSource: "buildpack.yml",
 						},
 					},
