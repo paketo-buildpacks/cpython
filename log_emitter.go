@@ -40,7 +40,7 @@ func (l LogEmitter) Candidates(entries []packit.BuildpackPlanEntry) {
 
 		version, ok := entry.Metadata["version"].(string)
 		if !ok {
-			versionSource = "*"
+			version = ""
 		}
 
 		if len(versionSource) > maxLen {
