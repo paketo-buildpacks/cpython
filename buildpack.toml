@@ -91,6 +91,7 @@ api = "0.2"
     deprecation_date = "2023-06-27T00:00:00Z"
     id = "python"
     name = "Python"
+
     sha256 = "8b697568740d53d6db33ec238f9c0ea55b1fe6b80da83b0c04b44a23dc400ecc"
     source = "https://www.python.org/ftp/python/3.8.6/Python-3.8.6.tgz"
     source_sha256 = "313562ee9986dc369cd678011bdfd9800ef62fbf7b1496228a18f86b36428c21"
