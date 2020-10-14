@@ -93,10 +93,10 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				"    Candidate version sources (in priority order):",
 				"      <unknown> -> \"\"",
 				"",
-				MatchRegexp(`    Selected Python version \(using <unknown>\): 3\.8\.\d+`),
+				MatchRegexp(`    Selected Python version \(using <unknown>\): 3\.\d+\.\d+`),
 				"",
 				"  Executing build process",
-				MatchRegexp(`    Installing Python 3\.8\.\d+`),
+				MatchRegexp(`    Installing Python 3\.\d+\.\d+`),
 				MatchRegexp(`      Completed in \d+\.\d+`),
 			))
 
@@ -124,7 +124,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				"    Candidate version sources (in priority order):",
 				"      <unknown> -> \"\"",
 				"",
-				MatchRegexp(`    Selected Python version \(using <unknown>\): 3\.8\.\d+`),
+				MatchRegexp(`    Selected Python version \(using <unknown>\): 3\.\d+\.\d+`),
 				"",
 				"  Reusing cached layer /layers/paketo-community_python-runtime/python",
 			))
@@ -187,10 +187,10 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				"      buildpack.yml -> \"~3\"",
 				"      <unknown>     -> \"\"",
 				"",
-				MatchRegexp(`    Selected Python version \(using buildpack.yml\): 3\.8\.\d+`),
+				MatchRegexp(`    Selected Python version \(using buildpack.yml\): 3\.\d+\.\d+`),
 				"",
 				"  Executing build process",
-				MatchRegexp(`    Installing Python 3\.8\.\d+`),
+				MatchRegexp(`    Installing Python 3\.\d+\.\d+`),
 				MatchRegexp(`      Completed in \d+\.\d+`),
 			))
 
