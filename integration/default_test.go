@@ -51,7 +51,7 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 			var err error
 			var logs fmt.Stringer
 			image, logs, err = pack.WithNoColor().Build.
-				WithNoPull().
+				WithPullPolicy("never").
 				WithBuildpacks(
 					settings.Buildpacks.PythonRuntime.Online,
 					settings.Buildpacks.BuildPlan.Online,
