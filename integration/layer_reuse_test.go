@@ -68,7 +68,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			)
 
 			build := pack.WithNoColor().Build.
-				WithNoPull().
+				WithPullPolicy("never").
 				WithBuildpacks(
 					settings.Buildpacks.PythonRuntime.Online,
 					settings.Buildpacks.BuildPlan.Online,
@@ -164,7 +164,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			Expect(err).NotTo(HaveOccurred())
 
 			build := pack.WithNoColor().Build.
-				WithNoPull().
+				WithPullPolicy("never").
 				WithBuildpacks(
 					settings.Buildpacks.PythonRuntime.Online,
 					settings.Buildpacks.BuildPlan.Online,

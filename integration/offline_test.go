@@ -51,7 +51,7 @@ func testOffline(t *testing.T, context spec.G, it spec.S) {
 			var logs fmt.Stringer
 			var err error
 			image, logs, err = pack.WithNoColor().Build.
-				WithNoPull().
+				WithPullPolicy("never").
 				WithBuildpacks(
 					settings.Buildpacks.PythonRuntime.Offline,
 					settings.Buildpacks.BuildPlan.Online,
