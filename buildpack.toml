@@ -5,8 +5,8 @@ api = "0.2"
   name = "Paketo Python Runtime Buildpack"
 
 [metadata]
-  include_files = ["bin/run", "bin/build", "bin/detect", "buildpack.toml", "go.mod", "go.sum"]
-  pre_package = "./scripts/build.sh"
+  include-files = ["bin/run", "bin/build", "bin/detect", "buildpack.toml", "go.mod", "go.sum"]
+  pre-package = "./scripts/build.sh"
   [metadata.default-versions]
     python = "3.8.x"
 
