@@ -67,10 +67,10 @@ func testPlanEntryResolver(t *testing.T, context spec.G, it spec.S) {
 						},
 					},
 					{
-						Name:    "python",
-						Version: "",
+						Name: "python",
 						Metadata: map[string]interface{}{
-							"build": true,
+							"version": "",
+							"build":   true,
 						},
 					},
 				})

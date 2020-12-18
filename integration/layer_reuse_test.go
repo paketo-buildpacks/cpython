@@ -100,8 +100,12 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				MatchRegexp(`      Completed in \d+\.\d+`),
 			))
 
-			firstContainer, err = docker.Container.Run.WithCommand("python3 server.py").Execute(firstImage.ID)
-			Expect(err).NotTo(HaveOccurred())
+			firstContainer, err = docker.Container.Run.
+				WithCommand("python3 server.py").
+				WithEnv(map[string]string{"PORT": "8080"}).
+				WithPublish("8080").
+				Execute(firstImage.ID)
+			Expect(err).ToNot(HaveOccurred())
 
 			containerIDs[firstContainer.ID] = struct{}{}
 
@@ -129,14 +133,18 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				"  Reusing cached layer /layers/paketo-community_python-runtime/python",
 			))
 
-			secondContainer, err = docker.Container.Run.WithCommand("python3 server.py").Execute(secondImage.ID)
-			Expect(err).NotTo(HaveOccurred())
+			secondContainer, err = docker.Container.Run.
+				WithCommand("python3 server.py").
+				WithEnv(map[string]string{"PORT": "8080"}).
+				WithPublish("8080").
+				Execute(secondImage.ID)
+			Expect(err).ToNot(HaveOccurred())
 
 			containerIDs[secondContainer.ID] = struct{}{}
 
 			Eventually(secondContainer).Should(BeAvailable())
 
-			response, err := http.Get(fmt.Sprintf("http://localhost:%s", secondContainer.HostPort()))
+			response, err := http.Get(fmt.Sprintf("http://localhost:%s", secondContainer.HostPort("8080")))
 			Expect(err).NotTo(HaveOccurred())
 			Expect(response.StatusCode).To(Equal(http.StatusOK))
 
@@ -194,8 +202,12 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				MatchRegexp(`      Completed in \d+\.\d+`),
 			))
 
-			firstContainer, err = docker.Container.Run.WithCommand("python3 server.py").Execute(firstImage.ID)
-			Expect(err).NotTo(HaveOccurred())
+			firstContainer, err = docker.Container.Run.
+				WithCommand("python3 server.py").
+				WithEnv(map[string]string{"PORT": "8080"}).
+				WithPublish("8080").
+				Execute(firstImage.ID)
+			Expect(err).ToNot(HaveOccurred())
 
 			containerIDs[firstContainer.ID] = struct{}{}
 
@@ -226,14 +238,18 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				MatchRegexp(`      Completed in \d+\.\d+`),
 			))
 
-			secondContainer, err = docker.Container.Run.WithCommand("python3 server.py").Execute(secondImage.ID)
-			Expect(err).NotTo(HaveOccurred())
+			secondContainer, err = docker.Container.Run.
+				WithCommand("python3 server.py").
+				WithEnv(map[string]string{"PORT": "8080"}).
+				WithPublish("8080").
+				Execute(secondImage.ID)
+			Expect(err).ToNot(HaveOccurred())
 
 			containerIDs[secondContainer.ID] = struct{}{}
 
 			Eventually(secondContainer).Should(BeAvailable())
 
-			response, err := http.Get(fmt.Sprintf("http://localhost:%s", secondContainer.HostPort()))
+			response, err := http.Get(fmt.Sprintf("http://localhost:%s", secondContainer.HostPort("8080")))
 			Expect(err).NotTo(HaveOccurred())
 			Expect(response.StatusCode).To(Equal(http.StatusOK))
 

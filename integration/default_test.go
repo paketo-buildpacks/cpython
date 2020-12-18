@@ -59,12 +59,16 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 				Execute(name, filepath.Join("testdata", "default_app"))
 			Expect(err).ToNot(HaveOccurred(), logs.String)
 
-			container, err = docker.Container.Run.WithCommand("python3 server.py").Execute(image.ID)
-			Expect(err).NotTo(HaveOccurred())
+			container, err = docker.Container.Run.
+				WithCommand("python3 server.py").
+				WithEnv(map[string]string{"PORT": "8080"}).
+				WithPublish("8080").
+				Execute(image.ID)
+			Expect(err).ToNot(HaveOccurred())
 
 			Eventually(container).Should(BeAvailable())
 
-			response, err := http.Get(fmt.Sprintf("http://localhost:%s", container.HostPort()))
+			response, err := http.Get(fmt.Sprintf("http://localhost:%s", container.HostPort("8080")))
 			Expect(err).NotTo(HaveOccurred())
 			Expect(response.StatusCode).To(Equal(http.StatusOK))
 
