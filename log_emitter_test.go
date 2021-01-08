@@ -3,10 +3,8 @@ package pythonruntime_test
 import (
 	"bytes"
 	"testing"
-	"time"
 
 	"github.com/paketo-buildpacks/packit"
-	"github.com/paketo-buildpacks/packit/postal"
 	pythonruntime "github.com/paketo-community/python-runtime"
 	"github.com/sclevine/spec"
 
@@ -56,65 +54,6 @@ func testLogEmitter(t *testing.T, context spec.G, it spec.S) {
       <unknown>   -> "other-version"
 
 `))
-		})
-	})
-
-	context("SelectedDependency", func() {
-		var (
-			entry      packit.BuildpackPlanEntry
-			dependency postal.Dependency
-		)
-
-		it.Before(func() {
-			entry = packit.BuildpackPlanEntry{
-				Metadata: map[string]interface{}{
-					"version-source": "some-source",
-				},
-			}
-
-			dependency = postal.Dependency{
-				Name:    "Python",
-				Version: "some-version",
-			}
-
-			var err error
-			dependency.DeprecationDate, err = time.Parse(time.RFC3339, "2021-04-01T00:00:00Z")
-			Expect(err).NotTo(HaveOccurred())
-		})
-
-		it("logs the selected dependency", func() {
-			emitter.SelectedDependency(entry, dependency, time.Now())
-			Expect(buffer.String()).To(Equal("    Selected Python version (using some-source): some-version\n\n"))
-		})
-
-		context("when it is within 30 days of the deprecation date", func() {
-			var now time.Time
-
-			it.Before(func() {
-				now = dependency.DeprecationDate.Add(-29 * 24 * time.Hour)
-			})
-
-			it("returns a warning that the dependency will be deprecated after the deprecation date", func() {
-				emitter.SelectedDependency(entry, dependency, now)
-				Expect(buffer.String()).To(ContainSubstring("    Selected Python version (using some-source): some-version\n"))
-				Expect(buffer.String()).To(ContainSubstring("      Version some-version of Python will be deprecated after 2021-04-01.\n"))
-				Expect(buffer.String()).To(ContainSubstring("      Migrate your application to a supported version of Python before this time.\n\n"))
-			})
-		})
-
-		context("when it is on the the deprecation date", func() {
-			var now time.Time
-
-			it.Before(func() {
-				now = dependency.DeprecationDate
-			})
-
-			it("returns a warning that the version of the dependency is no longer supported", func() {
-				emitter.SelectedDependency(entry, dependency, now)
-				Expect(buffer.String()).To(ContainSubstring("    Selected Python version (using some-source): some-version\n"))
-				Expect(buffer.String()).To(ContainSubstring("      Version some-version of Python is deprecated.\n"))
-				Expect(buffer.String()).To(ContainSubstring("      Migrate your application to a supported version of Python.\n\n"))
-			})
 		})
 	})
 
