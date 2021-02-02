@@ -88,6 +88,8 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 				MatchRegexp(`    Installing Python 3\.\d+\.\d+`),
 				MatchRegexp(`      Completed in \d+\.\d+`),
 				"",
+				"",
+				"DELETEME",
 				"  Configuring environment",
 				MatchRegexp(`    PYTHONPATH -> "/layers/paketo-community_python-runtime/python"`),
 			))
