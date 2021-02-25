@@ -39,11 +39,17 @@ file that looks like the following:
     launch = true
 ```
 
+## Usage
+
 To package this buildpack for consumption:
+
 ```
-$ ./scripts/package.sh
+$ ./scripts/package.sh --version <version-number>
 ```
-This builds the buildpack's Go source using GOOS=linux by default. You can supply another value as the first argument to package.sh.
+
+This will create a `buildpackage.cnb` file under the `build` directory which you
+can use to build your app as follows:
+`pack build <app-name> -p <path-to-app> -b build/buildpackage.cnb -b <other-buildpacks..>`
 
 ## `buildpack.yml` Configurations
 
@@ -51,7 +57,7 @@ In order to specify a particular version of python you can
 provide an optional `buildpack.yml` in the root of the application directory.
 
 ```yaml
-python:
+cpython:
   # this allows you to specify a version constraint for the python depdendency
   # any valid semver constaints (e.g. 3.*) are also acceptable
   version: ~3

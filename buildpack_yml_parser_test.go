@@ -25,7 +25,7 @@ func testBuildpackYMLParser(t *testing.T, context spec.G, it spec.S) {
 		defer file.Close()
 
 		_, err = file.WriteString(`---
-python:
+cpython:
   version: 1.2.3
 `)
 		Expect(err).NotTo(HaveOccurred())
@@ -40,7 +40,7 @@ python:
 	})
 
 	context("ParseVersion", func() {
-		it("parses the python version from a buildpack.yml file", func() {
+		it("parses the cpython version from a buildpack.yml file", func() {
 			version, err := parser.ParseVersion(path)
 			Expect(err).NotTo(HaveOccurred())
 			Expect(version).To(Equal("1.2.3"))

@@ -78,18 +78,18 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 
 			Expect(logs).To(ContainLines(
 				"Paketo CPython Buildpack 1.2.3",
-				"  Resolving Python version",
+				"  Resolving CPython version",
 				"    Candidate version sources (in priority order):",
 				"      <unknown> -> \"\"",
 				"",
-				MatchRegexp(`    Selected Python version \(using <unknown>\): 3\.\d+\.\d+`),
+				MatchRegexp(`    Selected CPython version \(using <unknown>\): 3\.\d+\.\d+`),
 				"",
 				"  Executing build process",
-				MatchRegexp(`    Installing Python 3\.\d+\.\d+`),
+				MatchRegexp(`    Installing CPython 3\.\d+\.\d+`),
 				MatchRegexp(`      Completed in \d+\.\d+`),
 				"",
 				"  Configuring environment",
-				MatchRegexp(`    PYTHONPATH -> "/layers/paketo-community_cpython/python"`),
+				MatchRegexp(`    PYTHONPATH -> "/layers/paketo-community_cpython/cpython"`),
 			))
 		})
 	})

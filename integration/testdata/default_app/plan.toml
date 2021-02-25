@@ -1,5 +1,5 @@
 [[requires]]
-  name = "python"
+  name = "cpython"
 
   [requires.metadata]
     launch = true

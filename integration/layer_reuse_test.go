@@ -85,18 +85,18 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 
 			Expect(firstImage.Buildpacks).To(HaveLen(2))
 			Expect(firstImage.Buildpacks[0].Key).To(Equal("paketo-community/cpython"))
-			Expect(firstImage.Buildpacks[0].Layers).To(HaveKey("python"))
+			Expect(firstImage.Buildpacks[0].Layers).To(HaveKey("cpython"))
 
 			Expect(logs).To(ContainLines(
 				"Paketo CPython Buildpack 1.2.3",
-				"  Resolving Python version",
+				"  Resolving CPython version",
 				"    Candidate version sources (in priority order):",
 				"      <unknown> -> \"\"",
 				"",
-				MatchRegexp(`    Selected Python version \(using <unknown>\): 3\.\d+\.\d+`),
+				MatchRegexp(`    Selected CPython version \(using <unknown>\): 3\.\d+\.\d+`),
 				"",
 				"  Executing build process",
-				MatchRegexp(`    Installing Python 3\.\d+\.\d+`),
+				MatchRegexp(`    Installing CPython 3\.\d+\.\d+`),
 				MatchRegexp(`      Completed in \d+\.\d+`),
 			))
 
@@ -120,17 +120,17 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 
 			Expect(secondImage.Buildpacks).To(HaveLen(2))
 			Expect(secondImage.Buildpacks[0].Key).To(Equal("paketo-community/cpython"))
-			Expect(secondImage.Buildpacks[0].Layers).To(HaveKey("python"))
+			Expect(secondImage.Buildpacks[0].Layers).To(HaveKey("cpython"))
 
 			Expect(logs).To(ContainLines(
 				"Paketo CPython Buildpack 1.2.3",
-				"  Resolving Python version",
+				"  Resolving CPython version",
 				"    Candidate version sources (in priority order):",
 				"      <unknown> -> \"\"",
 				"",
-				MatchRegexp(`    Selected Python version \(using <unknown>\): 3\.\d+\.\d+`),
+				MatchRegexp(`    Selected CPython version \(using <unknown>\): 3\.\d+\.\d+`),
 				"",
-				"  Reusing cached layer /layers/paketo-community_cpython/python",
+				"  Reusing cached layer /layers/paketo-community_cpython/cpython",
 			))
 
 			secondContainer, err = docker.Container.Run.
@@ -152,7 +152,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			Expect(err).NotTo(HaveOccurred())
 			Expect(content).To(ContainSubstring("hello world"))
 
-			Expect(secondImage.Buildpacks[0].Layers["python"].Metadata["built_at"]).To(Equal(firstImage.Buildpacks[0].Layers["python"].Metadata["built_at"]))
+			Expect(secondImage.Buildpacks[0].Layers["cpython"].Metadata["built_at"]).To(Equal(firstImage.Buildpacks[0].Layers["cpython"].Metadata["built_at"]))
 		})
 	})
 
@@ -186,19 +186,19 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 
 			Expect(firstImage.Buildpacks).To(HaveLen(2))
 			Expect(firstImage.Buildpacks[0].Key).To(Equal("paketo-community/cpython"))
-			Expect(firstImage.Buildpacks[0].Layers).To(HaveKey("python"))
+			Expect(firstImage.Buildpacks[0].Layers).To(HaveKey("cpython"))
 
 			Expect(logs).To(ContainLines(
 				"Paketo CPython Buildpack 1.2.3",
-				"  Resolving Python version",
+				"  Resolving CPython version",
 				"    Candidate version sources (in priority order):",
 				"      buildpack.yml -> \"~3\"",
 				"      <unknown>     -> \"\"",
 				"",
-				MatchRegexp(`    Selected Python version \(using buildpack.yml\): 3\.\d+\.\d+`),
+				MatchRegexp(`    Selected CPython version \(using buildpack.yml\): 3\.\d+\.\d+`),
 				"",
 				"  Executing build process",
-				MatchRegexp(`    Installing Python 3\.\d+\.\d+`),
+				MatchRegexp(`    Installing CPython 3\.\d+\.\d+`),
 				MatchRegexp(`      Completed in \d+\.\d+`),
 			))
 
@@ -222,19 +222,19 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 
 			Expect(secondImage.Buildpacks).To(HaveLen(2))
 			Expect(secondImage.Buildpacks[0].Key).To(Equal("paketo-community/cpython"))
-			Expect(secondImage.Buildpacks[0].Layers).To(HaveKey("python"))
+			Expect(secondImage.Buildpacks[0].Layers).To(HaveKey("cpython"))
 
 			Expect(logs).To(ContainLines(
 				"Paketo CPython Buildpack 1.2.3",
-				"  Resolving Python version",
+				"  Resolving CPython version",
 				"    Candidate version sources (in priority order):",
 				"      buildpack.yml -> \"3.7.*\"",
 				"      <unknown>     -> \"\"",
 				"",
-				MatchRegexp(`    Selected Python version \(using buildpack.yml\): 3\.7\.\d+`),
+				MatchRegexp(`    Selected CPython version \(using buildpack.yml\): 3\.7\.\d+`),
 				"",
 				"  Executing build process",
-				MatchRegexp(`    Installing Python 3\.7\.\d+`),
+				MatchRegexp(`    Installing CPython 3\.7\.\d+`),
 				MatchRegexp(`      Completed in \d+\.\d+`),
 			))
 
@@ -257,7 +257,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			Expect(err).NotTo(HaveOccurred())
 			Expect(content).To(ContainSubstring("hello world"))
 
-			Expect(secondImage.Buildpacks[0].Layers["python"].Metadata["built_at"]).NotTo(Equal(firstImage.Buildpacks[0].Layers["python"].Metadata["built_at"]))
+			Expect(secondImage.Buildpacks[0].Layers["cpython"].Metadata["built_at"]).NotTo(Equal(firstImage.Buildpacks[0].Layers["cpython"].Metadata["built_at"]))
 		})
 	})
 }

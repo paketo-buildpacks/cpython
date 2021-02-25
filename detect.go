@@ -19,6 +19,7 @@ type BuildPlanMetadata struct {
 func Detect(buildpackYMLParser VersionParser) packit.DetectFunc {
 	return func(context packit.DetectContext) (packit.DetectResult, error) {
 		var requirements []packit.BuildPlanRequirement
+		var requirementsLegacy []packit.BuildPlanRequirement
 
 		version, err := buildpackYMLParser.ParseVersion(filepath.Join(context.WorkingDir, "buildpack.yml"))
 		if err != nil {
@@ -27,6 +28,13 @@ func Detect(buildpackYMLParser VersionParser) packit.DetectFunc {
 
 		if version != "" {
 			requirements = append(requirements, packit.BuildPlanRequirement{
+				Name: Cpython,
+				Metadata: BuildPlanMetadata{
+					Version:       version,
+					VersionSource: "buildpack.yml",
+				},
+			})
+			requirementsLegacy = append(requirementsLegacy, packit.BuildPlanRequirement{
 				Name: Python,
 				Metadata: BuildPlanMetadata{
 					Version:       version,
@@ -38,9 +46,17 @@ func Detect(buildpackYMLParser VersionParser) packit.DetectFunc {
 		return packit.DetectResult{
 			Plan: packit.BuildPlan{
 				Provides: []packit.BuildPlanProvision{
-					{Name: Python},
+					{Name: Cpython},
 				},
 				Requires: requirements,
+				Or: []packit.BuildPlan{
+					{
+						Provides: []packit.BuildPlanProvision{
+							{Name: Python},
+						},
+						Requires: requirementsLegacy,
+					},
+				},
 			},
 		}, nil
 	}

@@ -14,6 +14,11 @@ func NewBuildpackYMLParser() BuildpackYMLParser {
 
 func (p BuildpackYMLParser) ParseVersion(path string) (string, error) {
 	var buildpack struct {
+		Cpython struct {
+			Version string `yaml:"version"`
+		} `yaml:"cpython"`
+
+		// Restructure: Remove this after restructing is completed
 		Python struct {
 			Version string `yaml:"version"`
 		} `yaml:"python"`
@@ -35,5 +40,9 @@ func (p BuildpackYMLParser) ParseVersion(path string) (string, error) {
 		return "", err
 	}
 
+	// Restructure: Remove this after restructing is completed
+	if buildpack.Cpython.Version != "" {
+		return buildpack.Cpython.Version, nil
+	}
 	return buildpack.Python.Version, nil
 }

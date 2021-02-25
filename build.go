@@ -31,73 +31,82 @@ func Build(entries EntryResolver, dependencies DependencyManager, planRefinery P
 	return func(context packit.BuildContext) (packit.BuildResult, error) {
 		logs.Title(context.BuildpackInfo)
 
-		logs.Process("Resolving Python version")
+		logs.Process("Resolving CPython version")
 		entry := entries.Resolve(context.Plan.Entries)
 		entryVersion, _ := entry.Metadata["version"].(string)
+
+		// This is done because the core dependencies pipeline provides the cpython
+		// dependency under the name python.
+		entry.Name = "python"
 
 		dependency, err := dependencies.Resolve(filepath.Join(context.CNBPath, "buildpack.toml"), entry.Name, entryVersion, context.Stack)
 		if err != nil {
 			return packit.BuildResult{}, err
 		}
 
+		// This is done because the core dependencies pipeline provides the cpython
+		// dependency under the name python.
+		dependency.ID = "cpython"
+		dependency.Name = "CPython"
+
 		logs.SelectedDependency(entry, dependency, clock.Now())
 		bom := planRefinery.BillOfMaterials(dependency)
 
-		pythonLayer, err := context.Layers.Get(Python)
+		cpythonLayer, err := context.Layers.Get(Cpython)
 		if err != nil {
 			return packit.BuildResult{}, err
 		}
 
-		cachedSHA, ok := pythonLayer.Metadata[DepKey].(string)
+		cachedSHA, ok := cpythonLayer.Metadata[DepKey].(string)
 		if ok && cachedSHA == dependency.SHA256 {
-			logs.Process("Reusing cached layer %s", pythonLayer.Path)
+			logs.Process("Reusing cached layer %s", cpythonLayer.Path)
 			logs.Break()
 
 			return packit.BuildResult{
 				Plan: packit.BuildpackPlan{
 					Entries: []packit.BuildpackPlanEntry{bom},
 				},
-				Layers: []packit.Layer{pythonLayer},
+				Layers: []packit.Layer{cpythonLayer},
 			}, nil
 		}
 
 		logs.Process("Executing build process")
 
-		pythonLayer, err = pythonLayer.Reset()
+		cpythonLayer, err = cpythonLayer.Reset()
 		if err != nil {
 			return packit.BuildResult{}, err
 		}
 
-		pythonLayer.Build = entry.Metadata["build"] == true
-		pythonLayer.Cache = entry.Metadata["build"] == true
-		pythonLayer.Launch = entry.Metadata["launch"] == true
+		cpythonLayer.Build = entry.Metadata["build"] == true
+		cpythonLayer.Cache = entry.Metadata["build"] == true
+		cpythonLayer.Launch = entry.Metadata["launch"] == true
 
-		logs.Subprocess("Installing Python %s", dependency.Version)
+		logs.Subprocess("Installing CPython %s", dependency.Version)
 		duration, err := clock.Measure(func() error {
-			return dependencies.Install(dependency, context.CNBPath, pythonLayer.Path)
+			return dependencies.Install(dependency, context.CNBPath, cpythonLayer.Path)
 		})
 		if err != nil {
 			return packit.BuildResult{}, err
 		}
 		logs.Action("Completed in %s", duration.Round(time.Millisecond))
 
-		pythonLayer.Metadata = map[string]interface{}{
+		cpythonLayer.Metadata = map[string]interface{}{
 			DepKey:     dependency.SHA256,
 			"built_at": clock.Now().Format(time.RFC3339Nano),
 		}
 
-		os.Setenv("PATH", fmt.Sprintf("%s:%s", filepath.Join(pythonLayer.Path, "bin"), os.Getenv("PATH")))
+		os.Setenv("PATH", fmt.Sprintf("%s:%s", filepath.Join(cpythonLayer.Path, "bin"), os.Getenv("PATH")))
 
-		pythonLayer.SharedEnv.Override("PYTHONPATH", pythonLayer.Path)
+		cpythonLayer.SharedEnv.Override("PYTHONPATH", cpythonLayer.Path)
 
 		logs.Break()
-		logs.Environment(pythonLayer.SharedEnv)
+		logs.Environment(cpythonLayer.SharedEnv)
 
 		return packit.BuildResult{
 			Plan: packit.BuildpackPlan{
 				Entries: []packit.BuildpackPlanEntry{bom},
 			},
-			Layers: []packit.Layer{pythonLayer},
+			Layers: []packit.Layer{cpythonLayer},
 		}, nil
 	}
 }

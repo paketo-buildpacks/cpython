@@ -28,14 +28,21 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 		detect = cpython.Detect(buildpackYMLParser)
 	})
 
-	it("returns a plan that provides python", func() {
+	it("returns a plan that provides cpython", func() {
 		result, err := detect(packit.DetectContext{
 			WorkingDir: "/working-dir",
 		})
 		Expect(err).NotTo(HaveOccurred())
 		Expect(result.Plan).To(Equal(packit.BuildPlan{
 			Provides: []packit.BuildPlanProvision{
-				{Name: "python"},
+				{Name: cpython.Cpython},
+			},
+			Or: []packit.BuildPlan{
+				{
+					Provides: []packit.BuildPlanProvision{
+						{Name: cpython.Python},
+					},
+				},
 			},
 		}))
 
@@ -46,21 +53,37 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 			buildpackYMLParser.ParseVersionCall.Returns.Version = "some-version"
 		})
 
-		it("returns a plan that provides and requires that version of python", func() {
+		it("returns a plan that provides and requires that version of cpython", func() {
 			result, err := detect(packit.DetectContext{
 				WorkingDir: "/working-dir",
 			})
 			Expect(err).NotTo(HaveOccurred())
 			Expect(result.Plan).To(Equal(packit.BuildPlan{
 				Provides: []packit.BuildPlanProvision{
-					{Name: cpython.Python},
+					{Name: cpython.Cpython},
 				},
 				Requires: []packit.BuildPlanRequirement{
 					{
-						Name: "python",
+						Name: cpython.Cpython,
 						Metadata: cpython.BuildPlanMetadata{
 							Version:       "some-version",
 							VersionSource: "buildpack.yml",
+						},
+					},
+				},
+				Or: []packit.BuildPlan{
+					{
+						Provides: []packit.BuildPlanProvision{
+							{Name: cpython.Python},
+						},
+						Requires: []packit.BuildPlanRequirement{
+							{
+								Name: cpython.Python,
+								Metadata: cpython.BuildPlanMetadata{
+									Version:       "some-version",
+									VersionSource: "buildpack.yml",
+								},
+							},
 						},
 					},
 				},
