@@ -170,7 +170,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		}))
 
 		Expect(buffer.String()).To(ContainSubstring("Some Buildpack some-version"))
-		Expect(buffer.String()).To(ContainSubstring("Resolving Python version"))
+		Expect(buffer.String()).To(ContainSubstring("Resolving CPython version"))
 		Expect(buffer.String()).To(ContainSubstring("Selected CPython version (using <unknown>): python-dependency-version"))
 		Expect(buffer.String()).To(ContainSubstring("Executing build process"))
 		Expect(buffer.String()).To(ContainSubstring("Installing CPython python-dependency-version"))
