@@ -1,4 +1,4 @@
-package pythonruntime_test
+package cpython_test
 
 import (
 	"bytes"
@@ -12,8 +12,8 @@ import (
 	"github.com/paketo-buildpacks/packit"
 	"github.com/paketo-buildpacks/packit/chronos"
 	"github.com/paketo-buildpacks/packit/postal"
-	pythonruntime "github.com/paketo-community/python-runtime"
-	"github.com/paketo-community/python-runtime/fakes"
+	cpython "github.com/paketo-community/cpython"
+	"github.com/paketo-community/cpython/fakes"
 	"github.com/sclevine/spec"
 
 	. "github.com/onsi/gomega"
@@ -76,9 +76,9 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		}
 
 		buffer = bytes.NewBuffer(nil)
-		logEmitter := pythonruntime.NewLogEmitter(buffer)
+		logEmitter := cpython.NewLogEmitter(buffer)
 
-		build = pythonruntime.Build(entryResolver, dependencyManager, planRefinery, logEmitter, clock)
+		build = cpython.Build(entryResolver, dependencyManager, planRefinery, logEmitter, clock)
 	})
 
 	it.After(func() {

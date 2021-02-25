@@ -1,12 +1,12 @@
-package pythonruntime_test
+package cpython_test
 
 import (
 	"errors"
 	"testing"
 
 	"github.com/paketo-buildpacks/packit"
-	pythonruntime "github.com/paketo-community/python-runtime"
-	"github.com/paketo-community/python-runtime/fakes"
+	cpython "github.com/paketo-community/cpython"
+	"github.com/paketo-community/cpython/fakes"
 	"github.com/sclevine/spec"
 
 	. "github.com/onsi/gomega"
@@ -25,7 +25,7 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 
 		buildpackYMLParser = &fakes.VersionParser{}
 
-		detect = pythonruntime.Detect(buildpackYMLParser)
+		detect = cpython.Detect(buildpackYMLParser)
 	})
 
 	it("returns a plan that provides python", func() {
@@ -53,12 +53,12 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 			Expect(err).NotTo(HaveOccurred())
 			Expect(result.Plan).To(Equal(packit.BuildPlan{
 				Provides: []packit.BuildPlanProvision{
-					{Name: pythonruntime.Python},
+					{Name: cpython.Python},
 				},
 				Requires: []packit.BuildPlanRequirement{
 					{
 						Name: "python",
-						Metadata: pythonruntime.BuildPlanMetadata{
+						Metadata: cpython.BuildPlanMetadata{
 							Version:       "some-version",
 							VersionSource: "buildpack.yml",
 						},

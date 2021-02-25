@@ -70,7 +70,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			build := pack.WithNoColor().Build.
 				WithPullPolicy("never").
 				WithBuildpacks(
-					settings.Buildpacks.PythonRuntime.Online,
+					settings.Buildpacks.Cpython.Online,
 					settings.Buildpacks.BuildPlan.Online,
 				)
 
@@ -84,11 +84,11 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			imageIDs[firstImage.ID] = struct{}{}
 
 			Expect(firstImage.Buildpacks).To(HaveLen(2))
-			Expect(firstImage.Buildpacks[0].Key).To(Equal("paketo-community/python-runtime"))
+			Expect(firstImage.Buildpacks[0].Key).To(Equal("paketo-community/cpython"))
 			Expect(firstImage.Buildpacks[0].Layers).To(HaveKey("python"))
 
 			Expect(logs).To(ContainLines(
-				"Paketo Python Runtime Buildpack 1.2.3",
+				"Paketo CPython Buildpack 1.2.3",
 				"  Resolving Python version",
 				"    Candidate version sources (in priority order):",
 				"      <unknown> -> \"\"",
@@ -119,18 +119,18 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			imageIDs[secondImage.ID] = struct{}{}
 
 			Expect(secondImage.Buildpacks).To(HaveLen(2))
-			Expect(secondImage.Buildpacks[0].Key).To(Equal("paketo-community/python-runtime"))
+			Expect(secondImage.Buildpacks[0].Key).To(Equal("paketo-community/cpython"))
 			Expect(secondImage.Buildpacks[0].Layers).To(HaveKey("python"))
 
 			Expect(logs).To(ContainLines(
-				"Paketo Python Runtime Buildpack 1.2.3",
+				"Paketo CPython Buildpack 1.2.3",
 				"  Resolving Python version",
 				"    Candidate version sources (in priority order):",
 				"      <unknown> -> \"\"",
 				"",
 				MatchRegexp(`    Selected Python version \(using <unknown>\): 3\.\d+\.\d+`),
 				"",
-				"  Reusing cached layer /layers/paketo-community_python-runtime/python",
+				"  Reusing cached layer /layers/paketo-community_cpython/python",
 			))
 
 			secondContainer, err = docker.Container.Run.
@@ -174,7 +174,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			build := pack.WithNoColor().Build.
 				WithPullPolicy("never").
 				WithBuildpacks(
-					settings.Buildpacks.PythonRuntime.Online,
+					settings.Buildpacks.Cpython.Online,
 					settings.Buildpacks.BuildPlan.Online,
 				)
 
@@ -185,11 +185,11 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			imageIDs[firstImage.ID] = struct{}{}
 
 			Expect(firstImage.Buildpacks).To(HaveLen(2))
-			Expect(firstImage.Buildpacks[0].Key).To(Equal("paketo-community/python-runtime"))
+			Expect(firstImage.Buildpacks[0].Key).To(Equal("paketo-community/cpython"))
 			Expect(firstImage.Buildpacks[0].Layers).To(HaveKey("python"))
 
 			Expect(logs).To(ContainLines(
-				"Paketo Python Runtime Buildpack 1.2.3",
+				"Paketo CPython Buildpack 1.2.3",
 				"  Resolving Python version",
 				"    Candidate version sources (in priority order):",
 				"      buildpack.yml -> \"~3\"",
@@ -221,11 +221,11 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			imageIDs[secondImage.ID] = struct{}{}
 
 			Expect(secondImage.Buildpacks).To(HaveLen(2))
-			Expect(secondImage.Buildpacks[0].Key).To(Equal("paketo-community/python-runtime"))
+			Expect(secondImage.Buildpacks[0].Key).To(Equal("paketo-community/cpython"))
 			Expect(secondImage.Buildpacks[0].Layers).To(HaveKey("python"))
 
 			Expect(logs).To(ContainLines(
-				"Paketo Python Runtime Buildpack 1.2.3",
+				"Paketo CPython Buildpack 1.2.3",
 				"  Resolving Python version",
 				"    Candidate version sources (in priority order):",
 				"      buildpack.yml -> \"3.7.*\"",

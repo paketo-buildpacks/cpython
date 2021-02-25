@@ -1,13 +1,12 @@
-# Paketo Python Runtime Cloud Native Buildpack
+# Paketo CPython Cloud Native Buildpack
 
-The Python Runtime CNB provides the Python 3 runtime.
-The buildpack installs Python onto the `$PATH` which makes it available
-for subsequent buildpacks and in the final running container. It also sets
-the `$PYTHONPATH` environment variable.
+The CPython Buildpack provides the Python 3 runtime. The buildpack installs Python
+onto the `$PATH` which makes it available for subsequent buildpacks and in the
+final running container. It also sets the `$PYTHONPATH` environment variable.
 
 ## Integration
 
-The Python Runtime CNB provides `python` as a dependency. Downstream buildpacks,
+The CPython Buildpack provides `python` as a dependency. Downstream buildpacks,
 can require the python dependency by generating
 [Build Plan TOML](https://github.com/buildpacks/spec/blob/master/buildpack.md#build-plan-toml)
 file that looks like the following:

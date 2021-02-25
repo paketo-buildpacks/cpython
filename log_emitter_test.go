@@ -1,11 +1,11 @@
-package pythonruntime_test
+package cpython_test
 
 import (
 	"bytes"
 	"testing"
 
 	"github.com/paketo-buildpacks/packit"
-	pythonruntime "github.com/paketo-community/python-runtime"
+	cpython "github.com/paketo-community/cpython"
 	"github.com/sclevine/spec"
 
 	. "github.com/onsi/gomega"
@@ -16,12 +16,12 @@ func testLogEmitter(t *testing.T, context spec.G, it spec.S) {
 		Expect = NewWithT(t).Expect
 
 		buffer  *bytes.Buffer
-		emitter pythonruntime.LogEmitter
+		emitter cpython.LogEmitter
 	)
 
 	it.Before(func() {
 		buffer = bytes.NewBuffer(nil)
-		emitter = pythonruntime.NewLogEmitter(buffer)
+		emitter = cpython.NewLogEmitter(buffer)
 	})
 
 	context("Title", func() {

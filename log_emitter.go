@@ -1,4 +1,4 @@
-package pythonruntime
+package cpython
 
 import (
 	"io"

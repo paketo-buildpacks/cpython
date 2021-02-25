@@ -1,11 +1,11 @@
-package pythonruntime_test
+package cpython_test
 
 import (
 	"io/ioutil"
 	"os"
 	"testing"
 
-	pythonruntime "github.com/paketo-community/python-runtime"
+	cpython "github.com/paketo-community/cpython"
 	"github.com/sclevine/spec"
 
 	. "github.com/onsi/gomega"
@@ -16,7 +16,7 @@ func testBuildpackYMLParser(t *testing.T, context spec.G, it spec.S) {
 		Expect = NewWithT(t).Expect
 
 		path   string
-		parser pythonruntime.BuildpackYMLParser
+		parser cpython.BuildpackYMLParser
 	)
 
 	it.Before(func() {
@@ -32,7 +32,7 @@ python:
 
 		path = file.Name()
 
-		parser = pythonruntime.NewBuildpackYMLParser()
+		parser = cpython.NewBuildpackYMLParser()
 	})
 
 	it.After(func() {

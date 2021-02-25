@@ -1,8 +1,8 @@
 api = "0.2"
 
 [buildpack]
-  id = "paketo-community/python-runtime"
-  name = "Paketo Python Runtime Buildpack"
+  id = "paketo-community/cpython"
+  name = "Paketo CPython Buildpack"
 
 [metadata]
   include-files = ["bin/run", "bin/build", "bin/detect", "buildpack.toml", "go.mod", "go.sum"]

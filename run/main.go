@@ -7,19 +7,19 @@ import (
 	"github.com/paketo-buildpacks/packit/cargo"
 	"github.com/paketo-buildpacks/packit/chronos"
 	"github.com/paketo-buildpacks/packit/postal"
-	pythonruntime "github.com/paketo-community/python-runtime"
+	cpython "github.com/paketo-community/cpython"
 )
 
 func main() {
-	buildpackYMLParser := pythonruntime.NewBuildpackYMLParser()
+	buildpackYMLParser := cpython.NewBuildpackYMLParser()
 
 	dependencies := postal.NewService(cargo.NewTransport())
-	planRefinery := pythonruntime.NewBuildPlanRefinery()
-	logs := pythonruntime.NewLogEmitter(os.Stdout)
-	entries := pythonruntime.NewPlanEntryResolver(logs)
+	planRefinery := cpython.NewBuildPlanRefinery()
+	logs := cpython.NewLogEmitter(os.Stdout)
+	entries := cpython.NewPlanEntryResolver(logs)
 
 	packit.Run(
-		pythonruntime.Detect(buildpackYMLParser),
-		pythonruntime.Build(entries, dependencies, planRefinery, logs, chronos.DefaultClock),
+		cpython.Detect(buildpackYMLParser),
+		cpython.Build(entries, dependencies, planRefinery, logs, chronos.DefaultClock),
 	)
 }
