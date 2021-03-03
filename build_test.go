@@ -1,4 +1,4 @@
-package pythonruntime_test
+package cpython_test
 
 import (
 	"bytes"
@@ -12,8 +12,8 @@ import (
 	"github.com/paketo-buildpacks/packit"
 	"github.com/paketo-buildpacks/packit/chronos"
 	"github.com/paketo-buildpacks/packit/postal"
-	pythonruntime "github.com/paketo-community/python-runtime"
-	"github.com/paketo-community/python-runtime/fakes"
+	cpython "github.com/paketo-community/cpython"
+	"github.com/paketo-community/cpython/fakes"
 	"github.com/sclevine/spec"
 
 	. "github.com/onsi/gomega"
@@ -50,11 +50,12 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 
 		entryResolver = &fakes.EntryResolver{}
 		entryResolver.ResolveCall.Returns.BuildpackPlanEntry = packit.BuildpackPlanEntry{
-			Name: "python",
+			Name: "cpython",
 		}
 
 		dependencyManager = &fakes.DependencyManager{}
 		dependencyManager.ResolveCall.Returns.Dependency = postal.Dependency{
+			// Dependecy is called python not cpython
 			ID:      "python",
 			Name:    "python-dependency-name",
 			SHA256:  "python-dependency-sha",
@@ -65,20 +66,20 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 
 		planRefinery = &fakes.PlanRefinery{}
 		planRefinery.BillOfMaterialsCall.Returns.BuildpackPlanEntry = packit.BuildpackPlanEntry{
-			Name: "python",
+			Name: "cpython",
 			Metadata: map[string]interface{}{
-				"name":    "python-dependency-name",
-				"sha256":  "python-dependency-sha",
+				"name":    "CPython",
+				"sha256":  "cpython-dependency-sha",
 				"stacks":  []string{"some-stack"},
-				"uri":     "python-dependency-uri",
-				"version": "python-dependency-version",
+				"uri":     "cpython-dependency-uri",
+				"version": "cpython-dependency-version",
 			},
 		}
 
 		buffer = bytes.NewBuffer(nil)
-		logEmitter := pythonruntime.NewLogEmitter(buffer)
+		logEmitter := cpython.NewLogEmitter(buffer)
 
-		build = pythonruntime.Build(entryResolver, dependencyManager, planRefinery, logEmitter, clock)
+		build = cpython.Build(entryResolver, dependencyManager, planRefinery, logEmitter, clock)
 	})
 
 	it.After(func() {
@@ -95,7 +96,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 			CNBPath: cnbDir,
 			Plan: packit.BuildpackPlan{
 				Entries: []packit.BuildpackPlanEntry{
-					{Name: "python"},
+					{Name: "cpython"},
 				},
 			},
 			Layers: packit.Layers{Path: layersDir},
@@ -107,23 +108,23 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 			Plan: packit.BuildpackPlan{
 				Entries: []packit.BuildpackPlanEntry{
 					{
-						Name: "python",
+						Name: "cpython",
 						Metadata: map[string]interface{}{
-							"name":    "python-dependency-name",
-							"sha256":  "python-dependency-sha",
+							"name":    "CPython",
+							"sha256":  "cpython-dependency-sha",
 							"stacks":  []string{"some-stack"},
-							"uri":     "python-dependency-uri",
-							"version": "python-dependency-version",
+							"uri":     "cpython-dependency-uri",
+							"version": "cpython-dependency-version",
 						},
 					},
 				},
 			},
 			Layers: []packit.Layer{
 				{
-					Name: "python",
-					Path: filepath.Join(layersDir, "python"),
+					Name: "cpython",
+					Path: filepath.Join(layersDir, "cpython"),
 					SharedEnv: packit.Environment{
-						"PYTHONPATH.override": filepath.Join(layersDir, "python"),
+						"PYTHONPATH.override": filepath.Join(layersDir, "cpython"),
 					},
 					BuildEnv:  packit.Environment{},
 					LaunchEnv: packit.Environment{},
@@ -139,28 +140,29 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		}))
 
 		Expect(entryResolver.ResolveCall.Receives.BuildpackPlanEntrySlice).To(Equal([]packit.BuildpackPlanEntry{
-			{Name: "python"},
+			{Name: "cpython"},
 		}))
 
 		Expect(dependencyManager.ResolveCall.Receives.Path).To(Equal(filepath.Join(cnbDir, "buildpack.toml")))
+		// Dependecy is called python not cpython
 		Expect(dependencyManager.ResolveCall.Receives.Id).To(Equal("python"))
 		Expect(dependencyManager.ResolveCall.Receives.Version).To(Equal(""))
 		Expect(dependencyManager.ResolveCall.Receives.Stack).To(Equal("some-stack"))
 
 		Expect(dependencyManager.InstallCall.Receives.Dependency).To(Equal(postal.Dependency{
-			ID:      "python",
-			Name:    "python-dependency-name",
+			ID:      "cpython",
+			Name:    "CPython",
 			SHA256:  "python-dependency-sha",
 			Stacks:  []string{"some-stack"},
 			URI:     "python-dependency-uri",
 			Version: "python-dependency-version",
 		}))
 		Expect(dependencyManager.InstallCall.Receives.CnbPath).To(Equal(cnbDir))
-		Expect(dependencyManager.InstallCall.Receives.LayerPath).To(Equal(filepath.Join(layersDir, "python")))
+		Expect(dependencyManager.InstallCall.Receives.LayerPath).To(Equal(filepath.Join(layersDir, "cpython")))
 
 		Expect(planRefinery.BillOfMaterialsCall.Receives.Dependency).To(Equal(postal.Dependency{
-			ID:      "python",
-			Name:    "python-dependency-name",
+			ID:      "cpython",
+			Name:    "CPython",
 			SHA256:  "python-dependency-sha",
 			Stacks:  []string{"some-stack"},
 			URI:     "python-dependency-uri",
@@ -168,17 +170,17 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		}))
 
 		Expect(buffer.String()).To(ContainSubstring("Some Buildpack some-version"))
-		Expect(buffer.String()).To(ContainSubstring("Resolving Python version"))
-		Expect(buffer.String()).To(ContainSubstring("Selected python-dependency-name version (using <unknown>): python-dependency-version"))
+		Expect(buffer.String()).To(ContainSubstring("Resolving CPython version"))
+		Expect(buffer.String()).To(ContainSubstring("Selected CPython version (using <unknown>): python-dependency-version"))
 		Expect(buffer.String()).To(ContainSubstring("Executing build process"))
-		Expect(buffer.String()).To(ContainSubstring("Installing Python python-dependency-version"))
+		Expect(buffer.String()).To(ContainSubstring("Installing CPython python-dependency-version"))
 		Expect(buffer.String()).To(ContainSubstring("Completed in"))
 	})
 
 	context("when the plan entry requires the dependency during the build and launch phases", func() {
 		it.Before(func() {
 			entryResolver.ResolveCall.Returns.BuildpackPlanEntry = packit.BuildpackPlanEntry{
-				Name: "python",
+				Name: "cpython",
 				Metadata: map[string]interface{}{
 					"build":  true,
 					"launch": true,
@@ -192,7 +194,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 				Plan: packit.BuildpackPlan{
 					Entries: []packit.BuildpackPlanEntry{
 						{
-							Name: "python",
+							Name: "cpython",
 							Metadata: map[string]interface{}{
 								"build":  true,
 								"launch": true,
@@ -209,23 +211,23 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 				Plan: packit.BuildpackPlan{
 					Entries: []packit.BuildpackPlanEntry{
 						{
-							Name: "python",
+							Name: "cpython",
 							Metadata: map[string]interface{}{
-								"name":    "python-dependency-name",
-								"sha256":  "python-dependency-sha",
+								"name":    "CPython",
+								"sha256":  "cpython-dependency-sha",
 								"stacks":  []string{"some-stack"},
-								"uri":     "python-dependency-uri",
-								"version": "python-dependency-version",
+								"uri":     "cpython-dependency-uri",
+								"version": "cpython-dependency-version",
 							},
 						},
 					},
 				},
 				Layers: []packit.Layer{
 					{
-						Name: "python",
-						Path: filepath.Join(layersDir, "python"),
+						Name: "cpython",
+						Path: filepath.Join(layersDir, "cpython"),
 						SharedEnv: packit.Environment{
-							"PYTHONPATH.override": filepath.Join(layersDir, "python"),
+							"PYTHONPATH.override": filepath.Join(layersDir, "cpython"),
 						},
 						BuildEnv:  packit.Environment{},
 						LaunchEnv: packit.Environment{},
@@ -253,7 +255,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 					CNBPath: cnbDir,
 					Plan: packit.BuildpackPlan{
 						Entries: []packit.BuildpackPlanEntry{
-							{Name: "python"},
+							{Name: "cpython"},
 						},
 					},
 					Layers: packit.Layers{Path: layersDir},
@@ -265,7 +267,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 
 		context("when the python layer cannot be retrieved", func() {
 			it.Before(func() {
-				err := ioutil.WriteFile(filepath.Join(layersDir, "python.toml"), nil, 0000)
+				err := ioutil.WriteFile(filepath.Join(layersDir, "cpython.toml"), nil, 0000)
 				Expect(err).NotTo(HaveOccurred())
 			})
 
@@ -274,7 +276,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 					CNBPath: cnbDir,
 					Plan: packit.BuildpackPlan{
 						Entries: []packit.BuildpackPlanEntry{
-							{Name: "python"},
+							{Name: "cpython"},
 						},
 					},
 					Layers: packit.Layers{Path: layersDir},
@@ -286,12 +288,12 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 
 		context("when the python layer cannot be reset", func() {
 			it.Before(func() {
-				Expect(os.MkdirAll(filepath.Join(layersDir, "python", "something"), os.ModePerm)).To(Succeed())
-				Expect(os.Chmod(filepath.Join(layersDir, "python"), 0000)).To(Succeed())
+				Expect(os.MkdirAll(filepath.Join(layersDir, "cpython", "something"), os.ModePerm)).To(Succeed())
+				Expect(os.Chmod(filepath.Join(layersDir, "cpython"), 0000)).To(Succeed())
 			})
 
 			it.After(func() {
-				Expect(os.Chmod(filepath.Join(layersDir, "python"), os.ModePerm)).To(Succeed())
+				Expect(os.Chmod(filepath.Join(layersDir, "cpython"), os.ModePerm)).To(Succeed())
 			})
 
 			it("returns an error", func() {
@@ -299,7 +301,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 					CNBPath: cnbDir,
 					Plan: packit.BuildpackPlan{
 						Entries: []packit.BuildpackPlanEntry{
-							{Name: "python"},
+							{Name: "cpython"},
 						},
 					},
 					Layers: packit.Layers{Path: layersDir},
@@ -319,7 +321,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 					CNBPath: cnbDir,
 					Plan: packit.BuildpackPlan{
 						Entries: []packit.BuildpackPlanEntry{
-							{Name: "python"},
+							{Name: "cpython"},
 						},
 					},
 					Layers: packit.Layers{Path: layersDir},

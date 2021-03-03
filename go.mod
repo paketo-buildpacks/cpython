@@ -1,4 +1,4 @@
-module github.com/paketo-community/python-runtime
+module github.com/paketo-community/cpython
 
 go 1.14
 

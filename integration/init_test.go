@@ -16,7 +16,7 @@ import (
 
 var settings struct {
 	Buildpacks struct {
-		PythonRuntime struct {
+		Cpython struct {
 			Online  string
 			Offline string
 		}
@@ -44,12 +44,12 @@ func TestIntegration(t *testing.T) {
 
 	buildpackStore := occam.NewBuildpackStore()
 
-	settings.Buildpacks.PythonRuntime.Online, err = buildpackStore.Get.
+	settings.Buildpacks.Cpython.Online, err = buildpackStore.Get.
 		WithVersion("1.2.3").
 		Execute(root)
 	Expect(err).NotTo(HaveOccurred())
 
-	settings.Buildpacks.PythonRuntime.Offline, err = buildpackStore.Get.
+	settings.Buildpacks.Cpython.Offline, err = buildpackStore.Get.
 		WithVersion("1.2.3").
 		WithOfflineDependencies().
 		Execute(root)

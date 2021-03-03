@@ -53,7 +53,7 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 			image, logs, err = pack.WithNoColor().Build.
 				WithPullPolicy("never").
 				WithBuildpacks(
-					settings.Buildpacks.PythonRuntime.Online,
+					settings.Buildpacks.Cpython.Online,
 					settings.Buildpacks.BuildPlan.Online,
 				).
 				Execute(name, filepath.Join("testdata", "default_app"))
@@ -77,19 +77,19 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 			Expect(string(content)).To(ContainSubstring("hello world"))
 
 			Expect(logs).To(ContainLines(
-				"Paketo Python Runtime Buildpack 1.2.3",
-				"  Resolving Python version",
+				"Paketo CPython Buildpack 1.2.3",
+				"  Resolving CPython version",
 				"    Candidate version sources (in priority order):",
 				"      <unknown> -> \"\"",
 				"",
-				MatchRegexp(`    Selected Python version \(using <unknown>\): 3\.\d+\.\d+`),
+				MatchRegexp(`    Selected CPython version \(using <unknown>\): 3\.\d+\.\d+`),
 				"",
 				"  Executing build process",
-				MatchRegexp(`    Installing Python 3\.\d+\.\d+`),
+				MatchRegexp(`    Installing CPython 3\.\d+\.\d+`),
 				MatchRegexp(`      Completed in \d+\.\d+`),
 				"",
 				"  Configuring environment",
-				MatchRegexp(`    PYTHONPATH -> "/layers/paketo-community_python-runtime/python"`),
+				MatchRegexp(`    PYTHONPATH -> "/layers/paketo-community_cpython/cpython"`),
 			))
 		})
 	})

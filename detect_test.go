@@ -1,12 +1,12 @@
-package pythonruntime_test
+package cpython_test
 
 import (
 	"errors"
 	"testing"
 
 	"github.com/paketo-buildpacks/packit"
-	pythonruntime "github.com/paketo-community/python-runtime"
-	"github.com/paketo-community/python-runtime/fakes"
+	cpython "github.com/paketo-community/cpython"
+	"github.com/paketo-community/cpython/fakes"
 	"github.com/sclevine/spec"
 
 	. "github.com/onsi/gomega"
@@ -25,17 +25,24 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 
 		buildpackYMLParser = &fakes.VersionParser{}
 
-		detect = pythonruntime.Detect(buildpackYMLParser)
+		detect = cpython.Detect(buildpackYMLParser)
 	})
 
-	it("returns a plan that provides python", func() {
+	it("returns a plan that provides cpython", func() {
 		result, err := detect(packit.DetectContext{
 			WorkingDir: "/working-dir",
 		})
 		Expect(err).NotTo(HaveOccurred())
 		Expect(result.Plan).To(Equal(packit.BuildPlan{
 			Provides: []packit.BuildPlanProvision{
-				{Name: "python"},
+				{Name: cpython.Cpython},
+			},
+			Or: []packit.BuildPlan{
+				{
+					Provides: []packit.BuildPlanProvision{
+						{Name: cpython.Python},
+					},
+				},
 			},
 		}))
 
@@ -46,21 +53,37 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 			buildpackYMLParser.ParseVersionCall.Returns.Version = "some-version"
 		})
 
-		it("returns a plan that provides and requires that version of python", func() {
+		it("returns a plan that provides and requires that version of cpython", func() {
 			result, err := detect(packit.DetectContext{
 				WorkingDir: "/working-dir",
 			})
 			Expect(err).NotTo(HaveOccurred())
 			Expect(result.Plan).To(Equal(packit.BuildPlan{
 				Provides: []packit.BuildPlanProvision{
-					{Name: pythonruntime.Python},
+					{Name: cpython.Cpython},
 				},
 				Requires: []packit.BuildPlanRequirement{
 					{
-						Name: "python",
-						Metadata: pythonruntime.BuildPlanMetadata{
+						Name: cpython.Cpython,
+						Metadata: cpython.BuildPlanMetadata{
 							Version:       "some-version",
 							VersionSource: "buildpack.yml",
+						},
+					},
+				},
+				Or: []packit.BuildPlan{
+					{
+						Provides: []packit.BuildPlanProvision{
+							{Name: cpython.Python},
+						},
+						Requires: []packit.BuildPlanRequirement{
+							{
+								Name: cpython.Python,
+								Metadata: cpython.BuildPlanMetadata{
+									Version:       "some-version",
+									VersionSource: "buildpack.yml",
+								},
+							},
 						},
 					},
 				},

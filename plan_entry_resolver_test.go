@@ -1,11 +1,11 @@
-package pythonruntime_test
+package cpython_test
 
 import (
 	"bytes"
 	"testing"
 
 	"github.com/paketo-buildpacks/packit"
-	pythonruntime "github.com/paketo-community/python-runtime"
+	cpython "github.com/paketo-community/cpython"
 	"github.com/sclevine/spec"
 
 	. "github.com/onsi/gomega"
@@ -16,12 +16,12 @@ func testPlanEntryResolver(t *testing.T, context spec.G, it spec.S) {
 		Expect = NewWithT(t).Expect
 
 		buffer   *bytes.Buffer
-		resolver pythonruntime.PlanEntryResolver
+		resolver cpython.PlanEntryResolver
 	)
 
 	it.Before(func() {
 		buffer = bytes.NewBuffer(nil)
-		resolver = pythonruntime.NewPlanEntryResolver(pythonruntime.NewLogEmitter(buffer))
+		resolver = cpython.NewPlanEntryResolver(cpython.NewLogEmitter(buffer))
 	})
 
 	context("when a buildpack.yml entry is included", func() {
