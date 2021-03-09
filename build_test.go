@@ -126,11 +126,12 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 					SharedEnv: packit.Environment{
 						"PYTHONPATH.override": filepath.Join(layersDir, "cpython"),
 					},
-					BuildEnv:  packit.Environment{},
-					LaunchEnv: packit.Environment{},
-					Build:     false,
-					Launch:    false,
-					Cache:     false,
+					BuildEnv:         packit.Environment{},
+					LaunchEnv:        packit.Environment{},
+					ProcessLaunchEnv: map[string]packit.Environment{},
+					Build:            false,
+					Launch:           false,
+					Cache:            false,
 					Metadata: map[string]interface{}{
 						"dependency-sha": "python-dependency-sha",
 						"built_at":       timeStamp.Format(time.RFC3339Nano),
@@ -229,11 +230,12 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 						SharedEnv: packit.Environment{
 							"PYTHONPATH.override": filepath.Join(layersDir, "cpython"),
 						},
-						BuildEnv:  packit.Environment{},
-						LaunchEnv: packit.Environment{},
-						Build:     true,
-						Launch:    true,
-						Cache:     true,
+						BuildEnv:         packit.Environment{},
+						LaunchEnv:        packit.Environment{},
+						ProcessLaunchEnv: map[string]packit.Environment{},
+						Build:            true,
+						Launch:           true,
+						Cache:            true,
 						Metadata: map[string]interface{}{
 							"dependency-sha": "python-dependency-sha",
 							"built_at":       timeStamp.Format(time.RFC3339Nano),
@@ -289,7 +291,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		context("when the python layer cannot be reset", func() {
 			it.Before(func() {
 				Expect(os.MkdirAll(filepath.Join(layersDir, "cpython", "something"), os.ModePerm)).To(Succeed())
-				Expect(os.Chmod(filepath.Join(layersDir, "cpython"), 0000)).To(Succeed())
+				Expect(os.Chmod(filepath.Join(layersDir, "cpython"), 0500)).To(Succeed())
 			})
 
 			it.After(func() {
