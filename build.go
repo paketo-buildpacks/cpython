@@ -12,21 +12,34 @@ import (
 )
 
 //go:generate faux --interface EntryResolver --output fakes/entry_resolver.go
+//go:generate faux --interface DependencyManager --output fakes/dependency_manager.go
+//go:generate faux --interface PlanRefinery --output fakes/plan_refinery.go
+
+// EntryResolver defines the interface for picking the most relevant entry from
+// the Buildpack Plan entries.
 type EntryResolver interface {
 	Resolve([]packit.BuildpackPlanEntry) packit.BuildpackPlanEntry
 }
 
-//go:generate faux --interface DependencyManager --output fakes/dependency_manager.go
+// DependencyManager defines the interface for picking the best matching
+// dependency and installing it.
 type DependencyManager interface {
 	Resolve(path, id, version, stack string) (postal.Dependency, error)
 	Install(dependency postal.Dependency, cnbPath, layerPath string) error
 }
 
-//go:generate faux --interface PlanRefinery --output fakes/plan_refinery.go
+// PlanRefinery defines the interface for generating a BuildpackPlan Entry
+// containing the Bill-of-Materials of a given dependency.
 type PlanRefinery interface {
 	BillOfMaterials(dependency postal.Dependency) packit.BuildpackPlanEntry
 }
 
+// Build will return a packit.BuildFunc that will be invoked during the build
+// phase of the buildpack lifecycle.
+//
+// Build will find the right cpython dependency to install, install it in a
+// layer, and generate Bill-of-Materials. It also makes use of the checksum of
+// the dependency to reuse the layer when possible.
 func Build(entries EntryResolver, dependencies DependencyManager, planRefinery PlanRefinery, logs LogEmitter, clock chronos.Clock) packit.BuildFunc {
 	return func(context packit.BuildContext) (packit.BuildResult, error) {
 		logs.Title(context.BuildpackInfo)

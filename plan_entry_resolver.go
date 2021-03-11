@@ -6,16 +6,22 @@ import (
 	"github.com/paketo-buildpacks/packit"
 )
 
+// PlanEntryResolver picks the most relevant entry from the Buildpack Plan
+// entries.
 type PlanEntryResolver struct {
 	logger LogEmitter
 }
 
+// NewPlanEntryResolver creates a PlanEntryResolver.
 func NewPlanEntryResolver(logger LogEmitter) PlanEntryResolver {
 	return PlanEntryResolver{
 		logger: logger,
 	}
 }
 
+// Resolve goes through all the given Buildpack Plan entries, priority-sorts
+// them and picks the highest priority entry. It also merges the metadata from
+// all entries into the chosen entry.
 func (r PlanEntryResolver) Resolve(entries []packit.BuildpackPlanEntry) packit.BuildpackPlanEntry {
 	var (
 		priorities = map[string]int{
