@@ -1,10 +1,34 @@
 # Paketo CPython Cloud Native Buildpack
-
 The CPython Buildpack provides CPython (reference implementation of Python) 3.
 The buildpack installs CPython onto the `$PATH` which makes it available for
 subsequent buildpacks and in the final running container. It also sets the
 `$PYTHONPATH` environment variable.
 
+The buildpack is published for consumption at `gcr.io/paketo-community/cpython` and
+`paketocommunity/cpython`.
+
+## Behavior
+This buildpack always participates.
+
+The buildpack will do the following:
+* At build time:
+  - Contributes `cpython` to a layer
+  - Sets the `PYTHONPATH` to the `cpython` layer path.
+  - Adds the newly installed `cpython` bin dir location to `PATH`
+* At run time:
+  - Does nothing
+
+## `buildpack.yml` Configurations
+
+In order to specify a particular version of python you can
+provide an optional `buildpack.yml` in the root of the application directory.
+
+```yaml
+cpython:
+  # this allows you to specify a version constraint for the python depdendency
+  # any valid semver constaints (e.g. 3.*) are also acceptable
+  version: ~3
+```
 ## Integration
 
 The CPython Buildpack provides `cpython` as a dependency. Downstream
@@ -52,17 +76,7 @@ This will create a `buildpackage.cnb` file under the `build` directory which you
 can use to build your app as follows:
 `pack build <app-name> -p <path-to-app> -b build/buildpackage.cnb -b <other-buildpacks..>`
 
-## `buildpack.yml` Configurations
-
-In order to specify a particular version of python you can
-provide an optional `buildpack.yml` in the root of the application directory.
-
-```yaml
-cpython:
-  # this allows you to specify a version constraint for the python depdendency
-  # any valid semver constaints (e.g. 3.*) are also acceptable
-  version: ~3
+To run the unit and integration tests for this buildpack:
 ```
-
-
-
+$ ./scripts/unit.sh && ./scripts/integration.sh
+```

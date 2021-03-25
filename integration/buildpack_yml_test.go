@@ -2,9 +2,8 @@ package integration_test
 
 import (
 	"fmt"
-	"io/ioutil"
-	"net/http"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/paketo-buildpacks/occam"
@@ -67,17 +66,10 @@ func testBuildpackYAML(t *testing.T, context spec.G, it spec.S) {
 			Expect(err).ToNot(HaveOccurred())
 
 			Eventually(container).Should(BeAvailable())
-
-			response, err := http.Get(fmt.Sprintf("http://localhost:%s", container.HostPort("8080")))
-			Expect(err).NotTo(HaveOccurred())
-			Expect(response.StatusCode).To(Equal(http.StatusOK))
-
-			content, err := ioutil.ReadAll(response.Body)
-			Expect(err).NotTo(HaveOccurred())
-			Expect(string(content)).To(ContainSubstring("hello world"))
+			Eventually(container).Should(Serve(ContainSubstring("hello world")).OnPort(8080))
 
 			Expect(logs).To(ContainLines(
-				"Paketo CPython Buildpack 1.2.3",
+				MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, buildpackInfo.Buildpack.Name)),
 				"  Resolving CPython version",
 				"    Candidate version sources (in priority order):",
 				"      buildpack.yml -> \"~3\"",
@@ -90,7 +82,7 @@ func testBuildpackYAML(t *testing.T, context spec.G, it spec.S) {
 				MatchRegexp(`      Completed in \d+\.\d+`),
 				"",
 				"  Configuring environment",
-				MatchRegexp(`    PYTHONPATH -> "/layers/paketo-community_cpython/cpython"`),
+				MatchRegexp(fmt.Sprintf(`    PYTHONPATH -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_"))),
 			))
 		})
 	})

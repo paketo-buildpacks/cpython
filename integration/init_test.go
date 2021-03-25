@@ -7,12 +7,25 @@ import (
 	"testing"
 	"time"
 
+	"github.com/BurntSushi/toml"
 	"github.com/paketo-buildpacks/occam"
 	"github.com/sclevine/spec"
 	"github.com/sclevine/spec/report"
 
 	. "github.com/onsi/gomega"
 )
+
+var buildpackInfo struct {
+	Buildpack struct {
+		ID   string
+		Name string
+	}
+	Metadata struct {
+		Dependencies []struct {
+			Version string
+		}
+	}
+}
 
 var settings struct {
 	Buildpacks struct {
@@ -38,6 +51,12 @@ func TestIntegration(t *testing.T) {
 
 	Expect(json.NewDecoder(file).Decode(&settings.Config)).To(Succeed())
 	Expect(file.Close()).To(Succeed())
+
+	file, err = os.Open("../buildpack.toml")
+	Expect(err).NotTo(HaveOccurred())
+
+	_, err = toml.DecodeReader(file, &buildpackInfo)
+	Expect(err).NotTo(HaveOccurred())
 
 	root, err := filepath.Abs("./..")
 	Expect(err).ToNot(HaveOccurred())

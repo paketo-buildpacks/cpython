@@ -12,6 +12,7 @@ import (
 	"github.com/paketo-buildpacks/packit"
 	"github.com/paketo-buildpacks/packit/chronos"
 	"github.com/paketo-buildpacks/packit/postal"
+	"github.com/paketo-buildpacks/packit/scribe"
 	cpython "github.com/paketo-community/cpython"
 	"github.com/paketo-community/cpython/fakes"
 	"github.com/sclevine/spec"
@@ -31,6 +32,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		dependencyManager *fakes.DependencyManager
 		planRefinery      *fakes.PlanRefinery
 		buffer            *bytes.Buffer
+		logEmitter        scribe.Emitter
 
 		build packit.BuildFunc
 	)
@@ -77,7 +79,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		}
 
 		buffer = bytes.NewBuffer(nil)
-		logEmitter := cpython.NewLogEmitter(buffer)
+		logEmitter = scribe.NewEmitter(buffer)
 
 		build = cpython.Build(entryResolver, dependencyManager, planRefinery, logEmitter, clock)
 	})
@@ -140,9 +142,20 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 			},
 		}))
 
+		Expect(entryResolver.ResolveCall.Receives.String).To(Equal(cpython.Cpython))
 		Expect(entryResolver.ResolveCall.Receives.BuildpackPlanEntrySlice).To(Equal([]packit.BuildpackPlanEntry{
 			{Name: "cpython"},
 		}))
+		Expect(entryResolver.ResolveCall.Receives.InterfaceSlice).To(Equal([]interface{}{"buildpack.yml"}))
+
+		Expect(entryResolver.MergeLayerTypesCall.Receives.String).To(Equal(cpython.Cpython))
+		Expect(entryResolver.MergeLayerTypesCall.Receives.BuildpackPlanEntrySlice).To(Equal(
+			[]packit.BuildpackPlanEntry{
+				{
+					Name: cpython.Cpython,
+				},
+			},
+		))
 
 		Expect(dependencyManager.ResolveCall.Receives.Path).To(Equal(filepath.Join(cnbDir, "buildpack.toml")))
 		// Dependecy is called python not cpython
@@ -187,6 +200,8 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 					"launch": true,
 				},
 			}
+			entryResolver.MergeLayerTypesCall.Returns.Build = true
+			entryResolver.MergeLayerTypesCall.Returns.Launch = true
 		})
 
 		it("makes the layer available in those phases", func() {
