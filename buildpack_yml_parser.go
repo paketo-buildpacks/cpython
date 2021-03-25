@@ -6,12 +6,17 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+// BuildpackYMLParser parses the buildpack.yml file for Cpython-related
+// configurations.
 type BuildpackYMLParser struct{}
 
+// NewBuildpackYMLParser creates a BuildpackYMLParser
 func NewBuildpackYMLParser() BuildpackYMLParser {
 	return BuildpackYMLParser{}
 }
 
+// ParseVersion decodes a given buildpack.yml file if it contains a Cpython or
+// Python entry, and returns the the related version string.
 func (p BuildpackYMLParser) ParseVersion(path string) (string, error) {
 	var buildpack struct {
 		Cpython struct {

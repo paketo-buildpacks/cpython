@@ -12,8 +12,6 @@ func TestUnitPython(t *testing.T) {
 	suite("Build", testBuild)
 	suite("BuildpackYMLParser", testBuildpackYMLParser)
 	suite("Detect", testDetect)
-	suite("LogEmitter", testLogEmitter)
-	suite("PlanEntryResolver", testPlanEntryResolver)
 	suite("PlanRefinery", testPlanRefinery)
 	suite.Run(t)
 }

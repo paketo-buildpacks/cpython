@@ -9,6 +9,7 @@ import (
 	"github.com/paketo-buildpacks/packit"
 	"github.com/paketo-buildpacks/packit/chronos"
 	"github.com/paketo-buildpacks/packit/postal"
+	"github.com/paketo-buildpacks/packit/scribe"
 )
 
 //go:generate faux --interface EntryResolver --output fakes/entry_resolver.go
@@ -18,7 +19,8 @@ import (
 // EntryResolver defines the interface for picking the most relevant entry from
 // the Buildpack Plan entries.
 type EntryResolver interface {
-	Resolve([]packit.BuildpackPlanEntry) packit.BuildpackPlanEntry
+	Resolve(string, []packit.BuildpackPlanEntry, []interface{}) (packit.BuildpackPlanEntry, []packit.BuildpackPlanEntry)
+	MergeLayerTypes(string, []packit.BuildpackPlanEntry) (launch, build bool)
 }
 
 // DependencyManager defines the interface for picking the best matching
@@ -40,12 +42,15 @@ type PlanRefinery interface {
 // Build will find the right cpython dependency to install, install it in a
 // layer, and generate Bill-of-Materials. It also makes use of the checksum of
 // the dependency to reuse the layer when possible.
-func Build(entries EntryResolver, dependencies DependencyManager, planRefinery PlanRefinery, logs LogEmitter, clock chronos.Clock) packit.BuildFunc {
+func Build(entries EntryResolver, dependencies DependencyManager, planRefinery PlanRefinery, logs scribe.Emitter, clock chronos.Clock) packit.BuildFunc {
 	return func(context packit.BuildContext) (packit.BuildResult, error) {
-		logs.Title(context.BuildpackInfo)
+		logs.Title("%s %s", context.BuildpackInfo.Name, context.BuildpackInfo.Version)
 
 		logs.Process("Resolving CPython version")
-		entry := entries.Resolve(context.Plan.Entries)
+
+		entry, sortedEntries := entries.Resolve(Cpython, context.Plan.Entries, Priorities)
+		logs.Candidates(sortedEntries)
+
 		entryVersion, _ := entry.Metadata["version"].(string)
 
 		// This is done because the core dependencies pipeline provides the cpython
@@ -90,9 +95,8 @@ func Build(entries EntryResolver, dependencies DependencyManager, planRefinery P
 			return packit.BuildResult{}, err
 		}
 
-		cpythonLayer.Build = entry.Metadata["build"] == true
-		cpythonLayer.Cache = entry.Metadata["build"] == true
-		cpythonLayer.Launch = entry.Metadata["launch"] == true
+		cpythonLayer.Launch, cpythonLayer.Build = entries.MergeLayerTypes(Cpython, context.Plan.Entries)
+		cpythonLayer.Cache = cpythonLayer.Launch
 
 		logs.Subprocess("Installing CPython %s", dependency.Version)
 		duration, err := clock.Measure(func() error {
@@ -113,7 +117,9 @@ func Build(entries EntryResolver, dependencies DependencyManager, planRefinery P
 		cpythonLayer.SharedEnv.Override("PYTHONPATH", cpythonLayer.Path)
 
 		logs.Break()
-		logs.Environment(cpythonLayer.SharedEnv)
+		logs.Process("Configuring environment")
+		logs.Subprocess("%s", scribe.NewFormattedMapFromEnvironment(cpythonLayer.SharedEnv))
+		logs.Break()
 
 		return packit.BuildResult{
 			Plan: packit.BuildpackPlan{

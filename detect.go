@@ -28,7 +28,7 @@ type BuildPlanMetadata struct {
 // Detect will return a packit.DetectFunc that will be invoked during the
 // detect phase of the buildpack lifecycle.
 //
-// Detect will contribute a Build Plan that provides cpython.
+// Detect always passes, and will contribute a Build Plan that provides cpython.
 func Detect(buildpackYMLParser VersionParser) packit.DetectFunc {
 	return func(context packit.DetectContext) (packit.DetectResult, error) {
 		var requirements []packit.BuildPlanRequirement

@@ -3,9 +3,9 @@ package integration_test
 import (
 	"fmt"
 	"io/ioutil"
-	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/paketo-buildpacks/occam"
@@ -84,16 +84,16 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			imageIDs[firstImage.ID] = struct{}{}
 
 			Expect(firstImage.Buildpacks).To(HaveLen(2))
-			Expect(firstImage.Buildpacks[0].Key).To(Equal("paketo-community/cpython"))
+			Expect(firstImage.Buildpacks[0].Key).To(Equal(buildpackInfo.Buildpack.ID))
 			Expect(firstImage.Buildpacks[0].Layers).To(HaveKey("cpython"))
 
 			Expect(logs).To(ContainLines(
-				"Paketo CPython Buildpack 1.2.3",
+				MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, buildpackInfo.Buildpack.Name)),
 				"  Resolving CPython version",
 				"    Candidate version sources (in priority order):",
 				"      <unknown> -> \"\"",
 				"",
-				MatchRegexp(`    Selected CPython version \(using <unknown>\): 3\.\d+\.\d+`),
+				MatchRegexp(`    Selected CPython version \(using <unknown>\): \d+\.\d+\.\d+`),
 				"",
 				"  Executing build process",
 				MatchRegexp(`    Installing CPython 3\.\d+\.\d+`),
@@ -119,18 +119,18 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			imageIDs[secondImage.ID] = struct{}{}
 
 			Expect(secondImage.Buildpacks).To(HaveLen(2))
-			Expect(secondImage.Buildpacks[0].Key).To(Equal("paketo-community/cpython"))
+			Expect(secondImage.Buildpacks[0].Key).To(Equal(buildpackInfo.Buildpack.ID))
 			Expect(secondImage.Buildpacks[0].Layers).To(HaveKey("cpython"))
 
 			Expect(logs).To(ContainLines(
-				"Paketo CPython Buildpack 1.2.3",
+				MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, buildpackInfo.Buildpack.Name)),
 				"  Resolving CPython version",
 				"    Candidate version sources (in priority order):",
 				"      <unknown> -> \"\"",
 				"",
 				MatchRegexp(`    Selected CPython version \(using <unknown>\): 3\.\d+\.\d+`),
 				"",
-				"  Reusing cached layer /layers/paketo-community_cpython/cpython",
+				MatchRegexp(fmt.Sprintf("  Reusing cached layer /layers/%s/cpython", strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_"))),
 			))
 
 			secondContainer, err = docker.Container.Run.
@@ -143,14 +143,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			containerIDs[secondContainer.ID] = struct{}{}
 
 			Eventually(secondContainer).Should(BeAvailable())
-
-			response, err := http.Get(fmt.Sprintf("http://localhost:%s", secondContainer.HostPort("8080")))
-			Expect(err).NotTo(HaveOccurred())
-			Expect(response.StatusCode).To(Equal(http.StatusOK))
-
-			content, err := ioutil.ReadAll(response.Body)
-			Expect(err).NotTo(HaveOccurred())
-			Expect(content).To(ContainSubstring("hello world"))
+			Eventually(secondContainer).Should(Serve(ContainSubstring("hello world")).OnPort(8080))
 
 			Expect(secondImage.Buildpacks[0].Layers["cpython"].Metadata["built_at"]).To(Equal(firstImage.Buildpacks[0].Layers["cpython"].Metadata["built_at"]))
 		})
@@ -170,6 +163,8 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 
 			source, err = occam.Source(filepath.Join("testdata", "buildpack_yml_app"))
 			Expect(err).NotTo(HaveOccurred())
+			// Overwrite the cpython version the buildpack.yml with a version from the buildpack.toml
+			Expect(ioutil.WriteFile(filepath.Join(source, "buildpack.yml"), []byte(fmt.Sprintf("---\npython:\n  version: %s", buildpackInfo.Metadata.Dependencies[2].Version)), 0644)).To(Succeed())
 
 			build := pack.WithNoColor().Build.
 				WithPullPolicy("never").
@@ -185,20 +180,20 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			imageIDs[firstImage.ID] = struct{}{}
 
 			Expect(firstImage.Buildpacks).To(HaveLen(2))
-			Expect(firstImage.Buildpacks[0].Key).To(Equal("paketo-community/cpython"))
+			Expect(firstImage.Buildpacks[0].Key).To(Equal(buildpackInfo.Buildpack.ID))
 			Expect(firstImage.Buildpacks[0].Layers).To(HaveKey("cpython"))
 
 			Expect(logs).To(ContainLines(
-				"Paketo CPython Buildpack 1.2.3",
+				MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, buildpackInfo.Buildpack.Name)),
 				"  Resolving CPython version",
 				"    Candidate version sources (in priority order):",
-				"      buildpack.yml -> \"~3\"",
+				MatchRegexp(`      buildpack.yml -> \"\d+\.\d+\.\d+\"`),
 				"      <unknown>     -> \"\"",
 				"",
 				MatchRegexp(`    Selected CPython version \(using buildpack.yml\): 3\.\d+\.\d+`),
 				"",
 				"  Executing build process",
-				MatchRegexp(`    Installing CPython 3\.\d+\.\d+`),
+				MatchRegexp(`    Installing CPython \d+\.\d+\.\d+`),
 				MatchRegexp(`      Completed in \d+\.\d+`),
 			))
 
@@ -213,7 +208,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 
 			Eventually(firstContainer).Should(BeAvailable())
 
-			Expect(ioutil.WriteFile(filepath.Join(source, "buildpack.yml"), []byte("---\npython:\n  version: 3.7.*"), 0644)).To(Succeed())
+			Expect(ioutil.WriteFile(filepath.Join(source, "buildpack.yml"), []byte(fmt.Sprintf("---\npython:\n  version: %s", buildpackInfo.Metadata.Dependencies[0].Version)), 0644)).To(Succeed())
 			// Second pack build
 			secondImage, logs, err = build.Execute(name, source)
 			Expect(err).NotTo(HaveOccurred())
@@ -221,20 +216,20 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			imageIDs[secondImage.ID] = struct{}{}
 
 			Expect(secondImage.Buildpacks).To(HaveLen(2))
-			Expect(secondImage.Buildpacks[0].Key).To(Equal("paketo-community/cpython"))
+			Expect(secondImage.Buildpacks[0].Key).To(Equal(buildpackInfo.Buildpack.ID))
 			Expect(secondImage.Buildpacks[0].Layers).To(HaveKey("cpython"))
 
 			Expect(logs).To(ContainLines(
-				"Paketo CPython Buildpack 1.2.3",
+				MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, buildpackInfo.Buildpack.Name)),
 				"  Resolving CPython version",
 				"    Candidate version sources (in priority order):",
-				"      buildpack.yml -> \"3.7.*\"",
+				MatchRegexp(`      buildpack.yml -> \"\d+\.\d+\.\d+\"`),
 				"      <unknown>     -> \"\"",
 				"",
-				MatchRegexp(`    Selected CPython version \(using buildpack.yml\): 3\.7\.\d+`),
+				MatchRegexp(`    Selected CPython version \(using buildpack.yml\): \d+\.\d+\.\d+`),
 				"",
 				"  Executing build process",
-				MatchRegexp(`    Installing CPython 3\.7\.\d+`),
+				MatchRegexp(`    Installing CPython \d+\.\d+\.\d+`),
 				MatchRegexp(`      Completed in \d+\.\d+`),
 			))
 
@@ -248,14 +243,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			containerIDs[secondContainer.ID] = struct{}{}
 
 			Eventually(secondContainer).Should(BeAvailable())
-
-			response, err := http.Get(fmt.Sprintf("http://localhost:%s", secondContainer.HostPort("8080")))
-			Expect(err).NotTo(HaveOccurred())
-			Expect(response.StatusCode).To(Equal(http.StatusOK))
-
-			content, err := ioutil.ReadAll(response.Body)
-			Expect(err).NotTo(HaveOccurred())
-			Expect(content).To(ContainSubstring("hello world"))
+			Eventually(secondContainer).Should(Serve(ContainSubstring("hello world")).OnPort(8080))
 
 			Expect(secondImage.Buildpacks[0].Layers["cpython"].Metadata["built_at"]).NotTo(Equal(firstImage.Buildpacks[0].Layers["cpython"].Metadata["built_at"]))
 		})
