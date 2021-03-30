@@ -7,7 +7,7 @@ import (
 	"github.com/paketo-buildpacks/packit/postal"
 )
 
-type PlanRefinery struct {
+type BillManager struct {
 	BillOfMaterialsCall struct {
 		sync.Mutex
 		CallCount int
@@ -15,13 +15,13 @@ type PlanRefinery struct {
 			Dependency postal.Dependency
 		}
 		Returns struct {
-			BuildpackPlanEntry packit.BuildpackPlanEntry
+			BOMEntry packit.BOMEntry
 		}
-		Stub func(postal.Dependency) packit.BuildpackPlanEntry
+		Stub func(postal.Dependency) packit.BOMEntry
 	}
 }
 
-func (f *PlanRefinery) BillOfMaterials(param1 postal.Dependency) packit.BuildpackPlanEntry {
+func (f *BillManager) BillOfMaterials(param1 postal.Dependency) packit.BOMEntry {
 	f.BillOfMaterialsCall.Lock()
 	defer f.BillOfMaterialsCall.Unlock()
 	f.BillOfMaterialsCall.CallCount++
@@ -29,5 +29,5 @@ func (f *PlanRefinery) BillOfMaterials(param1 postal.Dependency) packit.Buildpac
 	if f.BillOfMaterialsCall.Stub != nil {
 		return f.BillOfMaterialsCall.Stub(param1)
 	}
-	return f.BillOfMaterialsCall.Returns.BuildpackPlanEntry
+	return f.BillOfMaterialsCall.Returns.BOMEntry
 }

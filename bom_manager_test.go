@@ -11,20 +11,20 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func testPlanRefinery(t *testing.T, context spec.G, it spec.S) {
+func testBOMManager(t *testing.T, context spec.G, it spec.S) {
 	var (
 		Expect = NewWithT(t).Expect
 
-		planRefinery cpython.PlanRefinery
+		bomManager cpython.BillManager
 	)
 
 	it.Before(func() {
-		planRefinery = cpython.NewBuildPlanRefinery()
+		bomManager = cpython.NewBOMManager()
 	})
 
 	context("BillOfMaterial", func() {
 		it("creates a buildpack plan entry from the given dependency", func() {
-			entry := planRefinery.BillOfMaterials(postal.Dependency{
+			entry := bomManager.BillOfMaterials(postal.Dependency{
 				ID:      "some-id",
 				Name:    "some-name",
 				Stacks:  []string{"some-stack"},
@@ -32,7 +32,8 @@ func testPlanRefinery(t *testing.T, context spec.G, it spec.S) {
 				SHA256:  "some-sha",
 				Version: "some-version",
 			})
-			Expect(entry).To(Equal(packit.BuildpackPlanEntry{
+
+			Expect(entry).To(Equal(packit.BOMEntry{
 				Name: "some-id",
 				Metadata: map[string]interface{}{
 					"licenses": []string{},
