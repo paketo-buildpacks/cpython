@@ -14,7 +14,7 @@ import (
 
 //go:generate faux --interface EntryResolver --output fakes/entry_resolver.go
 //go:generate faux --interface DependencyManager --output fakes/dependency_manager.go
-//go:generate faux --interface PlanRefinery --output fakes/plan_refinery.go
+//go:generate faux --interface BillManager --output fakes/bill_manager.go
 
 // EntryResolver defines the interface for picking the most relevant entry from
 // the Buildpack Plan entries.
@@ -30,10 +30,10 @@ type DependencyManager interface {
 	Install(dependency postal.Dependency, cnbPath, layerPath string) error
 }
 
-// PlanRefinery defines the interface for generating a BuildpackPlan Entry
-// containing the Bill-of-Materials of a given dependency.
-type PlanRefinery interface {
-	BillOfMaterials(dependency postal.Dependency) packit.BuildpackPlanEntry
+// BillManager defines the interface for generating a Bill-of-Materials entry
+// from a given dependency.
+type BillManager interface {
+	BillOfMaterials(dependency postal.Dependency) packit.BOMEntry
 }
 
 // Build will return a packit.BuildFunc that will be invoked during the build
@@ -42,7 +42,7 @@ type PlanRefinery interface {
 // Build will find the right cpython dependency to install, install it in a
 // layer, and generate Bill-of-Materials. It also makes use of the checksum of
 // the dependency to reuse the layer when possible.
-func Build(entries EntryResolver, dependencies DependencyManager, planRefinery PlanRefinery, logs scribe.Emitter, clock chronos.Clock) packit.BuildFunc {
+func Build(entries EntryResolver, dependencies DependencyManager, bomManager BillManager, logs scribe.Emitter, clock chronos.Clock) packit.BuildFunc {
 	return func(context packit.BuildContext) (packit.BuildResult, error) {
 		logs.Title("%s %s", context.BuildpackInfo.Name, context.BuildpackInfo.Version)
 
@@ -68,7 +68,7 @@ func Build(entries EntryResolver, dependencies DependencyManager, planRefinery P
 		dependency.Name = "CPython"
 
 		logs.SelectedDependency(entry, dependency, clock.Now())
-		bom := planRefinery.BillOfMaterials(dependency)
+		bom := bomManager.BillOfMaterials(dependency)
 
 		cpythonLayer, err := context.Layers.Get(Cpython)
 		if err != nil {
@@ -80,12 +80,23 @@ func Build(entries EntryResolver, dependencies DependencyManager, planRefinery P
 			logs.Process("Reusing cached layer %s", cpythonLayer.Path)
 			logs.Break()
 
-			return packit.BuildResult{
-				Plan: packit.BuildpackPlan{
-					Entries: []packit.BuildpackPlanEntry{bom},
-				},
+			result := packit.BuildResult{
 				Layers: []packit.Layer{cpythonLayer},
-			}, nil
+			}
+
+			if cpythonLayer.Build {
+				result.Build = packit.BuildMetadata{
+					BOM: []packit.BOMEntry{bom},
+				}
+			}
+
+			if cpythonLayer.Launch {
+				result.Launch = packit.LaunchMetadata{
+					BOM: []packit.BOMEntry{bom},
+				}
+			}
+
+			return result, nil
 		}
 
 		logs.Process("Executing build process")
@@ -121,11 +132,22 @@ func Build(entries EntryResolver, dependencies DependencyManager, planRefinery P
 		logs.Subprocess("%s", scribe.NewFormattedMapFromEnvironment(cpythonLayer.SharedEnv))
 		logs.Break()
 
-		return packit.BuildResult{
-			Plan: packit.BuildpackPlan{
-				Entries: []packit.BuildpackPlanEntry{bom},
-			},
+		result := packit.BuildResult{
 			Layers: []packit.Layer{cpythonLayer},
-		}, nil
+		}
+
+		if cpythonLayer.Build {
+			result.Build = packit.BuildMetadata{
+				BOM: []packit.BOMEntry{bom},
+			}
+		}
+
+		if cpythonLayer.Launch {
+			result.Launch = packit.LaunchMetadata{
+				BOM: []packit.BOMEntry{bom},
+			}
+		}
+
+		return result, nil
 	}
 }
