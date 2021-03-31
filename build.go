@@ -14,7 +14,6 @@ import (
 
 //go:generate faux --interface EntryResolver --output fakes/entry_resolver.go
 //go:generate faux --interface DependencyManager --output fakes/dependency_manager.go
-//go:generate faux --interface BillManager --output fakes/bill_manager.go
 
 // EntryResolver defines the interface for picking the most relevant entry from
 // the Buildpack Plan entries.
@@ -24,16 +23,11 @@ type EntryResolver interface {
 }
 
 // DependencyManager defines the interface for picking the best matching
-// dependency and installing it.
+// dependency installing it, and generating a BOM.
 type DependencyManager interface {
 	Resolve(path, id, version, stack string) (postal.Dependency, error)
 	Install(dependency postal.Dependency, cnbPath, layerPath string) error
-}
-
-// BillManager defines the interface for generating a Bill-of-Materials entry
-// from a given dependency.
-type BillManager interface {
-	BillOfMaterials(dependency postal.Dependency) packit.BOMEntry
+	GenerateBillOfMaterials(dependencies ...postal.Dependency) []packit.BOMEntry
 }
 
 // Build will return a packit.BuildFunc that will be invoked during the build
@@ -42,7 +36,7 @@ type BillManager interface {
 // Build will find the right cpython dependency to install, install it in a
 // layer, and generate Bill-of-Materials. It also makes use of the checksum of
 // the dependency to reuse the layer when possible.
-func Build(entries EntryResolver, dependencies DependencyManager, bomManager BillManager, logs scribe.Emitter, clock chronos.Clock) packit.BuildFunc {
+func Build(entries EntryResolver, dependencies DependencyManager, logs scribe.Emitter, clock chronos.Clock) packit.BuildFunc {
 	return func(context packit.BuildContext) (packit.BuildResult, error) {
 		logs.Title("%s %s", context.BuildpackInfo.Name, context.BuildpackInfo.Version)
 
@@ -68,7 +62,7 @@ func Build(entries EntryResolver, dependencies DependencyManager, bomManager Bil
 		dependency.Name = "CPython"
 
 		logs.SelectedDependency(entry, dependency, clock.Now())
-		bom := bomManager.BillOfMaterials(dependency)
+		boms := dependencies.GenerateBillOfMaterials(dependency)
 
 		cpythonLayer, err := context.Layers.Get(Cpython)
 		if err != nil {
@@ -85,15 +79,11 @@ func Build(entries EntryResolver, dependencies DependencyManager, bomManager Bil
 			}
 
 			if cpythonLayer.Build {
-				result.Build = packit.BuildMetadata{
-					BOM: []packit.BOMEntry{bom},
-				}
+				result.Build = packit.BuildMetadata{BOM: boms}
 			}
 
 			if cpythonLayer.Launch {
-				result.Launch = packit.LaunchMetadata{
-					BOM: []packit.BOMEntry{bom},
-				}
+				result.Launch = packit.LaunchMetadata{BOM: boms}
 			}
 
 			return result, nil
@@ -137,15 +127,11 @@ func Build(entries EntryResolver, dependencies DependencyManager, bomManager Bil
 		}
 
 		if cpythonLayer.Build {
-			result.Build = packit.BuildMetadata{
-				BOM: []packit.BOMEntry{bom},
-			}
+			result.Build = packit.BuildMetadata{BOM: boms}
 		}
 
 		if cpythonLayer.Launch {
-			result.Launch = packit.LaunchMetadata{
-				BOM: []packit.BOMEntry{bom},
-			}
+			result.Launch = packit.LaunchMetadata{BOM: boms}
 		}
 
 		return result, nil
