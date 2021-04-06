@@ -30,7 +30,6 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		clock             chronos.Clock
 		entryResolver     *fakes.EntryResolver
 		dependencyManager *fakes.DependencyManager
-		planRefinery      *fakes.PlanRefinery
 		buffer            *bytes.Buffer
 		logEmitter        scribe.Emitter
 
@@ -66,22 +65,23 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 			Version: "python-dependency-version",
 		}
 
-		planRefinery = &fakes.PlanRefinery{}
-		planRefinery.BillOfMaterialsCall.Returns.BuildpackPlanEntry = packit.BuildpackPlanEntry{
-			Name: "cpython",
-			Metadata: map[string]interface{}{
-				"name":    "CPython",
-				"sha256":  "cpython-dependency-sha",
-				"stacks":  []string{"some-stack"},
-				"uri":     "cpython-dependency-uri",
-				"version": "cpython-dependency-version",
+		dependencyManager.GenerateBillOfMaterialsCall.Returns.BOMEntrySlice = []packit.BOMEntry{
+			{
+				Name: "cpython",
+				Metadata: map[string]interface{}{
+					"name":    "CPython",
+					"sha256":  "cpython-dependency-sha",
+					"stacks":  []string{"some-stack"},
+					"uri":     "cpython-dependency-uri",
+					"version": "cpython-dependency-version",
+				},
 			},
 		}
 
 		buffer = bytes.NewBuffer(nil)
 		logEmitter = scribe.NewEmitter(buffer)
 
-		build = cpython.Build(entryResolver, dependencyManager, planRefinery, logEmitter, clock)
+		build = cpython.Build(entryResolver, dependencyManager, logEmitter, clock)
 	})
 
 	it.After(func() {
@@ -107,20 +107,6 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		Expect(err).NotTo(HaveOccurred())
 
 		Expect(result).To(Equal(packit.BuildResult{
-			Plan: packit.BuildpackPlan{
-				Entries: []packit.BuildpackPlanEntry{
-					{
-						Name: "cpython",
-						Metadata: map[string]interface{}{
-							"name":    "CPython",
-							"sha256":  "cpython-dependency-sha",
-							"stacks":  []string{"some-stack"},
-							"uri":     "cpython-dependency-uri",
-							"version": "cpython-dependency-version",
-						},
-					},
-				},
-			},
 			Layers: []packit.Layer{
 				{
 					Name: "cpython",
@@ -174,13 +160,15 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		Expect(dependencyManager.InstallCall.Receives.CnbPath).To(Equal(cnbDir))
 		Expect(dependencyManager.InstallCall.Receives.LayerPath).To(Equal(filepath.Join(layersDir, "cpython")))
 
-		Expect(planRefinery.BillOfMaterialsCall.Receives.Dependency).To(Equal(postal.Dependency{
-			ID:      "cpython",
-			Name:    "CPython",
-			SHA256:  "python-dependency-sha",
-			Stacks:  []string{"some-stack"},
-			URI:     "python-dependency-uri",
-			Version: "python-dependency-version",
+		Expect(dependencyManager.GenerateBillOfMaterialsCall.Receives.Dependencies).To(Equal([]postal.Dependency{
+			{
+				ID:      "cpython",
+				Name:    "CPython",
+				SHA256:  "python-dependency-sha",
+				Stacks:  []string{"some-stack"},
+				URI:     "python-dependency-uri",
+				Version: "python-dependency-version",
+			},
 		}))
 
 		Expect(buffer.String()).To(ContainSubstring("Some Buildpack some-version"))
@@ -224,8 +212,22 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 			Expect(err).NotTo(HaveOccurred())
 
 			Expect(result).To(Equal(packit.BuildResult{
-				Plan: packit.BuildpackPlan{
-					Entries: []packit.BuildpackPlanEntry{
+				Build: packit.BuildMetadata{
+					BOM: []packit.BOMEntry{
+						{
+							Name: "cpython",
+							Metadata: map[string]interface{}{
+								"name":    "CPython",
+								"sha256":  "cpython-dependency-sha",
+								"stacks":  []string{"some-stack"},
+								"uri":     "cpython-dependency-uri",
+								"version": "cpython-dependency-version",
+							},
+						},
+					},
+				},
+				Launch: packit.LaunchMetadata{
+					BOM: []packit.BOMEntry{
 						{
 							Name: "cpython",
 							Metadata: map[string]interface{}{

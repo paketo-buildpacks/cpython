@@ -3,10 +3,22 @@ package fakes
 import (
 	"sync"
 
+	"github.com/paketo-buildpacks/packit"
 	"github.com/paketo-buildpacks/packit/postal"
 )
 
 type DependencyManager struct {
+	GenerateBillOfMaterialsCall struct {
+		sync.Mutex
+		CallCount int
+		Receives  struct {
+			Dependencies []postal.Dependency
+		}
+		Returns struct {
+			BOMEntrySlice []packit.BOMEntry
+		}
+		Stub func(...postal.Dependency) []packit.BOMEntry
+	}
 	InstallCall struct {
 		sync.Mutex
 		CallCount int
@@ -37,6 +49,16 @@ type DependencyManager struct {
 	}
 }
 
+func (f *DependencyManager) GenerateBillOfMaterials(param1 ...postal.Dependency) []packit.BOMEntry {
+	f.GenerateBillOfMaterialsCall.Lock()
+	defer f.GenerateBillOfMaterialsCall.Unlock()
+	f.GenerateBillOfMaterialsCall.CallCount++
+	f.GenerateBillOfMaterialsCall.Receives.Dependencies = param1
+	if f.GenerateBillOfMaterialsCall.Stub != nil {
+		return f.GenerateBillOfMaterialsCall.Stub(param1...)
+	}
+	return f.GenerateBillOfMaterialsCall.Returns.BOMEntrySlice
+}
 func (f *DependencyManager) Install(param1 postal.Dependency, param2 string, param3 string) error {
 	f.InstallCall.Lock()
 	defer f.InstallCall.Unlock()

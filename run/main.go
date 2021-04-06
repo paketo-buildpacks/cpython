@@ -16,11 +16,10 @@ func main() {
 	entries := draft.NewPlanner()
 	dependencies := postal.NewService(cargo.NewTransport())
 	buildpackYMLParser := cpython.NewBuildpackYMLParser()
-	planRefinery := cpython.NewBuildPlanRefinery()
 	logs := scribe.NewEmitter(os.Stdout)
 
 	packit.Run(
 		cpython.Detect(buildpackYMLParser),
-		cpython.Build(entries, dependencies, planRefinery, logs, chronos.DefaultClock),
+		cpython.Build(entries, dependencies, logs, chronos.DefaultClock),
 	)
 }
