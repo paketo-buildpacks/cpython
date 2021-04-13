@@ -10,4 +10,11 @@ const Python = "python"
 // can be reused.
 const DepKey = "dependency-sha"
 
-var Priorities = []interface{}{"buildpack.yml"}
+// Priorities is a list of version-source values that may appear in
+// the BuildpackPlan entries that the buildpack receives. The list is
+// from highest priority to lowest priority and determines the precedence
+// of version-sources.
+var Priorities = []interface{}{
+	"BP_CPYTHON_VERSION",
+	"buildpack.yml",
+}
