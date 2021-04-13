@@ -1,6 +1,7 @@
 package cpython
 
 import (
+	"os"
 	"path/filepath"
 
 	"github.com/paketo-buildpacks/packit"
@@ -35,6 +36,23 @@ func Detect(buildpackYMLParser VersionParser) packit.DetectFunc {
 
 		// TODO(restructure): Remove legacy requirements
 		var requirementsLegacy []packit.BuildPlanRequirement
+
+		if version, ok := os.LookupEnv("BP_CPYTHON_VERSION"); ok {
+			requirements = append(requirements, packit.BuildPlanRequirement{
+				Name: Cpython,
+				Metadata: BuildPlanMetadata{
+					Version:       version,
+					VersionSource: "BP_CPYTHON_VERSION",
+				},
+			})
+			requirementsLegacy = append(requirementsLegacy, packit.BuildPlanRequirement{
+				Name: Python,
+				Metadata: BuildPlanMetadata{
+					Version:       version,
+					VersionSource: "BP_CPYTHON_VERSION",
+				},
+			})
+		}
 
 		version, err := buildpackYMLParser.ParseVersion(filepath.Join(context.WorkingDir, "buildpack.yml"))
 		if err != nil {

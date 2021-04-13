@@ -192,6 +192,8 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				"",
 				MatchRegexp(`    Selected CPython version \(using buildpack.yml\): 3\.\d+\.\d+`),
 				"",
+			))
+			Expect(logs).To(ContainLines(
 				"  Executing build process",
 				MatchRegexp(`    Installing CPython 3\.\d+\.\d+`),
 				MatchRegexp(`      Completed in \d+\.\d+`),
@@ -228,6 +230,8 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				"",
 				MatchRegexp(`    Selected CPython version \(using buildpack.yml\): 3\.\d+\.\d+`),
 				"",
+			))
+			Expect(logs).To(ContainLines(
 				"  Executing build process",
 				MatchRegexp(`    Installing CPython 3\.\d+\.\d+`),
 				MatchRegexp(`      Completed in \d+\.\d+`),
