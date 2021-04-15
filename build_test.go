@@ -295,7 +295,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 			Expect(buffer.String()).To(ContainSubstring("Some Buildpack 1.2.3"))
 			Expect(buffer.String()).To(ContainSubstring("Resolving CPython version"))
 			Expect(buffer.String()).To(ContainSubstring("Selected CPython version (using buildpack.yml): python-dependency-version"))
-			Expect(buffer.String()).To(ContainSubstring("WARNING: Setting the CPython version through buildpack.yml will be deprecated soon in CPython Buildpack v2.0.0."))
+			Expect(buffer.String()).To(ContainSubstring("WARNING: Setting the CPython version through buildpack.yml is deprecated and will be removed in Some Buildpack v2.0.0."))
 			Expect(buffer.String()).To(ContainSubstring("Please specify the version through the $BP_CPYTHON_VERSION environment variable instead. See docs for more information."))
 			Expect(buffer.String()).To(ContainSubstring("Executing build process"))
 			Expect(buffer.String()).To(ContainSubstring("Installing CPython python-dependency-version"))

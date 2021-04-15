@@ -67,7 +67,7 @@ func Build(entries EntryResolver, dependencies DependencyManager, logs scribe.Em
 		source, _ := entry.Metadata["version-source"].(string)
 		if source == "buildpack.yml" {
 			nextMajorVersion := semver.MustParse(context.BuildpackInfo.Version).IncMajor()
-			logs.Subprocess("WARNING: Setting the CPython version through buildpack.yml will be deprecated soon in CPython Buildpack v%s.", nextMajorVersion.String())
+			logs.Subprocess("WARNING: Setting the CPython version through buildpack.yml is deprecated and will be removed in %s v%s.", context.BuildpackInfo.Name, nextMajorVersion.String())
 			logs.Subprocess("Please specify the version through the $BP_CPYTHON_VERSION environment variable instead. See docs for more information.")
 			logs.Break()
 		}
