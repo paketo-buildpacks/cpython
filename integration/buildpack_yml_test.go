@@ -77,7 +77,7 @@ func testBuildpackYAML(t *testing.T, context spec.G, it spec.S) {
 				"",
 				MatchRegexp(`    Selected CPython version \(using buildpack.yml\): 3\.\d+\.\d+`),
 				"",
-				MatchRegexp(`    WARNING\: Setting the CPython version through buildpack\.yml will be deprecated soon in CPython Buildpack v\d+\.0\.0\.`),
+				MatchRegexp(`    WARNING\: Setting the CPython version through buildpack\.yml is deprecated and will be removed in Paketo CPython Buildpack v\d+\.0\.0\.`),
 				"    Please specify the version through the $BP_CPYTHON_VERSION environment variable instead. See docs for more information.",
 				"",
 				"  Executing build process",
