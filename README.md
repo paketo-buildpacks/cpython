@@ -18,17 +18,42 @@ The buildpack will do the following:
 * At run time:
   - Does nothing
 
-## `buildpack.yml` Configurations
+## Configuration
 
-In order to specify a particular version of python you can
-provide an optional `buildpack.yml` in the root of the application directory.
+Specifying the CPython version through `buildpack.yml` configuration
+will be deprecated in CPython Buildpack v1.0.0.
+
+To migrate from using `buildpack.yml` please set the following environment
+variables at build time either directly  or through a [`project.toml`
+file](https://github.com/buildpacks/spec/blob/main/extensions/project-descriptor.md).
+
+### `BP_CPYTHON_VERSION`
+The `BP_CPYTHON_VERSION` variable allows you to specify the version of CPython
+that is installed. (Available versions can be found in the
+[buildpack.toml](./buildpack.toml).)
+
+#### `pack build` flag
+```shell
+pack build my-app --env BP_CPYTHON_VERSION=3.6.*
+```
+
+#### In a [`project.toml`](https://github.com/buildpacks/spec/blob/main/extensions/project-descriptor.md)
+```toml
+[build]
+  [[build.env]]
+    name = 'BP_CPYTHON_VERSION'
+    value = '3.6.*' # any valid semver constraints (e.g. 3.6.7, 3.*) are acceptable
+```
+
+#### (Deprecated) In a `buildpack.yml`:
 
 ```yaml
 cpython:
   # this allows you to specify a version constraint for the python depdendency
-  # any valid semver constaints (e.g. 3.*) are also acceptable
+  # any valid semver constraints (e.g. 3.*) are also acceptable
   version: ~3
 ```
+
 ## Integration
 
 The CPython Buildpack provides `cpython` as a dependency. Downstream

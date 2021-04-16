@@ -84,5 +84,51 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 				MatchRegexp(fmt.Sprintf(`    PYTHONPATH -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_"))),
 			))
 		})
-	})
+
+		context("when the BP_CPYTHON_VERSION environment variable is set", func() {
+			it("builds with the requested version of python", func() {
+				var err error
+				var logs fmt.Stringer
+				image, logs, err = pack.WithNoColor().Build.
+					WithPullPolicy("never").
+					WithBuildpacks(
+						settings.Buildpacks.Cpython.Online,
+						settings.Buildpacks.BuildPlan.Online,
+					).
+					WithEnv(map[string]string{
+						"BP_CPYTHON_VERSION": "3.6.*",
+					}).
+					Execute(name, filepath.Join("testdata", "default_app"))
+				Expect(err).ToNot(HaveOccurred(), logs.String)
+
+				container, err = docker.Container.Run.
+					WithCommand("python3 server.py").
+					WithEnv(map[string]string{"PORT": "8080"}).
+					WithPublish("8080").
+					Execute(image.ID)
+				Expect(err).ToNot(HaveOccurred())
+
+				Eventually(container).Should(BeAvailable())
+				Eventually(container).Should(Serve(ContainSubstring("hello world")).OnPort(8080))
+
+				Expect(logs).To(ContainLines(
+					MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, buildpackInfo.Buildpack.Name)),
+					"  Resolving CPython version",
+					"    Candidate version sources (in priority order):",
+					`      BP_CPYTHON_VERSION -> "3.6.*"`,
+					"      <unknown>          -> \"\"",
+					"",
+					MatchRegexp(`    Selected CPython version \(using BP_CPYTHON_VERSION\): 3\.6\.\d+`),
+					"",
+					"  Executing build process",
+					MatchRegexp(`    Installing CPython 3\.6\.\d+`),
+					MatchRegexp(`      Completed in \d+\.\d+`),
+					"",
+					"  Configuring environment",
+					MatchRegexp(fmt.Sprintf(`    PYTHONPATH -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_"))),
+				))
+			})
+		})
+	}, spec.Sequential())
+
 }

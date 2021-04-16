@@ -46,7 +46,7 @@ func testBuildpackYAML(t *testing.T, context spec.G, it spec.S) {
 			Expect(docker.Volume.Remove.Execute(occam.CacheVolumeNames(name))).To(Succeed())
 		})
 
-		it("builds with the settings in buildpack.yml", func() {
+		it("builds with the settings in buildpack.yml AND logs a deprecation warning", func() {
 			var err error
 			var logs fmt.Stringer
 			image, logs, err = pack.WithNoColor().Build.
@@ -76,6 +76,9 @@ func testBuildpackYAML(t *testing.T, context spec.G, it spec.S) {
 				"      <unknown>     -> \"\"",
 				"",
 				MatchRegexp(`    Selected CPython version \(using buildpack.yml\): 3\.\d+\.\d+`),
+				"",
+				MatchRegexp(`    WARNING\: Setting the CPython version through buildpack\.yml is deprecated and will be removed in Paketo CPython Buildpack v\d+\.0\.0\.`),
+				"    Please specify the version through the $BP_CPYTHON_VERSION environment variable instead. See docs for more information.",
 				"",
 				"  Executing build process",
 				MatchRegexp(`    Installing CPython 3\.\d+\.\d+`),

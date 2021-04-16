@@ -8,7 +8,7 @@ import (
 )
 
 func TestUnitPython(t *testing.T) {
-	suite := spec.New("python", spec.Report(report.Terminal{}))
+	suite := spec.New("python", spec.Report(report.Terminal{}), spec.Sequential())
 	suite("Build", testBuild)
 	suite("BuildpackYMLParser", testBuildpackYMLParser)
 	suite("Detect", testDetect)

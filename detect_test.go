@@ -2,6 +2,7 @@ package cpython_test
 
 import (
 	"errors"
+	"os"
 	"testing"
 
 	"github.com/paketo-buildpacks/packit"
@@ -82,6 +83,53 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 								Metadata: cpython.BuildPlanMetadata{
 									Version:       "some-version",
 									VersionSource: "buildpack.yml",
+								},
+							},
+						},
+					},
+				},
+			}))
+		})
+	})
+
+	context("when the BP_CPYTHON_VERSION env var is set", func() {
+		it.Before(func() {
+			os.Setenv("BP_CPYTHON_VERSION", "some-version")
+		})
+
+		it.After(func() {
+			os.Unsetenv("BP_CPYTHON_VERSION")
+		})
+
+		it("returns a plan that provides and requires that version of cpython", func() {
+			result, err := detect(packit.DetectContext{
+				WorkingDir: "/working-dir",
+			})
+			Expect(err).NotTo(HaveOccurred())
+			Expect(result.Plan).To(Equal(packit.BuildPlan{
+				Provides: []packit.BuildPlanProvision{
+					{Name: cpython.Cpython},
+				},
+				Requires: []packit.BuildPlanRequirement{
+					{
+						Name: cpython.Cpython,
+						Metadata: cpython.BuildPlanMetadata{
+							Version:       "some-version",
+							VersionSource: "BP_CPYTHON_VERSION",
+						},
+					},
+				},
+				Or: []packit.BuildPlan{
+					{
+						Provides: []packit.BuildPlanProvision{
+							{Name: cpython.Python},
+						},
+						Requires: []packit.BuildPlanRequirement{
+							{
+								Name: cpython.Python,
+								Metadata: cpython.BuildPlanMetadata{
+									Version:       "some-version",
+									VersionSource: "BP_CPYTHON_VERSION",
 								},
 							},
 						},
