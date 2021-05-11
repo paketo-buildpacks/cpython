@@ -34,19 +34,9 @@ func Detect(buildpackYMLParser VersionParser) packit.DetectFunc {
 	return func(context packit.DetectContext) (packit.DetectResult, error) {
 		var requirements []packit.BuildPlanRequirement
 
-		// TODO(restructure): Remove legacy requirements
-		var requirementsLegacy []packit.BuildPlanRequirement
-
 		if version, ok := os.LookupEnv("BP_CPYTHON_VERSION"); ok {
 			requirements = append(requirements, packit.BuildPlanRequirement{
 				Name: Cpython,
-				Metadata: BuildPlanMetadata{
-					Version:       version,
-					VersionSource: "BP_CPYTHON_VERSION",
-				},
-			})
-			requirementsLegacy = append(requirementsLegacy, packit.BuildPlanRequirement{
-				Name: Python,
 				Metadata: BuildPlanMetadata{
 					Version:       version,
 					VersionSource: "BP_CPYTHON_VERSION",
@@ -67,13 +57,6 @@ func Detect(buildpackYMLParser VersionParser) packit.DetectFunc {
 					VersionSource: "buildpack.yml",
 				},
 			})
-			requirementsLegacy = append(requirementsLegacy, packit.BuildPlanRequirement{
-				Name: Python,
-				Metadata: BuildPlanMetadata{
-					Version:       version,
-					VersionSource: "buildpack.yml",
-				},
-			})
 		}
 
 		return packit.DetectResult{
@@ -82,14 +65,6 @@ func Detect(buildpackYMLParser VersionParser) packit.DetectFunc {
 					{Name: Cpython},
 				},
 				Requires: requirements,
-				Or: []packit.BuildPlan{
-					{
-						Provides: []packit.BuildPlanProvision{
-							{Name: Python},
-						},
-						Requires: requirementsLegacy,
-					},
-				},
 			},
 		}, nil
 	}

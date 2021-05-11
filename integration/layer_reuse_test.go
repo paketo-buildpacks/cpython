@@ -164,7 +164,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			source, err = occam.Source(filepath.Join("testdata", "buildpack_yml_app"))
 			Expect(err).NotTo(HaveOccurred())
 			// Overwrite the cpython version the buildpack.yml with a version from the buildpack.toml
-			Expect(ioutil.WriteFile(filepath.Join(source, "buildpack.yml"), []byte(fmt.Sprintf("---\npython:\n  version: %s", buildpackInfo.Metadata.Dependencies[2].Version)), 0644)).To(Succeed())
+			Expect(ioutil.WriteFile(filepath.Join(source, "buildpack.yml"), []byte(fmt.Sprintf("---\ncpython:\n  version: %s", buildpackInfo.Metadata.Dependencies[2].Version)), 0644)).To(Succeed())
 
 			build := pack.WithNoColor().Build.
 				WithPullPolicy("never").
@@ -210,7 +210,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 
 			Eventually(firstContainer).Should(BeAvailable())
 
-			Expect(ioutil.WriteFile(filepath.Join(source, "buildpack.yml"), []byte(fmt.Sprintf("---\npython:\n  version: %s", buildpackInfo.Metadata.Dependencies[0].Version)), 0644)).To(Succeed())
+			Expect(ioutil.WriteFile(filepath.Join(source, "buildpack.yml"), []byte(fmt.Sprintf("---\ncpython:\n  version: %s", buildpackInfo.Metadata.Dependencies[0].Version)), 0644)).To(Succeed())
 			// Second pack build
 			secondImage, logs, err = build.Execute(name, source)
 			Expect(err).NotTo(HaveOccurred())

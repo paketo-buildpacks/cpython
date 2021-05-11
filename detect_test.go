@@ -38,13 +38,6 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 			Provides: []packit.BuildPlanProvision{
 				{Name: cpython.Cpython},
 			},
-			Or: []packit.BuildPlan{
-				{
-					Provides: []packit.BuildPlanProvision{
-						{Name: cpython.Python},
-					},
-				},
-			},
 		}))
 
 	})
@@ -69,22 +62,6 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 						Metadata: cpython.BuildPlanMetadata{
 							Version:       "some-version",
 							VersionSource: "buildpack.yml",
-						},
-					},
-				},
-				Or: []packit.BuildPlan{
-					{
-						Provides: []packit.BuildPlanProvision{
-							{Name: cpython.Python},
-						},
-						Requires: []packit.BuildPlanRequirement{
-							{
-								Name: cpython.Python,
-								Metadata: cpython.BuildPlanMetadata{
-									Version:       "some-version",
-									VersionSource: "buildpack.yml",
-								},
-							},
 						},
 					},
 				},
@@ -116,22 +93,6 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 						Metadata: cpython.BuildPlanMetadata{
 							Version:       "some-version",
 							VersionSource: "BP_CPYTHON_VERSION",
-						},
-					},
-				},
-				Or: []packit.BuildPlan{
-					{
-						Provides: []packit.BuildPlanProvision{
-							{Name: cpython.Python},
-						},
-						Requires: []packit.BuildPlanRequirement{
-							{
-								Name: cpython.Python,
-								Metadata: cpython.BuildPlanMetadata{
-									Version:       "some-version",
-									VersionSource: "BP_CPYTHON_VERSION",
-								},
-							},
 						},
 					},
 				},

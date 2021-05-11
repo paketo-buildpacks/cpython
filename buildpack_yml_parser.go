@@ -22,11 +22,6 @@ func (p BuildpackYMLParser) ParseVersion(path string) (string, error) {
 		Cpython struct {
 			Version string `yaml:"version"`
 		} `yaml:"cpython"`
-
-		// Restructure: Remove this after restructing is completed
-		Python struct {
-			Version string `yaml:"version"`
-		} `yaml:"python"`
 	}
 
 	file, err := os.Open(path)
@@ -45,9 +40,5 @@ func (p BuildpackYMLParser) ParseVersion(path string) (string, error) {
 		return "", err
 	}
 
-	// Restructure: Remove this after restructing is completed
-	if buildpack.Cpython.Version != "" {
-		return buildpack.Cpython.Version, nil
-	}
-	return buildpack.Python.Version, nil
+	return buildpack.Cpython.Version, nil
 }
