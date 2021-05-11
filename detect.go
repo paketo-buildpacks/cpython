@@ -1,18 +1,12 @@
 package cpython
 
 import (
+	"errors"
 	"os"
 	"path/filepath"
 
 	"github.com/paketo-buildpacks/packit"
 )
-
-//go:generate faux --interface VersionParser --output fakes/version_parser.go
-
-// VersionParser defines the interface for determining the version of Cpython.
-type VersionParser interface {
-	ParseVersion(path string) (version string, err error)
-}
 
 // BuildPlanMetadata is the buildpack specific data included in build plan
 // requirements.
@@ -30,9 +24,19 @@ type BuildPlanMetadata struct {
 // detect phase of the buildpack lifecycle.
 //
 // Detect always passes, and will contribute a Build Plan that provides cpython.
-func Detect(buildpackYMLParser VersionParser) packit.DetectFunc {
+func Detect() packit.DetectFunc {
 	return func(context packit.DetectContext) (packit.DetectResult, error) {
 		var requirements []packit.BuildPlanRequirement
+
+		// This is to comply with RFC 1:
+		// https://github.com/paketo-community/cpython/blob/main/rfcs/0001-buildpack-yml-to-env-var.md
+		_, err := os.Stat(filepath.Join(context.WorkingDir, "buildpack.yml"))
+		if err == nil {
+			errMessage := "buildpack.yml detected. Configuration via buildpack.yml is unsupported from v1.0.0. Please remove the buildpack.yml and use $BP_CPYTHON_VERSION environment variable to specify the version. See https://github.com/paketo-community/cpython/blob/main/README.md for more information."
+			return packit.DetectResult{}, packit.Fail.WithMessage(errMessage)
+		} else if !errors.Is(err, os.ErrNotExist) {
+			return packit.DetectResult{}, err
+		}
 
 		if version, ok := os.LookupEnv("BP_CPYTHON_VERSION"); ok {
 			requirements = append(requirements, packit.BuildPlanRequirement{
@@ -40,21 +44,6 @@ func Detect(buildpackYMLParser VersionParser) packit.DetectFunc {
 				Metadata: BuildPlanMetadata{
 					Version:       version,
 					VersionSource: "BP_CPYTHON_VERSION",
-				},
-			})
-		}
-
-		version, err := buildpackYMLParser.ParseVersion(filepath.Join(context.WorkingDir, "buildpack.yml"))
-		if err != nil {
-			return packit.DetectResult{}, err
-		}
-
-		if version != "" {
-			requirements = append(requirements, packit.BuildPlanRequirement{
-				Name: Cpython,
-				Metadata: BuildPlanMetadata{
-					Version:       version,
-					VersionSource: "buildpack.yml",
 				},
 			})
 		}

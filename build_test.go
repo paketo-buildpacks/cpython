@@ -132,7 +132,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		Expect(entryResolver.ResolveCall.Receives.BuildpackPlanEntrySlice).To(Equal([]packit.BuildpackPlanEntry{
 			{Name: "cpython"},
 		}))
-		Expect(entryResolver.ResolveCall.Receives.InterfaceSlice).To(Equal([]interface{}{"BP_CPYTHON_VERSION", "buildpack.yml"}))
+		Expect(entryResolver.ResolveCall.Receives.InterfaceSlice).To(Equal([]interface{}{"BP_CPYTHON_VERSION"}))
 
 		Expect(entryResolver.MergeLayerTypesCall.Receives.String).To(Equal(cpython.Cpython))
 		Expect(entryResolver.MergeLayerTypesCall.Receives.BuildpackPlanEntrySlice).To(Equal(
@@ -260,46 +260,6 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 					},
 				},
 			}))
-		})
-	})
-
-	context("when the version source of the selected entry is buildpack.yml", func() {
-		it.Before(func() {
-			entryResolver.ResolveCall.Returns.BuildpackPlanEntry = packit.BuildpackPlanEntry{
-				Name: "cpython",
-				Metadata: map[string]interface{}{
-					"version-source": "buildpack.yml",
-				},
-			}
-		})
-
-		it("logs a warning that buildpack.yml will be deprecated in the next version", func() {
-			_, err := build(packit.BuildContext{
-				BuildpackInfo: packit.BuildpackInfo{
-					Name:    "Some Buildpack",
-					Version: "1.2.3",
-				},
-				CNBPath: cnbDir,
-				Plan: packit.BuildpackPlan{
-					Entries: []packit.BuildpackPlanEntry{
-						{
-							Name: "cpython",
-						},
-					},
-				},
-				Layers: packit.Layers{Path: layersDir},
-				Stack:  "some-stack",
-			})
-			Expect(err).NotTo(HaveOccurred())
-
-			Expect(buffer.String()).To(ContainSubstring("Some Buildpack 1.2.3"))
-			Expect(buffer.String()).To(ContainSubstring("Resolving CPython version"))
-			Expect(buffer.String()).To(ContainSubstring("Selected CPython version (using buildpack.yml): python-dependency-version"))
-			Expect(buffer.String()).To(ContainSubstring("WARNING: Setting the CPython version through buildpack.yml is deprecated and will be removed in Some Buildpack v2.0.0."))
-			Expect(buffer.String()).To(ContainSubstring("Please specify the version through the $BP_CPYTHON_VERSION environment variable instead. See docs for more information."))
-			Expect(buffer.String()).To(ContainSubstring("Executing build process"))
-			Expect(buffer.String()).To(ContainSubstring("Installing CPython python-dependency-version"))
-			Expect(buffer.String()).To(ContainSubstring("Completed in"))
 		})
 	})
 

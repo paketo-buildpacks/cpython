@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -161,13 +160,13 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				secondContainer occam.Container
 			)
 
-			source, err = occam.Source(filepath.Join("testdata", "buildpack_yml_app"))
+			source, err = occam.Source(filepath.Join("testdata", "default_app"))
 			Expect(err).NotTo(HaveOccurred())
-			// Overwrite the cpython version the buildpack.yml with a version from the buildpack.toml
-			Expect(ioutil.WriteFile(filepath.Join(source, "buildpack.yml"), []byte(fmt.Sprintf("---\ncpython:\n  version: %s", buildpackInfo.Metadata.Dependencies[2].Version)), 0644)).To(Succeed())
 
 			build := pack.WithNoColor().Build.
 				WithPullPolicy("never").
+				// use a particular version
+				WithEnv(map[string]string{"BP_CPYTHON_VERSION": buildpackInfo.Metadata.Dependencies[2].Version}).
 				WithBuildpacks(
 					settings.Buildpacks.Cpython.Online,
 					settings.Buildpacks.BuildPlan.Online,
@@ -187,10 +186,10 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, buildpackInfo.Buildpack.Name)),
 				"  Resolving CPython version",
 				"    Candidate version sources (in priority order):",
-				MatchRegexp(`      buildpack.yml -> \"3\.\d+\.\d+\"`),
-				"      <unknown>     -> \"\"",
+				MatchRegexp(`      BP_CPYTHON_VERSION -> \"3\.\d+\.\d+\"`),
+				"      <unknown>          -> \"\"",
 				"",
-				MatchRegexp(`    Selected CPython version \(using buildpack.yml\): 3\.\d+\.\d+`),
+				MatchRegexp(`    Selected CPython version \(using BP_CPYTHON_VERSION\): 3\.\d+\.\d+`),
 				"",
 			))
 			Expect(logs).To(ContainLines(
@@ -210,8 +209,15 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 
 			Eventually(firstContainer).Should(BeAvailable())
 
-			Expect(ioutil.WriteFile(filepath.Join(source, "buildpack.yml"), []byte(fmt.Sprintf("---\ncpython:\n  version: %s", buildpackInfo.Metadata.Dependencies[0].Version)), 0644)).To(Succeed())
 			// Second pack build
+			build = pack.WithNoColor().Build.
+				WithPullPolicy("never").
+				// use a different version
+				WithEnv(map[string]string{"BP_CPYTHON_VERSION": buildpackInfo.Metadata.Dependencies[0].Version}).
+				WithBuildpacks(
+					settings.Buildpacks.Cpython.Online,
+					settings.Buildpacks.BuildPlan.Online,
+				)
 			secondImage, logs, err = build.Execute(name, source)
 			Expect(err).NotTo(HaveOccurred())
 
@@ -225,10 +231,10 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, buildpackInfo.Buildpack.Name)),
 				"  Resolving CPython version",
 				"    Candidate version sources (in priority order):",
-				MatchRegexp(`      buildpack.yml -> \"\d+\.\d+\.\d+\"`),
-				"      <unknown>     -> \"\"",
+				MatchRegexp(`      BP_CPYTHON_VERSION -> \"3\.\d+\.\d+\"`),
+				"      <unknown>          -> \"\"",
 				"",
-				MatchRegexp(`    Selected CPython version \(using buildpack.yml\): 3\.\d+\.\d+`),
+				MatchRegexp(`    Selected CPython version \(using BP_CPYTHON_VERSION\): 3\.\d+\.\d+`),
 				"",
 			))
 			Expect(logs).To(ContainLines(

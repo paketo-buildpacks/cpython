@@ -6,7 +6,6 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/Masterminds/semver"
 	"github.com/paketo-buildpacks/packit"
 	"github.com/paketo-buildpacks/packit/chronos"
 	"github.com/paketo-buildpacks/packit/postal"
@@ -63,15 +62,6 @@ func Build(entries EntryResolver, dependencies DependencyManager, logs scribe.Em
 		dependency.Name = "CPython"
 
 		logs.SelectedDependency(entry, dependency, clock.Now())
-
-		source, _ := entry.Metadata["version-source"].(string)
-		if source == "buildpack.yml" {
-			nextMajorVersion := semver.MustParse(context.BuildpackInfo.Version).IncMajor()
-			logs.Subprocess("WARNING: Setting the CPython version through buildpack.yml is deprecated and will be removed in %s v%s.", context.BuildpackInfo.Name, nextMajorVersion.String())
-			logs.Subprocess("Please specify the version through the $BP_CPYTHON_VERSION environment variable instead. See docs for more information.")
-			logs.Break()
-		}
-
 		boms := dependencies.GenerateBillOfMaterials(dependency)
 
 		cpythonLayer, err := context.Layers.Get(Cpython)
