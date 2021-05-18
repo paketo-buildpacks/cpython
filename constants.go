@@ -15,4 +15,5 @@ var Priorities = []interface{}{
 	"BP_CPYTHON_VERSION",
 	"buildpack.yml",
 	"Pipfile.lock",
+	"Pipfile",
 }
