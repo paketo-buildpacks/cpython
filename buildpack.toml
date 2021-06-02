@@ -99,19 +99,19 @@ api = "0.5"
     version = "3.9.5"
 
   [[metadata.dependency_deprecation_dates]]
-    date = 2021-12-23T00:00:00Z
+    date = "2021-12-23T00:00:00Z"
     link = "https://www.python.org/dev/peps/pep-0494/"
     name = "Python"
     version_line = "3.6.x"
 
   [[metadata.dependency_deprecation_dates]]
-    date = 2023-06-27T00:00:00Z
+    date = "2023-06-27T00:00:00Z"
     link = "https://www.python.org/dev/peps/pep-0537/"
     name = "Python"
     version_line = "3.7.x"
 
   [[metadata.dependency_deprecation_dates]]
-    date = 2023-06-27T00:00:00Z
+    date = "2023-06-27T00:00:00Z"
     link = "https://www.python.org/dev/peps/pep-0537/"
     name = "Python"
     version_line = "3.8.x"
