@@ -58,23 +58,23 @@ api = "0.5"
     deprecation_date = "2024-10-14T00:00:00Z"
     id = "python"
     name = "Python"
-    sha256 = "e9cbc67f4a4b2d67fdd1ff29a7e038546a7cc0d45b85dd6e8b84a867772c8141"
-    source = "https://www.python.org/ftp/python/3.8.9/Python-3.8.9.tgz"
-    source_sha256 = "9779ec1df000bf86914cdd40860b88da56c1e61db59d37784beca14a259ac9e9"
-    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
-    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.8.9_linux_x64_cflinuxfs3_e9cbc67f.tgz"
-    version = "3.8.9"
-
-  [[metadata.dependencies]]
-    deprecation_date = "2024-10-14T00:00:00Z"
-    id = "python"
-    name = "Python"
     sha256 = "8c7821210301a12e1431a91fef5a47c399c0adcdff50ab75a72b8c8b47b065e8"
     source = "https://www.python.org/ftp/python/3.8.10/Python-3.8.10.tgz"
     source_sha256 = "b37ac74d2cbad2590e7cd0dd2b3826c29afe89a734090a87bf8c03c45066cb65"
     stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
     uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.8.10_linux_x64_cflinuxfs3_8c782121.tgz"
     version = "3.8.10"
+
+  [[metadata.dependencies]]
+    deprecation_date = "2024-10-14T00:00:00Z"
+    id = "python"
+    name = "Python"
+    sha256 = "e57abfeaf404776ba79b100949dbbf4d3db069d691b6db5d84a8d2d192ff43f3"
+    source = "https://www.python.org/ftp/python/3.8.11/Python-3.8.11.tgz"
+    source_sha256 = "b77464ea80cec14581b86aeb7fb2ff02830e0abc7bcdc752b7b4bdfcd8f3e393"
+    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
+    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.8.11_linux_x64_cflinuxfs3_e57abfea.tgz"
+    version = "3.8.11"
 
   [[metadata.dependencies]]
     deprecation_date = "2025-10-05T00:00:00Z"
