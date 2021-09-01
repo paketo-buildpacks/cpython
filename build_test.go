@@ -68,12 +68,13 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		dependencyManager.GenerateBillOfMaterialsCall.Returns.BOMEntrySlice = []packit.BOMEntry{
 			{
 				Name: "cpython",
-				Metadata: map[string]interface{}{
-					"name":    "CPython",
-					"sha256":  "cpython-dependency-sha",
-					"stacks":  []string{"some-stack"},
-					"uri":     "cpython-dependency-uri",
-					"version": "cpython-dependency-version",
+				Metadata: packit.BOMMetadata{
+					Checksum: packit.BOMChecksum{
+						Algorithm: packit.SHA256,
+						Hash:      "cpython-dependency-sha",
+					},
+					URI:     "cpython-dependency-uri",
+					Version: "cpython-dependency-version",
 				},
 			},
 		}
@@ -216,12 +217,13 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 					BOM: []packit.BOMEntry{
 						{
 							Name: "cpython",
-							Metadata: map[string]interface{}{
-								"name":    "CPython",
-								"sha256":  "cpython-dependency-sha",
-								"stacks":  []string{"some-stack"},
-								"uri":     "cpython-dependency-uri",
-								"version": "cpython-dependency-version",
+							Metadata: packit.BOMMetadata{
+								Checksum: packit.BOMChecksum{
+									Algorithm: packit.SHA256,
+									Hash:      "cpython-dependency-sha",
+								},
+								URI:     "cpython-dependency-uri",
+								Version: "cpython-dependency-version",
 							},
 						},
 					},
@@ -230,12 +232,13 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 					BOM: []packit.BOMEntry{
 						{
 							Name: "cpython",
-							Metadata: map[string]interface{}{
-								"name":    "CPython",
-								"sha256":  "cpython-dependency-sha",
-								"stacks":  []string{"some-stack"},
-								"uri":     "cpython-dependency-uri",
-								"version": "cpython-dependency-version",
+							Metadata: packit.BOMMetadata{
+								Checksum: packit.BOMChecksum{
+									Algorithm: packit.SHA256,
+									Hash:      "cpython-dependency-sha",
+								},
+								URI:     "cpython-dependency-uri",
+								Version: "cpython-dependency-version",
 							},
 						},
 					},
