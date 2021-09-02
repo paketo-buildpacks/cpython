@@ -9,7 +9,7 @@ import (
 	"github.com/paketo-buildpacks/packit/draft"
 	"github.com/paketo-buildpacks/packit/postal"
 	"github.com/paketo-buildpacks/packit/scribe"
-	cpython "github.com/paketo-community/cpython"
+	cpython "github.com/paketo-buildpacks/cpython"
 )
 
 func main() {

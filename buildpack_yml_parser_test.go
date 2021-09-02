@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	cpython "github.com/paketo-community/cpython"
+	cpython "github.com/paketo-buildpacks/cpython"
 	"github.com/sclevine/spec"
 
 	. "github.com/onsi/gomega"

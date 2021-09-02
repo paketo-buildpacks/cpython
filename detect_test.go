@@ -6,8 +6,8 @@ import (
 	"testing"
 
 	"github.com/paketo-buildpacks/packit"
-	cpython "github.com/paketo-community/cpython"
-	"github.com/paketo-community/cpython/fakes"
+	cpython "github.com/paketo-buildpacks/cpython"
+	"github.com/paketo-buildpacks/cpython/fakes"
 	"github.com/sclevine/spec"
 
 	. "github.com/onsi/gomega"
