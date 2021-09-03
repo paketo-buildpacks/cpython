@@ -1,4 +1,4 @@
-module github.com/paketo-community/cpython
+module github.com/paketo-buildpacks/cpython
 
 go 1.16
 

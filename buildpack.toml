@@ -1,7 +1,7 @@
 api = "0.5"
 
 [buildpack]
-  id = "paketo-community/cpython"
+  id = "paketo-buildpacks/cpython"
   name = "Paketo CPython Buildpack"
 
 [metadata]

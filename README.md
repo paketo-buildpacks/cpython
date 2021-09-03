@@ -4,8 +4,8 @@ The buildpack installs CPython onto the `$PATH` which makes it available for
 subsequent buildpacks and in the final running container. It also sets the
 `$PYTHONPATH` environment variable.
 
-The buildpack is published for consumption at `gcr.io/paketo-community/cpython` and
-`paketocommunity/cpython`.
+The buildpack is published for consumption at `gcr.io/paketo-buildpacks/cpython` and
+`paketobuildpacks/cpython`.
 
 ## Behavior
 This buildpack always participates.

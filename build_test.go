@@ -13,8 +13,8 @@ import (
 	"github.com/paketo-buildpacks/packit/chronos"
 	"github.com/paketo-buildpacks/packit/postal"
 	"github.com/paketo-buildpacks/packit/scribe"
-	cpython "github.com/paketo-community/cpython"
-	"github.com/paketo-community/cpython/fakes"
+	cpython "github.com/paketo-buildpacks/cpython"
+	"github.com/paketo-buildpacks/cpython/fakes"
 	"github.com/sclevine/spec"
 
 	. "github.com/onsi/gomega"
