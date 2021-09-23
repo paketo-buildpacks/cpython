@@ -11,110 +11,136 @@ api = "0.5"
     python = "3.8.x"
 
   [[metadata.dependencies]]
+    cpe = "cpe:2.3:a:python:python:3.6.14:*:*:*:*:*:*:*"
     deprecation_date = "2021-12-23T00:00:00Z"
     id = "python"
+    licenses = ["CNRI-Python-GPL-Compatible"]
     name = "Python"
-    sha256 = "44f5e786c1b14aa14241f0c2630b1e893fba9a02be45116560ad6c5f69a645d9"
+    purl = "pkg:generic/python@3.6.14?checksum=70064897bc434d6eae8bcc3e5678f282b5ea776d60e695da548a1219ccfd27a5&download_url=https://www.python.org/ftp/python/3.6.14/Python-3.6.14.tgz"
+    sha256 = "42bc2ff367720102e8c3bf6ace78c52fdb2238a833975ec348a9fbcdd94a6844"
     source = "https://www.python.org/ftp/python/3.6.14/Python-3.6.14.tgz"
     source_sha256 = "70064897bc434d6eae8bcc3e5678f282b5ea776d60e695da548a1219ccfd27a5"
-    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
-    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.6.14_linux_x64_cflinuxfs3_44f5e786.tgz"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://deps.paketo.io/python/python_3.6.14_linux_x64_bionic_42bc2ff3.tgz"
     version = "3.6.14"
 
   [[metadata.dependencies]]
+    cpe = "cpe:2.3:a:python:python:3.6.15:*:*:*:*:*:*:*"
     deprecation_date = "2021-12-23T00:00:00Z"
     id = "python"
+    licenses = ["CNRI-Python-GPL-Compatible"]
     name = "Python"
-    sha256 = "00084a8adf71242adb222e41dc5d41b8fe0b25f250c77d750b4f7c2e95d81e03"
+    purl = "pkg:generic/python@3.6.15?checksum=54570b7e339e2cfd72b29c7e2fdb47c0b7b18b7412e61de5b463fc087c13b043&download_url=https://www.python.org/ftp/python/3.6.15/Python-3.6.15.tgz"
+    sha256 = "92d8cbc07d8923469d9a6527f0e61e32c6a47b7dbc053c6e96cb4b8902321fdd"
     source = "https://www.python.org/ftp/python/3.6.15/Python-3.6.15.tgz"
     source_sha256 = "54570b7e339e2cfd72b29c7e2fdb47c0b7b18b7412e61de5b463fc087c13b043"
-    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
-    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.6.15_linux_x64_cflinuxfs3_00084a8a.tgz"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://deps.paketo.io/python/python_3.6.15_linux_x64_bionic_92d8cbc0.tgz"
     version = "3.6.15"
 
   [[metadata.dependencies]]
+    cpe = "cpe:2.3:a:python:python:3.7.11:*:*:*:*:*:*:*"
     deprecation_date = "2023-06-27T00:00:00Z"
     id = "python"
+    licenses = ["CNRI-Python-GPL-Compatible"]
     name = "Python"
-    sha256 = "b214c524e0d5c32c41d1bbf3c766eb00b8c55e7da00ad9e309e158624c025573"
+    purl = "pkg:generic/python@3.7.11?checksum=b4fba32182e16485d0a6022ba83c9251e6a1c14676ec243a9a07d3722cd4661a&download_url=https://www.python.org/ftp/python/3.7.11/Python-3.7.11.tgz"
+    sha256 = "031820f81b6a1a471bef86e83ec6f9e50d9dd2624cbf811fb76e6ca11a30a3a0"
     source = "https://www.python.org/ftp/python/3.7.11/Python-3.7.11.tgz"
     source_sha256 = "b4fba32182e16485d0a6022ba83c9251e6a1c14676ec243a9a07d3722cd4661a"
-    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
-    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.7.11_linux_x64_cflinuxfs3_b214c524.tgz"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://deps.paketo.io/python/python_3.7.11_linux_x64_bionic_031820f8.tgz"
     version = "3.7.11"
 
   [[metadata.dependencies]]
+    cpe = "cpe:2.3:a:python:python:3.7.12:*:*:*:*:*:*:*"
     deprecation_date = "2023-06-27T00:00:00Z"
     id = "python"
+    licenses = ["CNRI-Python-GPL-Compatible"]
     name = "Python"
-    sha256 = "b89d366ceea58c4eec39bf20b7d3899fe72b9ef2b8debc6ac79d5810180ecba7"
+    purl = "pkg:generic/python@3.7.12?checksum=33b4daaf831be19219659466d12645f87ecec6eb21d4d9f9711018a7b66cce46&download_url=https://www.python.org/ftp/python/3.7.12/Python-3.7.12.tgz"
+    sha256 = "9126994d0d80d4f301f5bdedc4faf06450d7df28b6c6f42f4d00442549fb0f11"
     source = "https://www.python.org/ftp/python/3.7.12/Python-3.7.12.tgz"
     source_sha256 = "33b4daaf831be19219659466d12645f87ecec6eb21d4d9f9711018a7b66cce46"
-    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
-    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.7.12_linux_x64_cflinuxfs3_b89d366c.tgz"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://deps.paketo.io/python/python_3.7.12_linux_x64_bionic_9126994d.tgz"
     version = "3.7.12"
 
   [[metadata.dependencies]]
-    deprecation_date = "2024-10-14T00:00:00Z"
+    cpe = "cpe:2.3:a:python:python:3.8.11:*:*:*:*:*:*:*"
+    deprecation_date = "2024-10-01T00:00:00Z"
     id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible"]
     name = "Python"
-    sha256 = "e57abfeaf404776ba79b100949dbbf4d3db069d691b6db5d84a8d2d192ff43f3"
+    purl = "pkg:generic/python@3.8.11?checksum=b77464ea80cec14581b86aeb7fb2ff02830e0abc7bcdc752b7b4bdfcd8f3e393&download_url=https://www.python.org/ftp/python/3.8.11/Python-3.8.11.tgz"
+    sha256 = "ea3048f0f8bcf87b2fb9ebd3be78351f924c5d72b0d199f1550965114c9ac921"
     source = "https://www.python.org/ftp/python/3.8.11/Python-3.8.11.tgz"
     source_sha256 = "b77464ea80cec14581b86aeb7fb2ff02830e0abc7bcdc752b7b4bdfcd8f3e393"
-    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
-    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.8.11_linux_x64_cflinuxfs3_e57abfea.tgz"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://deps.paketo.io/python/python_3.8.11_linux_x64_bionic_ea3048f0.tgz"
     version = "3.8.11"
 
   [[metadata.dependencies]]
-    deprecation_date = "2024-10-14T00:00:00Z"
+    cpe = "cpe:2.3:a:python:python:3.8.12:*:*:*:*:*:*:*"
+    deprecation_date = "2024-10-01T00:00:00Z"
     id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible"]
     name = "Python"
-    sha256 = "63d8339a7a74a1f97bc8758076818607cc36cb39d65f676268d996b9c3eb0235"
+    purl = "pkg:generic/python@3.8.12?checksum=316aa33f3b7707d041e73f246efedb297a70898c4b91f127f66dc8d80c596f1a&download_url=https://www.python.org/ftp/python/3.8.12/Python-3.8.12.tgz"
+    sha256 = "0ba8caf6faac53286732448a1c799073bcc57be5925faab157bbccddc87c3c2e"
     source = "https://www.python.org/ftp/python/3.8.12/Python-3.8.12.tgz"
     source_sha256 = "316aa33f3b7707d041e73f246efedb297a70898c4b91f127f66dc8d80c596f1a"
-    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
-    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.8.12_linux_x64_cflinuxfs3_63d8339a.tgz"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://deps.paketo.io/python/python_3.8.12_linux_x64_bionic_0ba8caf6.tgz"
     version = "3.8.12"
 
   [[metadata.dependencies]]
-    deprecation_date = "2025-10-05T00:00:00Z"
+    cpe = "cpe:2.3:a:python:python:3.9.6:*:*:*:*:*:*:*"
+    deprecation_date = "2025-10-01T00:00:00Z"
     id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible"]
     name = "Python"
-    sha256 = "caec8bfab1a06a2922bbc0c76076b5df70d6766e44df65ee03b17012aa436434"
+    purl = "pkg:generic/python@3.9.6?checksum=d0a35182e19e416fc8eae25a3dcd4d02d4997333e4ad1f2eee6010aadc3fe866&download_url=https://www.python.org/ftp/python/3.9.6/Python-3.9.6.tgz"
+    sha256 = "4f837d7172ff04045dee7b5331fb16bf4fd9d6f08afdc003a7d594a2d1f13e75"
     source = "https://www.python.org/ftp/python/3.9.6/Python-3.9.6.tgz"
     source_sha256 = "d0a35182e19e416fc8eae25a3dcd4d02d4997333e4ad1f2eee6010aadc3fe866"
-    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
-    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.9.6_linux_x64_cflinuxfs3_caec8bfa.tgz"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://deps.paketo.io/python/python_3.9.6_linux_x64_bionic_4f837d71.tgz"
     version = "3.9.6"
 
   [[metadata.dependencies]]
-    deprecation_date = "2025-10-05T00:00:00Z"
+    cpe = "cpe:2.3:a:python:python:3.9.7:*:*:*:*:*:*:*"
+    deprecation_date = "2025-10-01T00:00:00Z"
     id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible"]
     name = "Python"
-    sha256 = "eacb311da9967809baba9315b13319cf7fc742f1f9edf94e39fe95ae9784eca7"
+    purl = "pkg:generic/python@3.9.7?checksum=a838d3f9360d157040142b715db34f0218e535333696a5569dc6f854604eb9d1&download_url=https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tgz"
+    sha256 = "6bb3531a673f271167eef25ca77f1d2b0d7e96664ac3730d3bf35a059424ea73"
     source = "https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tgz"
     source_sha256 = "a838d3f9360d157040142b715db34f0218e535333696a5569dc6f854604eb9d1"
-    stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
-    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.9.7_linux_x64_cflinuxfs3_eacb311d.tgz"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://deps.paketo.io/python/python_3.9.7_linux_x64_bionic_6bb3531a.tgz"
     version = "3.9.7"
 
-  [[metadata.dependency_deprecation_dates]]
-    date = "2021-12-23T00:00:00Z"
-    link = "https://www.python.org/dev/peps/pep-0494/"
-    name = "Python"
-    version_line = "3.6.x"
+  [[metadata.dependency-constraints]]
+    constraint = "3.6.*"
+    id = "python"
+    patches = 2
 
-  [[metadata.dependency_deprecation_dates]]
-    date = "2023-06-27T00:00:00Z"
-    link = "https://www.python.org/dev/peps/pep-0537/"
-    name = "Python"
-    version_line = "3.7.x"
+  [[metadata.dependency-constraints]]
+    constraint = "3.7.*"
+    id = "python"
+    patches = 2
 
-  [[metadata.dependency_deprecation_dates]]
-    date = "2023-06-27T00:00:00Z"
-    link = "https://www.python.org/dev/peps/pep-0537/"
-    name = "Python"
-    version_line = "3.8.x"
+  [[metadata.dependency-constraints]]
+    constraint = "3.8.*"
+    id = "python"
+    patches = 2
+
+  [[metadata.dependency-constraints]]
+    constraint = "3.9.*"
+    id = "python"
+    patches = 2
 
 [[stacks]]
   id = "io.buildpacks.stacks.bionic"
