@@ -95,20 +95,6 @@ api = "0.5"
     version = "3.8.12"
 
   [[metadata.dependencies]]
-    cpe = "cpe:2.3:a:python:python:3.9.6:*:*:*:*:*:*:*"
-    deprecation_date = "2025-10-01T00:00:00Z"
-    id = "python"
-    licenses = ["0BSD", "CNRI-Python-GPL-Compatible"]
-    name = "Python"
-    purl = "pkg:generic/python@3.9.6?checksum=d0a35182e19e416fc8eae25a3dcd4d02d4997333e4ad1f2eee6010aadc3fe866&download_url=https://www.python.org/ftp/python/3.9.6/Python-3.9.6.tgz"
-    sha256 = "4f837d7172ff04045dee7b5331fb16bf4fd9d6f08afdc003a7d594a2d1f13e75"
-    source = "https://www.python.org/ftp/python/3.9.6/Python-3.9.6.tgz"
-    source_sha256 = "d0a35182e19e416fc8eae25a3dcd4d02d4997333e4ad1f2eee6010aadc3fe866"
-    stacks = ["io.buildpacks.stacks.bionic"]
-    uri = "https://deps.paketo.io/python/python_3.9.6_linux_x64_bionic_4f837d71.tgz"
-    version = "3.9.6"
-
-  [[metadata.dependencies]]
     cpe = "cpe:2.3:a:python:python:3.9.7:*:*:*:*:*:*:*"
     deprecation_date = "2025-10-01T00:00:00Z"
     id = "python"
@@ -121,6 +107,20 @@ api = "0.5"
     stacks = ["io.buildpacks.stacks.bionic"]
     uri = "https://deps.paketo.io/python/python_3.9.7_linux_x64_bionic_6bb3531a.tgz"
     version = "3.9.7"
+
+  [[metadata.dependencies]]
+    cpe = "cpe:2.3:a:python:python:3.9.8:*:*:*:*:*:*:*"
+    deprecation_date = "2025-10-01T00:00:00Z"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible"]
+    name = "Python"
+    purl = "pkg:generic/python@3.9.8?checksum=7447fb8bb270942d620dd24faa7814b1383b61fa99029a240025fd81c1db8283&download_url=https://www.python.org/ftp/python/3.9.8/Python-3.9.8.tgz"
+    sha256 = "e652adbd53ea7df08c4ecad7626b6a1b40b0e381fdb99144d7760e23709cbeda"
+    source = "https://www.python.org/ftp/python/3.9.8/Python-3.9.8.tgz"
+    source_sha256 = "7447fb8bb270942d620dd24faa7814b1383b61fa99029a240025fd81c1db8283"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://deps.paketo.io/python/python_3.9.8_linux_x64_bionic_e652adbd.tgz"
+    version = "3.9.8"
 
   [[metadata.dependency-constraints]]
     constraint = "3.6.*"
