@@ -72,31 +72,36 @@ func Build(entries EntryResolver, dependencies DependencyManager, logs scribe.Em
 			logs.Break()
 		}
 
-		boms := dependencies.GenerateBillOfMaterials(dependency)
+		bom := dependencies.GenerateBillOfMaterials(dependency)
+		launch, build := entries.MergeLayerTypes(Cpython, context.Plan.Entries)
+
+		var launchMetadata packit.LaunchMetadata
+		if launch {
+			launchMetadata.BOM = bom
+		}
+
+		var buildMetadata packit.BuildMetadata
+		if build {
+			buildMetadata.BOM = bom
+		}
 
 		cpythonLayer, err := context.Layers.Get(Cpython)
 		if err != nil {
 			return packit.BuildResult{}, err
 		}
 
+		cpythonLayer.Launch, cpythonLayer.Build, cpythonLayer.Cache = launch, build, build
+
 		cachedSHA, ok := cpythonLayer.Metadata[DepKey].(string)
 		if ok && cachedSHA == dependency.SHA256 {
 			logs.Process("Reusing cached layer %s", cpythonLayer.Path)
 			logs.Break()
 
-			result := packit.BuildResult{
+			return packit.BuildResult{
 				Layers: []packit.Layer{cpythonLayer},
-			}
-
-			if cpythonLayer.Build {
-				result.Build = packit.BuildMetadata{BOM: boms}
-			}
-
-			if cpythonLayer.Launch {
-				result.Launch = packit.LaunchMetadata{BOM: boms}
-			}
-
-			return result, nil
+				Build:  buildMetadata,
+				Launch: launchMetadata,
+			}, nil
 		}
 
 		logs.Process("Executing build process")
@@ -106,8 +111,7 @@ func Build(entries EntryResolver, dependencies DependencyManager, logs scribe.Em
 			return packit.BuildResult{}, err
 		}
 
-		cpythonLayer.Launch, cpythonLayer.Build = entries.MergeLayerTypes(Cpython, context.Plan.Entries)
-		cpythonLayer.Cache = cpythonLayer.Launch
+		cpythonLayer.Launch, cpythonLayer.Build, cpythonLayer.Cache = launch, build, build
 
 		logs.Subprocess("Installing CPython %s", dependency.Version)
 		duration, err := clock.Measure(func() error {
@@ -132,18 +136,10 @@ func Build(entries EntryResolver, dependencies DependencyManager, logs scribe.Em
 		logs.Subprocess("%s", scribe.NewFormattedMapFromEnvironment(cpythonLayer.SharedEnv))
 		logs.Break()
 
-		result := packit.BuildResult{
+		return packit.BuildResult{
 			Layers: []packit.Layer{cpythonLayer},
-		}
-
-		if cpythonLayer.Build {
-			result.Build = packit.BuildMetadata{BOM: boms}
-		}
-
-		if cpythonLayer.Launch {
-			result.Launch = packit.LaunchMetadata{BOM: boms}
-		}
-
-		return result, nil
+			Build:  buildMetadata,
+			Launch: launchMetadata,
+		}, nil
 	}
 }

@@ -9,12 +9,12 @@ import (
 	"testing"
 	"time"
 
+	cpython "github.com/paketo-buildpacks/cpython"
+	"github.com/paketo-buildpacks/cpython/fakes"
 	"github.com/paketo-buildpacks/packit"
 	"github.com/paketo-buildpacks/packit/chronos"
 	"github.com/paketo-buildpacks/packit/postal"
 	"github.com/paketo-buildpacks/packit/scribe"
-	cpython "github.com/paketo-buildpacks/cpython"
-	"github.com/paketo-buildpacks/cpython/fakes"
 	"github.com/sclevine/spec"
 
 	. "github.com/onsi/gomega"
@@ -263,6 +263,77 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 					},
 				},
 			}))
+		})
+	})
+
+	context("when the cached SHA matches the dependency SHA", func() {
+		it.Before(func() {
+			err := ioutil.WriteFile(filepath.Join(layersDir, "cpython.toml"), []byte("[metadata]\ndependency-sha = \"python-dependency-sha\"\n"), 0600)
+			Expect(err).NotTo(HaveOccurred())
+
+			entryResolver.ResolveCall.Returns.BuildpackPlanEntry = packit.BuildpackPlanEntry{
+				Name: "cpython",
+				Metadata: map[string]interface{}{
+					"build": true,
+				},
+			}
+			entryResolver.MergeLayerTypesCall.Returns.Build = true
+			entryResolver.MergeLayerTypesCall.Returns.Launch = false
+		})
+
+		it("reuses the existing layer", func() {
+			result, err := build(packit.BuildContext{
+				CNBPath: cnbDir,
+				Plan: packit.BuildpackPlan{
+					Entries: []packit.BuildpackPlanEntry{
+						{
+							Name: "cpython",
+							Metadata: map[string]interface{}{
+								"build": true,
+							},
+						},
+					},
+				},
+				Layers: packit.Layers{Path: layersDir},
+				Stack:  "some-stack",
+			})
+			Expect(err).NotTo(HaveOccurred())
+
+			Expect(result).To(Equal(packit.BuildResult{
+				Build: packit.BuildMetadata{
+					BOM: []packit.BOMEntry{
+						{
+							Name: "cpython",
+							Metadata: packit.BOMMetadata{
+								Checksum: packit.BOMChecksum{
+									Algorithm: packit.SHA256,
+									Hash:      "cpython-dependency-sha",
+								},
+								URI:     "cpython-dependency-uri",
+								Version: "cpython-dependency-version",
+							},
+						},
+					},
+				},
+				Layers: []packit.Layer{
+					{
+						Name:             "cpython",
+						Path:             filepath.Join(layersDir, "cpython"),
+						SharedEnv:        packit.Environment{},
+						BuildEnv:         packit.Environment{},
+						LaunchEnv:        packit.Environment{},
+						ProcessLaunchEnv: map[string]packit.Environment{},
+						Build:            true,
+						Launch:           false,
+						Cache:            true,
+						Metadata: map[string]interface{}{
+							"dependency-sha": "python-dependency-sha",
+						},
+					},
+				},
+			}))
+
+			Expect(dependencyManager.InstallCall.CallCount).To(Equal(0))
 		})
 	})
 
