@@ -7,14 +7,16 @@ import (
 	"time"
 
 	"github.com/Masterminds/semver"
-	"github.com/paketo-buildpacks/packit"
-	"github.com/paketo-buildpacks/packit/chronos"
-	"github.com/paketo-buildpacks/packit/postal"
-	"github.com/paketo-buildpacks/packit/scribe"
+	"github.com/paketo-buildpacks/packit/v2"
+	"github.com/paketo-buildpacks/packit/v2/chronos"
+	"github.com/paketo-buildpacks/packit/v2/postal"
+	"github.com/paketo-buildpacks/packit/v2/sbom"
+	"github.com/paketo-buildpacks/packit/v2/scribe"
 )
 
 //go:generate faux --interface EntryResolver --output fakes/entry_resolver.go
 //go:generate faux --interface DependencyManager --output fakes/dependency_manager.go
+//go:generate faux --interface SBOMGenerator --output fakes/sbom_generator.go
 
 // EntryResolver defines the interface for picking the most relevant entry from
 // the Buildpack Plan entries.
@@ -24,11 +26,16 @@ type EntryResolver interface {
 }
 
 // DependencyManager defines the interface for picking the best matching
-// dependency installing it, and generating a BOM.
+// dependency and deliverin it.
 type DependencyManager interface {
 	Resolve(path, id, version, stack string) (postal.Dependency, error)
-	Install(dependency postal.Dependency, cnbPath, layerPath string) error
-	GenerateBillOfMaterials(dependencies ...postal.Dependency) []packit.BOMEntry
+	Deliver(dependency postal.Dependency, cnbPath, layerPath, platformPath string) error
+}
+
+// SBOMGenerator defines the interface for generating a Software Bill of Materials
+// for a provided dependency.
+type SBOMGenerator interface {
+	GenerateFromDependency(dependency postal.Dependency, dir string) (sbom.SBOM, error)
 }
 
 // Build will return a packit.BuildFunc that will be invoked during the build
@@ -37,7 +44,7 @@ type DependencyManager interface {
 // Build will find the right cpython dependency to install, install it in a
 // layer, and generate Bill-of-Materials. It also makes use of the checksum of
 // the dependency to reuse the layer when possible.
-func Build(entries EntryResolver, dependencies DependencyManager, logs scribe.Emitter, clock chronos.Clock) packit.BuildFunc {
+func Build(entries EntryResolver, dependencies DependencyManager, sbomGenerator SBOMGenerator, logs scribe.Emitter, clock chronos.Clock) packit.BuildFunc {
 	return func(context packit.BuildContext) (packit.BuildResult, error) {
 		logs.Title("%s %s", context.BuildpackInfo.Name, context.BuildpackInfo.Version)
 
@@ -72,18 +79,7 @@ func Build(entries EntryResolver, dependencies DependencyManager, logs scribe.Em
 			logs.Break()
 		}
 
-		bom := dependencies.GenerateBillOfMaterials(dependency)
 		launch, build := entries.MergeLayerTypes(Cpython, context.Plan.Entries)
-
-		var launchMetadata packit.LaunchMetadata
-		if launch {
-			launchMetadata.BOM = bom
-		}
-
-		var buildMetadata packit.BuildMetadata
-		if build {
-			buildMetadata.BOM = bom
-		}
 
 		cpythonLayer, err := context.Layers.Get(Cpython)
 		if err != nil {
@@ -99,8 +95,6 @@ func Build(entries EntryResolver, dependencies DependencyManager, logs scribe.Em
 
 			return packit.BuildResult{
 				Layers: []packit.Layer{cpythonLayer},
-				Build:  buildMetadata,
-				Launch: launchMetadata,
 			}, nil
 		}
 
@@ -115,7 +109,7 @@ func Build(entries EntryResolver, dependencies DependencyManager, logs scribe.Em
 
 		logs.Subprocess("Installing CPython %s", dependency.Version)
 		duration, err := clock.Measure(func() error {
-			return dependencies.Install(dependency, context.CNBPath, cpythonLayer.Path)
+			return dependencies.Deliver(dependency, context.CNBPath, cpythonLayer.Path, context.Platform.Path)
 		})
 		if err != nil {
 			return packit.BuildResult{}, err
@@ -136,10 +130,26 @@ func Build(entries EntryResolver, dependencies DependencyManager, logs scribe.Em
 		logs.Subprocess("%s", scribe.NewFormattedMapFromEnvironment(cpythonLayer.SharedEnv))
 		logs.Break()
 
+		logs.Process("Generating SBOM for directory %s", cpythonLayer.Path)
+		var sbomContent sbom.SBOM
+		duration, err = clock.Measure(func() error {
+			sbomContent, err = sbomGenerator.GenerateFromDependency(dependency, context.WorkingDir)
+			return err
+		})
+		if err != nil {
+			return packit.BuildResult{}, err
+		}
+
+		logs.Action("Completed in %s", duration.Round(time.Millisecond))
+		logs.Break()
+
+		cpythonLayer.SBOM, err = sbomContent.InFormats(context.BuildpackInfo.SBOMFormats...)
+		if err != nil {
+			return packit.BuildResult{}, err
+		}
+
 		return packit.BuildResult{
 			Layers: []packit.Layer{cpythonLayer},
-			Build:  buildMetadata,
-			Launch: launchMetadata,
 		}, nil
 	}
 }

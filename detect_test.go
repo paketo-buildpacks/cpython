@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/paketo-buildpacks/packit"
+	"github.com/paketo-buildpacks/packit/v2"
 	cpython "github.com/paketo-buildpacks/cpython"
 	"github.com/paketo-buildpacks/cpython/fakes"
 	"github.com/sclevine/spec"

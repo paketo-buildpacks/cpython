@@ -91,10 +91,12 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, buildpackInfo.Buildpack.Name)),
 				"  Resolving CPython version",
 				"    Candidate version sources (in priority order):",
-				"      <unknown> -> \"\"",
+				`      <unknown> -> ""`,
 				"",
 				MatchRegexp(`    Selected CPython version \(using <unknown>\): 3\.\d+\.\d+`),
-				"",
+			))
+
+			Expect(logs).To(ContainLines(
 				"  Executing build process",
 				MatchRegexp(`    Installing CPython 3\.\d+\.\d+`),
 				MatchRegexp(`      Completed in \d+\.\d+`),
@@ -188,7 +190,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				"  Resolving CPython version",
 				"    Candidate version sources (in priority order):",
 				MatchRegexp(`      buildpack.yml -> \"3\.\d+\.\d+\"`),
-				"      <unknown>     -> \"\"",
+				`      <unknown>     -> ""`,
 				"",
 				MatchRegexp(`    Selected CPython version \(using buildpack.yml\): 3\.\d+\.\d+`),
 				"",
@@ -226,10 +228,9 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				"  Resolving CPython version",
 				"    Candidate version sources (in priority order):",
 				MatchRegexp(`      buildpack.yml -> \"\d+\.\d+\.\d+\"`),
-				"      <unknown>     -> \"\"",
+				`      <unknown>     -> ""`,
 				"",
 				MatchRegexp(`    Selected CPython version \(using buildpack.yml\): 3\.\d+\.\d+`),
-				"",
 			))
 			Expect(logs).To(ContainLines(
 				"  Executing build process",
