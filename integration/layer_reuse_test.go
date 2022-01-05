@@ -164,6 +164,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			source, err = occam.Source(filepath.Join("testdata", "buildpack_yml_app"))
 			Expect(err).NotTo(HaveOccurred())
 			// Overwrite the cpython version the buildpack.yml with a version from the buildpack.toml
+			// TODO: Can we use the BP_CPYTHON_VERSION environment variable to make this change instead of buildpack.yml?
 			Expect(ioutil.WriteFile(filepath.Join(source, "buildpack.yml"), []byte(fmt.Sprintf("---\ncpython:\n  version: %s", buildpackInfo.Metadata.Dependencies[2].Version)), 0644)).To(Succeed())
 
 			build := pack.WithNoColor().Build.
@@ -227,10 +228,12 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				"    Candidate version sources (in priority order):",
 				MatchRegexp(`      buildpack.yml -> \"\d+\.\d+\.\d+\"`),
 				"      <unknown>     -> \"\"",
-				"",
-				MatchRegexp(`    Selected CPython version \(using buildpack.yml\): 3\.\d+\.\d+`),
-				"",
 			))
+
+			Expect(logs).To(ContainLines(
+				MatchRegexp(`    Selected CPython version \(using buildpack.yml\): 3\.\d+\.\d+`),
+			))
+
 			Expect(logs).To(ContainLines(
 				"  Executing build process",
 				MatchRegexp(`    Installing CPython 3\.\d+\.\d+`),
