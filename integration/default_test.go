@@ -117,13 +117,19 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 					"    Candidate version sources (in priority order):",
 					`      BP_CPYTHON_VERSION -> "3.6.*"`,
 					"      <unknown>          -> \"\"",
-					"",
-					MatchRegexp(`    Selected CPython version \(using BP_CPYTHON_VERSION\): 3\.6\.\d+`),
-					"",
+				))
+
+				Expect(logs).To(ContainLines(
+					MatchRegexp(`   Selected CPython version \(using BP_CPYTHON_VERSION\): 3\.6\.\d+`),
+				))
+
+				Expect(logs).To(ContainLines(
 					"  Executing build process",
 					MatchRegexp(`    Installing CPython 3\.6\.\d+`),
 					MatchRegexp(`      Completed in \d+\.\d+`),
-					"",
+				))
+
+				Expect(logs).To(ContainLines(
 					"  Configuring environment",
 					MatchRegexp(fmt.Sprintf(`    PYTHONPATH -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_"))),
 				))
