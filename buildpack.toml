@@ -4,6 +4,10 @@ api = "0.6"
   id = "paketo-buildpacks/cpython"
   name = "Paketo CPython Buildpack"
 
+  [[buildpack.licenses]]
+    type = "Apache-2.0"
+    uri = "https://github.com/paketo-buildpacks/cpython/blob/main/LICENSE"
+
 [metadata]
   include-files = ["bin/run", "bin/build", "bin/detect", "buildpack.toml"]
   pre-package = "./scripts/build.sh"
