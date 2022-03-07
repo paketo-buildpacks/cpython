@@ -16,4 +16,5 @@ var Priorities = []interface{}{
 	"buildpack.yml",
 	"Pipfile.lock",
 	"Pipfile",
+	"pyproject.toml",
 }
