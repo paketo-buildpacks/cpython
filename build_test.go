@@ -133,7 +133,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		Expect(entryResolver.ResolveCall.Receives.BuildpackPlanEntrySlice).To(Equal([]packit.BuildpackPlanEntry{
 			{Name: "cpython"},
 		}))
-		Expect(entryResolver.ResolveCall.Receives.InterfaceSlice).To(Equal([]interface{}{"BP_CPYTHON_VERSION", "buildpack.yml", "Pipfile.lock", "Pipfile"}))
+		Expect(entryResolver.ResolveCall.Receives.InterfaceSlice).To(Equal([]interface{}{"BP_CPYTHON_VERSION", "buildpack.yml", "Pipfile.lock", "Pipfile", "pyproject.toml"}))
 
 		Expect(entryResolver.MergeLayerTypesCall.Receives.String).To(Equal(cpython.Cpython))
 		Expect(entryResolver.MergeLayerTypesCall.Receives.BuildpackPlanEntrySlice).To(Equal(
