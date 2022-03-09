@@ -72,18 +72,22 @@ func testBuildpackYAML(t *testing.T, context spec.G, it spec.S) {
 				MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, buildpackInfo.Buildpack.Name)),
 				"  Resolving CPython version",
 				"    Candidate version sources (in priority order):",
-				"      buildpack.yml -> \"~3\"",
-				"      <unknown>     -> \"\"",
-				"",
+				`      buildpack.yml -> "~3"`,
+				`      <unknown>     -> ""`,
+			))
+			Expect(logs).To(ContainLines(
 				MatchRegexp(`    Selected CPython version \(using buildpack.yml\): 3\.\d+\.\d+`),
-				"",
+			))
+			Expect(logs).To(ContainLines(
 				MatchRegexp(fmt.Sprintf(`    WARNING\: Setting the CPython version through buildpack\.yml is deprecated and will be removed in %s v2.0.0.`, buildpackInfo.Buildpack.Name)),
 				"    Please specify the version through the $BP_CPYTHON_VERSION environment variable instead. See docs for more information.",
-				"",
+			))
+			Expect(logs).To(ContainLines(
 				"  Executing build process",
 				MatchRegexp(`    Installing CPython 3\.\d+\.\d+`),
 				MatchRegexp(`      Completed in \d+\.\d+`),
-				"",
+			))
+			Expect(logs).To(ContainLines(
 				"  Configuring environment",
 				MatchRegexp(fmt.Sprintf(`    PYTHONPATH -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_"))),
 			))
