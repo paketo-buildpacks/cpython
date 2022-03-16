@@ -13,6 +13,7 @@ import (
 	"github.com/sclevine/spec/report"
 
 	. "github.com/onsi/gomega"
+	"github.com/onsi/gomega/format"
 )
 
 var buildpackInfo struct {
@@ -44,6 +45,10 @@ var settings struct {
 }
 
 func TestIntegration(t *testing.T) {
+	// Do not truncate Gomega matcher output
+	// The buildpack output text can be large and we often want to see all of it.
+	format.MaxLength = 0
+
 	Expect := NewWithT(t).Expect
 
 	file, err := os.Open("../integration.json")

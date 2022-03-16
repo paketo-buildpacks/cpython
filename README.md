@@ -34,7 +34,7 @@ that is installed. (Available versions can be found in the
 
 #### `pack build` flag
 ```shell
-pack build my-app --env BP_CPYTHON_VERSION=3.6.*
+pack build my-app --env BP_CPYTHON_VERSION=3.8.*
 ```
 
 #### In a [`project.toml`](https://github.com/buildpacks/spec/blob/main/extensions/project-descriptor.md)
@@ -42,7 +42,7 @@ pack build my-app --env BP_CPYTHON_VERSION=3.6.*
 [build]
   [[build.env]]
     name = 'BP_CPYTHON_VERSION'
-    value = '3.6.*' # any valid semver constraints (e.g. 3.6.7, 3.*) are acceptable
+    value = '3.8.*' # any valid semver constraints (e.g. 3.8.7, 3.*) are acceptable
 ```
 
 #### (Deprecated) In a `buildpack.yml`:
