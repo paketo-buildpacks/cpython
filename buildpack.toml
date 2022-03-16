@@ -15,20 +15,6 @@ api = "0.6"
     python = "3.9.x"
 
   [[metadata.dependencies]]
-    cpe = "cpe:2.3:a:python:python:3.7.11:*:*:*:*:*:*:*"
-    deprecation_date = "2023-06-27T00:00:00Z"
-    id = "python"
-    licenses = ["CNRI-Python-GPL-Compatible"]
-    name = "Python"
-    purl = "pkg:generic/python@3.7.11?checksum=b4fba32182e16485d0a6022ba83c9251e6a1c14676ec243a9a07d3722cd4661a&download_url=https://www.python.org/ftp/python/3.7.11/Python-3.7.11.tgz"
-    sha256 = "031820f81b6a1a471bef86e83ec6f9e50d9dd2624cbf811fb76e6ca11a30a3a0"
-    source = "https://www.python.org/ftp/python/3.7.11/Python-3.7.11.tgz"
-    source_sha256 = "b4fba32182e16485d0a6022ba83c9251e6a1c14676ec243a9a07d3722cd4661a"
-    stacks = ["io.buildpacks.stacks.bionic"]
-    uri = "https://deps.paketo.io/python/python_3.7.11_linux_x64_bionic_031820f8.tgz"
-    version = "3.7.11"
-
-  [[metadata.dependencies]]
     cpe = "cpe:2.3:a:python:python:3.7.12:*:*:*:*:*:*:*"
     deprecation_date = "2023-06-27T00:00:00Z"
     id = "python"
@@ -41,6 +27,20 @@ api = "0.6"
     stacks = ["io.buildpacks.stacks.bionic"]
     uri = "https://deps.paketo.io/python/python_3.7.12_linux_x64_bionic_9126994d.tgz"
     version = "3.7.12"
+
+  [[metadata.dependencies]]
+    cpe = "cpe:2.3:a:python:python:3.7.13:*:*:*:*:*:*:*"
+    deprecation_date = "2023-06-27T00:00:00Z"
+    id = "python"
+    licenses = ["CNRI-Python-GPL-Compatible"]
+    name = "Python"
+    purl = "pkg:generic/python@3.7.13?checksum=e405417f50984bc5870c7e7a9f9aeb93e9d270f5ac67f667a0cd3a09439682b5&download_url=https://www.python.org/ftp/python/3.7.13/Python-3.7.13.tgz"
+    sha256 = "8dc9323fb34e5d99d4e7597ded7f73c1d9cfa16ecca18fbb0348df92d8564342"
+    source = "https://www.python.org/ftp/python/3.7.13/Python-3.7.13.tgz"
+    source_sha256 = "e405417f50984bc5870c7e7a9f9aeb93e9d270f5ac67f667a0cd3a09439682b5"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://deps.paketo.io/python/python_3.7.13_linux_x64_bionic_8dc9323f.tgz"
+    version = "3.7.13"
 
   [[metadata.dependencies]]
     cpe = "cpe:2.3:a:python:python:3.8.11:*:*:*:*:*:*:*"
