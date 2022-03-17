@@ -5,10 +5,10 @@ import (
 	"time"
 
 	"github.com/Masterminds/semver"
-	"github.com/paketo-buildpacks/packit"
-	"github.com/paketo-buildpacks/packit/chronos"
-	"github.com/paketo-buildpacks/packit/postal"
-	"github.com/paketo-buildpacks/packit/scribe"
+	"github.com/paketo-buildpacks/packit/v2"
+	"github.com/paketo-buildpacks/packit/v2/chronos"
+	"github.com/paketo-buildpacks/packit/v2/postal"
+	"github.com/paketo-buildpacks/packit/v2/scribe"
 )
 
 //go:generate faux --interface EntryResolver --output fakes/entry_resolver.go
@@ -25,7 +25,7 @@ type EntryResolver interface {
 // dependency installing it, and generating a BOM.
 type DependencyManager interface {
 	Resolve(path, id, version, stack string) (postal.Dependency, error)
-	Install(dependency postal.Dependency, cnbPath, layerPath string) error
+	Deliver(dependency postal.Dependency, cnbPath, destinationPath, platformPath string) error
 	GenerateBillOfMaterials(dependencies ...postal.Dependency) []packit.BOMEntry
 }
 
@@ -113,7 +113,7 @@ func Build(entries EntryResolver, dependencies DependencyManager, logs scribe.Em
 
 		logs.Subprocess("Installing CPython %s", dependency.Version)
 		duration, err := clock.Measure(func() error {
-			return dependencies.Install(dependency, context.CNBPath, cpythonLayer.Path)
+			return dependencies.Deliver(dependency, context.CNBPath, cpythonLayer.Path, context.Platform.Path)
 		})
 		if err != nil {
 			return packit.BuildResult{}, err

@@ -3,13 +3,27 @@ package fakes
 import (
 	"sync"
 
-	"github.com/paketo-buildpacks/packit"
-	"github.com/paketo-buildpacks/packit/postal"
+	packit "github.com/paketo-buildpacks/packit/v2"
+	"github.com/paketo-buildpacks/packit/v2/postal"
 )
 
 type DependencyManager struct {
+	DeliverCall struct {
+		mutex     sync.Mutex
+		CallCount int
+		Receives  struct {
+			Dependency      postal.Dependency
+			CnbPath         string
+			DestinationPath string
+			PlatformPath    string
+		}
+		Returns struct {
+			Error error
+		}
+		Stub func(postal.Dependency, string, string, string) error
+	}
 	GenerateBillOfMaterialsCall struct {
-		sync.Mutex
+		mutex     sync.Mutex
 		CallCount int
 		Receives  struct {
 			Dependencies []postal.Dependency
@@ -19,21 +33,8 @@ type DependencyManager struct {
 		}
 		Stub func(...postal.Dependency) []packit.BOMEntry
 	}
-	InstallCall struct {
-		sync.Mutex
-		CallCount int
-		Receives  struct {
-			Dependency postal.Dependency
-			CnbPath    string
-			LayerPath  string
-		}
-		Returns struct {
-			Error error
-		}
-		Stub func(postal.Dependency, string, string) error
-	}
 	ResolveCall struct {
-		sync.Mutex
+		mutex     sync.Mutex
 		CallCount int
 		Receives  struct {
 			Path    string
@@ -49,9 +50,22 @@ type DependencyManager struct {
 	}
 }
 
+func (f *DependencyManager) Deliver(param1 postal.Dependency, param2 string, param3 string, param4 string) error {
+	f.DeliverCall.mutex.Lock()
+	defer f.DeliverCall.mutex.Unlock()
+	f.DeliverCall.CallCount++
+	f.DeliverCall.Receives.Dependency = param1
+	f.DeliverCall.Receives.CnbPath = param2
+	f.DeliverCall.Receives.DestinationPath = param3
+	f.DeliverCall.Receives.PlatformPath = param4
+	if f.DeliverCall.Stub != nil {
+		return f.DeliverCall.Stub(param1, param2, param3, param4)
+	}
+	return f.DeliverCall.Returns.Error
+}
 func (f *DependencyManager) GenerateBillOfMaterials(param1 ...postal.Dependency) []packit.BOMEntry {
-	f.GenerateBillOfMaterialsCall.Lock()
-	defer f.GenerateBillOfMaterialsCall.Unlock()
+	f.GenerateBillOfMaterialsCall.mutex.Lock()
+	defer f.GenerateBillOfMaterialsCall.mutex.Unlock()
 	f.GenerateBillOfMaterialsCall.CallCount++
 	f.GenerateBillOfMaterialsCall.Receives.Dependencies = param1
 	if f.GenerateBillOfMaterialsCall.Stub != nil {
@@ -59,21 +73,9 @@ func (f *DependencyManager) GenerateBillOfMaterials(param1 ...postal.Dependency)
 	}
 	return f.GenerateBillOfMaterialsCall.Returns.BOMEntrySlice
 }
-func (f *DependencyManager) Install(param1 postal.Dependency, param2 string, param3 string) error {
-	f.InstallCall.Lock()
-	defer f.InstallCall.Unlock()
-	f.InstallCall.CallCount++
-	f.InstallCall.Receives.Dependency = param1
-	f.InstallCall.Receives.CnbPath = param2
-	f.InstallCall.Receives.LayerPath = param3
-	if f.InstallCall.Stub != nil {
-		return f.InstallCall.Stub(param1, param2, param3)
-	}
-	return f.InstallCall.Returns.Error
-}
 func (f *DependencyManager) Resolve(param1 string, param2 string, param3 string, param4 string) (postal.Dependency, error) {
-	f.ResolveCall.Lock()
-	defer f.ResolveCall.Unlock()
+	f.ResolveCall.mutex.Lock()
+	defer f.ResolveCall.mutex.Unlock()
 	f.ResolveCall.CallCount++
 	f.ResolveCall.Receives.Path = param1
 	f.ResolveCall.Receives.Id = param2
