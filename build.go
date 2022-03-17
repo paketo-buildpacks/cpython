@@ -1,8 +1,6 @@
 package cpython
 
 import (
-	"fmt"
-	"os"
 	"path/filepath"
 	"time"
 
@@ -126,8 +124,6 @@ func Build(entries EntryResolver, dependencies DependencyManager, logs scribe.Em
 			DepKey:     dependency.SHA256,
 			"built_at": clock.Now().Format(time.RFC3339Nano),
 		}
-
-		os.Setenv("PATH", fmt.Sprintf("%s:%s", filepath.Join(cpythonLayer.Path, "bin"), os.Getenv("PATH")))
 
 		cpythonLayer.SharedEnv.Override("PYTHONPATH", cpythonLayer.Path)
 
