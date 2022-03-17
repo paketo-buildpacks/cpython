@@ -135,6 +135,5 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 				))
 			})
 		})
-	}, spec.Sequential())
-
+	})
 }
