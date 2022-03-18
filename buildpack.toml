@@ -43,20 +43,6 @@ api = "0.6"
     version = "3.7.13"
 
   [[metadata.dependencies]]
-    cpe = "cpe:2.3:a:python:python:3.8.11:*:*:*:*:*:*:*"
-    deprecation_date = "2024-10-01T00:00:00Z"
-    id = "python"
-    licenses = ["0BSD", "CNRI-Python-GPL-Compatible"]
-    name = "Python"
-    purl = "pkg:generic/python@3.8.11?checksum=b77464ea80cec14581b86aeb7fb2ff02830e0abc7bcdc752b7b4bdfcd8f3e393&download_url=https://www.python.org/ftp/python/3.8.11/Python-3.8.11.tgz"
-    sha256 = "ea3048f0f8bcf87b2fb9ebd3be78351f924c5d72b0d199f1550965114c9ac921"
-    source = "https://www.python.org/ftp/python/3.8.11/Python-3.8.11.tgz"
-    source_sha256 = "b77464ea80cec14581b86aeb7fb2ff02830e0abc7bcdc752b7b4bdfcd8f3e393"
-    stacks = ["io.buildpacks.stacks.bionic"]
-    uri = "https://deps.paketo.io/python/python_3.8.11_linux_x64_bionic_ea3048f0.tgz"
-    version = "3.8.11"
-
-  [[metadata.dependencies]]
     cpe = "cpe:2.3:a:python:python:3.8.12:*:*:*:*:*:*:*"
     deprecation_date = "2024-10-01T00:00:00Z"
     id = "python"
@@ -71,18 +57,18 @@ api = "0.6"
     version = "3.8.12"
 
   [[metadata.dependencies]]
-    cpe = "cpe:2.3:a:python:python:3.9.9:*:*:*:*:*:*:*"
-    deprecation_date = "2025-10-01T00:00:00Z"
+    cpe = "cpe:2.3:a:python:python:3.8.13:*:*:*:*:*:*:*"
+    deprecation_date = "2024-10-01T00:00:00Z"
     id = "python"
     licenses = ["0BSD", "CNRI-Python-GPL-Compatible"]
     name = "Python"
-    purl = "pkg:generic/python@3.9.9?checksum=2cc7b67c1f3f66c571acc42479cdf691d8ed6b47bee12c9b68430413a17a44ea&download_url=https://www.python.org/ftp/python/3.9.9/Python-3.9.9.tgz"
-    sha256 = "67c37371b5a40f25a51681289e694223eff2cad50e7eab84c76e6c25fcc58fd4"
-    source = "https://www.python.org/ftp/python/3.9.9/Python-3.9.9.tgz"
-    source_sha256 = "2cc7b67c1f3f66c571acc42479cdf691d8ed6b47bee12c9b68430413a17a44ea"
+    purl = "pkg:generic/python@3.8.13?checksum=903b92d76354366b1d9c4434d0c81643345cef87c1600adfa36095d7b00eede4&download_url=https://www.python.org/ftp/python/3.8.13/Python-3.8.13.tgz"
+    sha256 = "78e0d6ace6994e5c0a27efa7220cc114502eccbf0e8f74dca9658d0ca4f0f7af"
+    source = "https://www.python.org/ftp/python/3.8.13/Python-3.8.13.tgz"
+    source_sha256 = "903b92d76354366b1d9c4434d0c81643345cef87c1600adfa36095d7b00eede4"
     stacks = ["io.buildpacks.stacks.bionic"]
-    uri = "https://deps.paketo.io/python/python_3.9.9_linux_x64_bionic_67c37371.tgz"
-    version = "3.9.9"
+    uri = "https://deps.paketo.io/python/python_3.8.13_linux_x64_bionic_78e0d6ac.tgz"
+    version = "3.8.13"
 
   [[metadata.dependencies]]
     cpe = "cpe:2.3:a:python:python:3.9.10:*:*:*:*:*:*:*"
@@ -97,6 +83,20 @@ api = "0.6"
     stacks = ["io.buildpacks.stacks.bionic"]
     uri = "https://deps.paketo.io/python/python_3.9.10_linux_x64_bionic_1bf91483.tgz"
     version = "3.9.10"
+
+  [[metadata.dependencies]]
+    cpe = "cpe:2.3:a:python:python:3.9.11:*:*:*:*:*:*:*"
+    deprecation_date = "2025-10-01T00:00:00Z"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible"]
+    name = "Python"
+    purl = "pkg:generic/python@3.9.11?checksum=3442400072f582ac2f0df30895558f08883b416c8c7877ea55d40d00d8a93112&download_url=https://www.python.org/ftp/python/3.9.11/Python-3.9.11.tgz"
+    sha256 = "921d793e5b85d6e94e1231e7ff3b54e8faec4afc102145ab19e41c8b995bb57b"
+    source = "https://www.python.org/ftp/python/3.9.11/Python-3.9.11.tgz"
+    source_sha256 = "3442400072f582ac2f0df30895558f08883b416c8c7877ea55d40d00d8a93112"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://deps.paketo.io/python/python_3.9.11_linux_x64_bionic_921d793e.tgz"
+    version = "3.9.11"
 
   [[metadata.dependencies]]
     cpe = "cpe:2.3:a:python:python:3.10.2:*:*:*:*:*:*:*"
