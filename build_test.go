@@ -7,7 +7,6 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
-	"time"
 
 	"github.com/paketo-buildpacks/cpython"
 	"github.com/paketo-buildpacks/cpython/fakes"
@@ -29,7 +28,6 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 
 		layersDir         string
 		cnbDir            string
-		timeStamp         time.Time
 		clock             chronos.Clock
 		entryResolver     *fakes.EntryResolver
 		dependencyManager *fakes.DependencyManager
@@ -47,10 +45,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		cnbDir, err = ioutil.TempDir("", "cnb")
 		Expect(err).NotTo(HaveOccurred())
 
-		timeStamp = time.Now()
-		clock = chronos.NewClock(func() time.Time {
-			return timeStamp
-		})
+		clock = chronos.DefaultClock
 
 		entryResolver = &fakes.EntryResolver{}
 		entryResolver.ResolveCall.Returns.BuildpackPlanEntry = packit.BuildpackPlanEntry{
@@ -127,7 +122,6 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 					Cache:            false,
 					Metadata: map[string]interface{}{
 						"dependency-sha": "python-dependency-sha",
-						"built_at":       timeStamp.Format(time.RFC3339Nano),
 					},
 				},
 			},
@@ -263,7 +257,6 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 						Cache:            true,
 						Metadata: map[string]interface{}{
 							"dependency-sha": "python-dependency-sha",
-							"built_at":       timeStamp.Format(time.RFC3339Nano),
 						},
 					},
 				},
