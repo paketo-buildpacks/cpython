@@ -121,8 +121,7 @@ func Build(entries EntryResolver, dependencies DependencyManager, logs scribe.Em
 		logs.Action("Completed in %s", duration.Round(time.Millisecond))
 
 		cpythonLayer.Metadata = map[string]interface{}{
-			DepKey:     dependency.SHA256,
-			"built_at": clock.Now().Format(time.RFC3339Nano),
+			DepKey: dependency.SHA256,
 		}
 
 		cpythonLayer.SharedEnv.Override("PYTHONPATH", cpythonLayer.Path)

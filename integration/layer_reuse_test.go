@@ -92,9 +92,11 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				"  Resolving CPython version",
 				"    Candidate version sources (in priority order):",
 				"      <unknown> -> \"\"",
-				"",
+			))
+			Expect(logs).To(ContainLines(
 				MatchRegexp(`    Selected CPython version \(using <unknown>\): 3\.\d+\.\d+`),
-				"",
+			))
+			Expect(logs).To(ContainLines(
 				"  Executing build process",
 				MatchRegexp(`    Installing CPython 3\.\d+\.\d+`),
 				MatchRegexp(`      Completed in \d+\.\d+`),
@@ -127,9 +129,13 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				"  Resolving CPython version",
 				"    Candidate version sources (in priority order):",
 				"      <unknown> -> \"\"",
-				"",
+			))
+
+			Expect(logs).To(ContainLines(
 				MatchRegexp(`    Selected CPython version \(using <unknown>\): 3\.\d+\.\d+`),
-				"",
+			))
+
+			Expect(logs).To(ContainLines(
 				MatchRegexp(fmt.Sprintf("  Reusing cached layer /layers/%s/cpython", strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_"))),
 			))
 
@@ -145,7 +151,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			Eventually(secondContainer).Should(BeAvailable())
 			Eventually(secondContainer).Should(Serve(ContainSubstring("hello world")).OnPort(8080))
 
-			Expect(secondImage.Buildpacks[0].Layers["cpython"].Metadata["built_at"]).To(Equal(firstImage.Buildpacks[0].Layers["cpython"].Metadata["built_at"]))
+			Expect(secondImage.Buildpacks[0].Layers["cpython"].SHA).To(Equal(firstImage.Buildpacks[0].Layers["cpython"].SHA))
 		})
 	})
 
@@ -190,10 +196,12 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				"    Candidate version sources (in priority order):",
 				MatchRegexp(`      buildpack.yml -> \"3\.\d+\.\d+\"`),
 				"      <unknown>     -> \"\"",
-				"",
-				MatchRegexp(`    Selected CPython version \(using buildpack.yml\): 3\.\d+\.\d+`),
-				"",
 			))
+
+			Expect(logs).To(ContainLines(
+				MatchRegexp(`    Selected CPython version \(using buildpack.yml\): 3\.\d+\.\d+`),
+			))
+
 			Expect(logs).To(ContainLines(
 				"  Executing build process",
 				MatchRegexp(`    Installing CPython 3\.\d+\.\d+`),
@@ -252,7 +260,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			Eventually(secondContainer).Should(BeAvailable())
 			Eventually(secondContainer).Should(Serve(ContainSubstring("hello world")).OnPort(8080))
 
-			Expect(secondImage.Buildpacks[0].Layers["cpython"].Metadata["built_at"]).NotTo(Equal(firstImage.Buildpacks[0].Layers["cpython"].Metadata["built_at"]))
+			Expect(secondImage.Buildpacks[0].Layers["cpython"].SHA).NotTo(Equal(firstImage.Buildpacks[0].Layers["cpython"].SHA))
 		})
 	})
 }
