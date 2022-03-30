@@ -7,19 +7,12 @@ import (
 	"github.com/Masterminds/semver"
 	"github.com/paketo-buildpacks/packit/v2"
 	"github.com/paketo-buildpacks/packit/v2/chronos"
+	"github.com/paketo-buildpacks/packit/v2/draft"
 	"github.com/paketo-buildpacks/packit/v2/postal"
 	"github.com/paketo-buildpacks/packit/v2/scribe"
 )
 
-//go:generate faux --interface EntryResolver --output fakes/entry_resolver.go
 //go:generate faux --interface DependencyManager --output fakes/dependency_manager.go
-
-// EntryResolver defines the interface for picking the most relevant entry from
-// the Buildpack Plan entries.
-type EntryResolver interface {
-	Resolve(string, []packit.BuildpackPlanEntry, []interface{}) (packit.BuildpackPlanEntry, []packit.BuildpackPlanEntry)
-	MergeLayerTypes(string, []packit.BuildpackPlanEntry) (launch, build bool)
-}
 
 // DependencyManager defines the interface for picking the best matching
 // dependency installing it, and generating a BOM.
@@ -35,13 +28,15 @@ type DependencyManager interface {
 // Build will find the right cpython dependency to install, install it in a
 // layer, and generate Bill-of-Materials. It also makes use of the checksum of
 // the dependency to reuse the layer when possible.
-func Build(entries EntryResolver, dependencies DependencyManager, logs scribe.Emitter, clock chronos.Clock) packit.BuildFunc {
+func Build(dependencies DependencyManager, logs scribe.Emitter, clock chronos.Clock) packit.BuildFunc {
 	return func(context packit.BuildContext) (packit.BuildResult, error) {
 		logs.Title("%s %s", context.BuildpackInfo.Name, context.BuildpackInfo.Version)
 
 		logs.Process("Resolving CPython version")
 
-		entry, sortedEntries := entries.Resolve(Cpython, context.Plan.Entries, Priorities)
+		planner := draft.NewPlanner()
+
+		entry, sortedEntries := planner.Resolve(Cpython, context.Plan.Entries, Priorities)
 		logs.Candidates(sortedEntries)
 
 		entryVersion, _ := entry.Metadata["version"].(string)
@@ -71,7 +66,7 @@ func Build(entries EntryResolver, dependencies DependencyManager, logs scribe.Em
 		}
 
 		bom := dependencies.GenerateBillOfMaterials(dependency)
-		launch, build := entries.MergeLayerTypes(Cpython, context.Plan.Entries)
+		launch, build := planner.MergeLayerTypes(Cpython, context.Plan.Entries)
 
 		var launchMetadata packit.LaunchMetadata
 		if launch {
