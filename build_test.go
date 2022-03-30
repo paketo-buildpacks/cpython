@@ -29,7 +29,6 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		layersDir         string
 		cnbDir            string
 		clock             chronos.Clock
-		entryResolver     *fakes.EntryResolver
 		dependencyManager *fakes.DependencyManager
 		buffer            *bytes.Buffer
 		logEmitter        scribe.Emitter
@@ -46,11 +45,6 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		Expect(err).NotTo(HaveOccurred())
 
 		clock = chronos.DefaultClock
-
-		entryResolver = &fakes.EntryResolver{}
-		entryResolver.ResolveCall.Returns.BuildpackPlanEntry = packit.BuildpackPlanEntry{
-			Name: "cpython",
-		}
 
 		dependencyManager = &fakes.DependencyManager{}
 		dependencyManager.ResolveCall.Returns.Dependency = postal.Dependency{
@@ -80,7 +74,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		buffer = bytes.NewBuffer(nil)
 		logEmitter = scribe.NewEmitter(buffer)
 
-		build = cpython.Build(entryResolver, dependencyManager, logEmitter, clock)
+		build = cpython.Build(dependencyManager, logEmitter, clock)
 	})
 
 	it.After(func() {
@@ -127,21 +121,6 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 			},
 		}))
 
-		Expect(entryResolver.ResolveCall.Receives.String).To(Equal(cpython.Cpython))
-		Expect(entryResolver.ResolveCall.Receives.BuildpackPlanEntrySlice).To(Equal([]packit.BuildpackPlanEntry{
-			{Name: "cpython"},
-		}))
-		Expect(entryResolver.ResolveCall.Receives.InterfaceSlice).To(Equal([]interface{}{"BP_CPYTHON_VERSION", "buildpack.yml", "Pipfile.lock", "Pipfile", "pyproject.toml"}))
-
-		Expect(entryResolver.MergeLayerTypesCall.Receives.String).To(Equal(cpython.Cpython))
-		Expect(entryResolver.MergeLayerTypesCall.Receives.BuildpackPlanEntrySlice).To(Equal(
-			[]packit.BuildpackPlanEntry{
-				{
-					Name: cpython.Cpython,
-				},
-			},
-		))
-
 		Expect(dependencyManager.ResolveCall.Receives.Path).To(Equal(filepath.Join(cnbDir, "buildpack.toml")))
 		// Dependecy is called python not cpython
 		Expect(dependencyManager.ResolveCall.Receives.Id).To(Equal("python"))
@@ -180,18 +159,6 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 	})
 
 	context("when the plan entry requires the dependency during the build and launch phases", func() {
-		it.Before(func() {
-			entryResolver.ResolveCall.Returns.BuildpackPlanEntry = packit.BuildpackPlanEntry{
-				Name: "cpython",
-				Metadata: map[string]interface{}{
-					"build":  true,
-					"launch": true,
-				},
-			}
-			entryResolver.MergeLayerTypesCall.Returns.Build = true
-			entryResolver.MergeLayerTypesCall.Returns.Launch = true
-		})
-
 		it("makes the layer available in those phases", func() {
 			result, err := build(packit.BuildContext{
 				CNBPath: cnbDir,
@@ -268,15 +235,6 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		it.Before(func() {
 			err := ioutil.WriteFile(filepath.Join(layersDir, "cpython.toml"), []byte("[metadata]\ndependency-sha = \"python-dependency-sha\"\n"), 0600)
 			Expect(err).NotTo(HaveOccurred())
-
-			entryResolver.ResolveCall.Returns.BuildpackPlanEntry = packit.BuildpackPlanEntry{
-				Name: "cpython",
-				Metadata: map[string]interface{}{
-					"build": true,
-				},
-			}
-			entryResolver.MergeLayerTypesCall.Returns.Build = true
-			entryResolver.MergeLayerTypesCall.Returns.Launch = false
 		})
 
 		it("reuses the existing layer", func() {
@@ -336,15 +294,6 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 	})
 
 	context("when the version source of the selected entry is buildpack.yml", func() {
-		it.Before(func() {
-			entryResolver.ResolveCall.Returns.BuildpackPlanEntry = packit.BuildpackPlanEntry{
-				Name: "cpython",
-				Metadata: map[string]interface{}{
-					"version-source": "buildpack.yml",
-				},
-			}
-		})
-
 		it("logs a warning that buildpack.yml will be deprecated in the next version", func() {
 			_, err := build(packit.BuildContext{
 				BuildpackInfo: packit.BuildpackInfo{
@@ -356,6 +305,9 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 					Entries: []packit.BuildpackPlanEntry{
 						{
 							Name: "cpython",
+							Metadata: map[string]interface{}{
+								"version-source": "buildpack.yml",
+							},
 						},
 					},
 				},
