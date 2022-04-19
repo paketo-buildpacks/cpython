@@ -5,9 +5,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/paketo-buildpacks/packit/v2"
 	cpython "github.com/paketo-buildpacks/cpython"
 	"github.com/paketo-buildpacks/cpython/fakes"
+	"github.com/paketo-buildpacks/packit/v2"
 	"github.com/sclevine/spec"
 
 	. "github.com/onsi/gomega"
