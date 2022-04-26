@@ -1,8 +1,9 @@
-api = "0.6"
+api = "0.7"
 
 [buildpack]
   id = "paketo-buildpacks/cpython"
   name = "Paketo CPython Buildpack"
+  sbom-formats = ["application/vnd.cyclonedx+json", "application/spdx+json", "application/vnd.syft+json"]
 
   [[buildpack.licenses]]
     type = "Apache-2.0"
