@@ -118,7 +118,8 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		Expect(layer.Path).To(Equal(filepath.Join(layersDir, "cpython")))
 
 		Expect(layer.SharedEnv).To(Equal(packit.Environment{
-			"PYTHONPATH.override": filepath.Join(layersDir, "cpython"),
+			"PYTHONPATH.default":          filepath.Join(layersDir, "cpython"),
+			"PYTHONPYCACHEPREFIX.default": "$HOME/.pycache",
 		}))
 		Expect(layer.BuildEnv).To(BeEmpty())
 		Expect(layer.LaunchEnv).To(BeEmpty())

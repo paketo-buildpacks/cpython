@@ -145,7 +145,8 @@ func Build(dependencies DependencyManager, sbomGenerator SBOMGenerator, logger s
 			DepKey: dependency.SHA256,
 		}
 
-		cpythonLayer.SharedEnv.Override("PYTHONPATH", cpythonLayer.Path)
+		cpythonLayer.SharedEnv.Default("PYTHONPATH", cpythonLayer.Path)
+		cpythonLayer.SharedEnv.Default("PYTHONPYCACHEPREFIX", "$HOME/.pycache")
 
 		logger.Break()
 		logger.Process("Configuring environment")
