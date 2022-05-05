@@ -84,7 +84,8 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 			))
 			Expect(logs).To(ContainLines(
 				"  Configuring environment",
-				MatchRegexp(fmt.Sprintf(`    PYTHONPATH -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_"))),
+				fmt.Sprintf(`    PYTHONPATH          -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_")),
+				`    PYTHONPYCACHEPREFIX -> "$HOME/.pycache"`,
 			))
 		})
 
@@ -217,7 +218,8 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 
 				Expect(logs).To(ContainLines(
 					"  Configuring environment",
-					MatchRegexp(fmt.Sprintf(`    PYTHONPATH -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_"))),
+					fmt.Sprintf(`    PYTHONPATH          -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_")),
+					`    PYTHONPYCACHEPREFIX -> "$HOME/.pycache"`,
 				))
 			})
 		})
