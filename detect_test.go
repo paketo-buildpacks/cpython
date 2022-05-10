@@ -41,11 +41,11 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 
 	context("when the BP_CPYTHON_VERSION env var is set", func() {
 		it.Before(func() {
-			os.Setenv("BP_CPYTHON_VERSION", "some-version")
+			Expect(os.Setenv("BP_CPYTHON_VERSION", "some-version")).To(Succeed())
 		})
 
 		it.After(func() {
-			os.Unsetenv("BP_CPYTHON_VERSION")
+			Expect(os.Unsetenv("BP_CPYTHON_VERSION")).To(Succeed())
 		})
 
 		it("returns a plan that provides and requires that version of cpython", func() {
