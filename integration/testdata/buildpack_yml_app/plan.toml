@@ -1,5 +1,0 @@
-[[requires]]
-  name = "cpython"
-
-  [requires.metadata]
-    launch = true

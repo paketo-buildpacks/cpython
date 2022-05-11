@@ -1,12 +1,11 @@
 package cpython_test
 
 import (
-	"errors"
 	"os"
+	"path/filepath"
 	"testing"
 
-	cpython "github.com/paketo-buildpacks/cpython"
-	"github.com/paketo-buildpacks/cpython/fakes"
+	"github.com/paketo-buildpacks/cpython"
 	"github.com/paketo-buildpacks/packit/v2"
 	"github.com/sclevine/spec"
 
@@ -17,56 +16,27 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 	var (
 		Expect = NewWithT(t).Expect
 
-		buildpackYMLParser *fakes.VersionParser
-
-		detect packit.DetectFunc
+		detect        packit.DetectFunc
+		detectContext packit.DetectContext
 	)
 
 	it.Before(func() {
-
-		buildpackYMLParser = &fakes.VersionParser{}
-
-		detect = cpython.Detect(buildpackYMLParser)
+		detect = cpython.Detect()
+		detectContext = packit.DetectContext{
+			WorkingDir: "/working-dir",
+		}
 	})
 
 	it("returns a plan that provides cpython", func() {
-		result, err := detect(packit.DetectContext{
-			WorkingDir: "/working-dir",
-		})
+		result, err := detect(detectContext)
 		Expect(err).NotTo(HaveOccurred())
+
 		Expect(result.Plan).To(Equal(packit.BuildPlan{
 			Provides: []packit.BuildPlanProvision{
 				{Name: cpython.Cpython},
 			},
 		}))
 
-	})
-
-	context("when the source code contains a buildpack.yml file", func() {
-		it.Before(func() {
-			buildpackYMLParser.ParseVersionCall.Returns.Version = "some-version"
-		})
-
-		it("returns a plan that provides and requires that version of cpython", func() {
-			result, err := detect(packit.DetectContext{
-				WorkingDir: "/working-dir",
-			})
-			Expect(err).NotTo(HaveOccurred())
-			Expect(result.Plan).To(Equal(packit.BuildPlan{
-				Provides: []packit.BuildPlanProvision{
-					{Name: cpython.Cpython},
-				},
-				Requires: []packit.BuildPlanRequirement{
-					{
-						Name: cpython.Cpython,
-						Metadata: cpython.BuildPlanMetadata{
-							Version:       "some-version",
-							VersionSource: "buildpack.yml",
-						},
-					},
-				},
-			}))
-		})
 	})
 
 	context("when the BP_CPYTHON_VERSION env var is set", func() {
@@ -79,10 +49,9 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 		})
 
 		it("returns a plan that provides and requires that version of cpython", func() {
-			result, err := detect(packit.DetectContext{
-				WorkingDir: "/working-dir",
-			})
+			result, err := detect(detectContext)
 			Expect(err).NotTo(HaveOccurred())
+
 			Expect(result.Plan).To(Equal(packit.BuildPlan{
 				Provides: []packit.BuildPlanProvision{
 					{Name: cpython.Cpython},
@@ -100,17 +69,50 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 		})
 	})
 
+	context("when there is a buildpack.yml", func() {
+		var workingDir string
+		it.Before(func() {
+			var err error
+			workingDir, err = os.MkdirTemp("", "working-dir")
+			Expect(err).NotTo(HaveOccurred())
+
+			Expect(os.WriteFile(filepath.Join(workingDir, "buildpack.yml"), nil, os.ModePerm))
+
+			detectContext.WorkingDir = workingDir
+		})
+
+		it.After(func() {
+			Expect(os.RemoveAll(workingDir)).To(Succeed())
+		})
+
+		it("fails the build with a deprecation notice", func() {
+			_, err := detect(detectContext)
+			Expect(err).To(MatchError("working directory contains deprecated 'buildpack.yml'; use environment variables for configuration"))
+		})
+	})
+
 	context("failure cases", func() {
-		context("when the buildpack.yml parser fails", func() {
+		context("when there is an error determining if buildpack.yml exists", func() {
+			var workingDir string
+
 			it.Before(func() {
-				buildpackYMLParser.ParseVersionCall.Returns.Err = errors.New("failed to parse buildpack.yml")
+				var err error
+				workingDir, err = os.MkdirTemp("", "working-dir")
+				Expect(err).NotTo(HaveOccurred())
+
+				Expect(os.Chmod(workingDir, 0000)).To(Succeed())
+
+				detectContext.WorkingDir = workingDir
+			})
+
+			it.After(func() {
+				Expect(os.Chmod(workingDir, os.ModePerm)).To(Succeed())
+				Expect(os.RemoveAll(workingDir)).To(Succeed())
 			})
 
 			it("returns an error", func() {
-				_, err := detect(packit.DetectContext{
-					WorkingDir: "/working-dir",
-				})
-				Expect(err).To(MatchError("failed to parse buildpack.yml"))
+				_, err := detect(detectContext)
+				Expect(err).To(MatchError(ContainSubstring("permission denied")))
 			})
 		})
 	})

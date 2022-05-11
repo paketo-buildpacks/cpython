@@ -13,7 +13,6 @@ const DepKey = "dependency-sha"
 // of version-sources.
 var Priorities = []interface{}{
 	"BP_CPYTHON_VERSION",
-	"buildpack.yml",
 	"Pipfile.lock",
 	"Pipfile",
 	"pyproject.toml",

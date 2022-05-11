@@ -1,10 +1,12 @@
 package cpython
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 
 	"github.com/paketo-buildpacks/packit/v2"
+	"github.com/paketo-buildpacks/packit/v2/fs"
 )
 
 //go:generate faux --interface VersionParser --output fakes/version_parser.go
@@ -30,8 +32,16 @@ type BuildPlanMetadata struct {
 // detect phase of the buildpack lifecycle.
 //
 // Detect always passes, and will contribute a Build Plan that provides cpython.
-func Detect(buildpackYMLParser VersionParser) packit.DetectFunc {
+func Detect() packit.DetectFunc {
 	return func(context packit.DetectContext) (packit.DetectResult, error) {
+		bpYML, err := fs.Exists(filepath.Join(context.WorkingDir, "buildpack.yml"))
+		if err != nil {
+			return packit.DetectResult{}, fmt.Errorf("failed to check for buildpack.yml: %w", err)
+		}
+		if bpYML {
+			return packit.DetectResult{}, fmt.Errorf("working directory contains deprecated 'buildpack.yml'; use environment variables for configuration")
+		}
+
 		var requirements []packit.BuildPlanRequirement
 
 		if version, ok := os.LookupEnv("BP_CPYTHON_VERSION"); ok {
@@ -40,21 +50,6 @@ func Detect(buildpackYMLParser VersionParser) packit.DetectFunc {
 				Metadata: BuildPlanMetadata{
 					Version:       version,
 					VersionSource: "BP_CPYTHON_VERSION",
-				},
-			})
-		}
-
-		version, err := buildpackYMLParser.ParseVersion(filepath.Join(context.WorkingDir, "buildpack.yml"))
-		if err != nil {
-			return packit.DetectResult{}, err
-		}
-
-		if version != "" {
-			requirements = append(requirements, packit.BuildPlanRequirement{
-				Name: Cpython,
-				Metadata: BuildPlanMetadata{
-					Version:       version,
-					VersionSource: "buildpack.yml",
 				},
 			})
 		}

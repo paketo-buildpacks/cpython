@@ -1,11 +1,8 @@
 package integration_test
 
 import (
-	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
-	"strings"
 	"testing"
 
 	"github.com/paketo-buildpacks/occam"
@@ -59,7 +56,6 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 		it("reuses a layer from a previous build", func() {
 			var (
 				err         error
-				logs        fmt.Stringer
 				firstImage  occam.Image
 				secondImage occam.Image
 
@@ -77,7 +73,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			source, err = occam.Source(filepath.Join("testdata", "default_app"))
 			Expect(err).NotTo(HaveOccurred())
 
-			firstImage, logs, err = build.
+			firstImage, _, err = build.
 				Execute(name, source)
 			Expect(err).NotTo(HaveOccurred())
 
@@ -86,21 +82,6 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			Expect(firstImage.Buildpacks).To(HaveLen(2))
 			Expect(firstImage.Buildpacks[0].Key).To(Equal(buildpackInfo.Buildpack.ID))
 			Expect(firstImage.Buildpacks[0].Layers).To(HaveKey("cpython"))
-
-			Expect(logs).To(ContainLines(
-				MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, buildpackInfo.Buildpack.Name)),
-				"  Resolving CPython version",
-				"    Candidate version sources (in priority order):",
-				"      <unknown> -> \"\"",
-			))
-			Expect(logs).To(ContainLines(
-				MatchRegexp(`    Selected CPython version \(using <unknown>\): 3\.\d+\.\d+`),
-			))
-			Expect(logs).To(ContainLines(
-				"  Executing build process",
-				MatchRegexp(`    Installing CPython 3\.\d+\.\d+`),
-				MatchRegexp(`      Completed in \d+\.\d+`),
-			))
 
 			firstContainer, err = docker.Container.Run.
 				WithCommand("python3 server.py").
@@ -114,7 +95,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			Eventually(firstContainer).Should(BeAvailable())
 
 			// Second pack build
-			secondImage, logs, err = build.
+			secondImage, _, err = build.
 				Execute(name, source)
 			Expect(err).NotTo(HaveOccurred())
 
@@ -123,21 +104,6 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			Expect(secondImage.Buildpacks).To(HaveLen(2))
 			Expect(secondImage.Buildpacks[0].Key).To(Equal(buildpackInfo.Buildpack.ID))
 			Expect(secondImage.Buildpacks[0].Layers).To(HaveKey("cpython"))
-
-			Expect(logs).To(ContainLines(
-				MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, buildpackInfo.Buildpack.Name)),
-				"  Resolving CPython version",
-				"    Candidate version sources (in priority order):",
-				"      <unknown> -> \"\"",
-			))
-
-			Expect(logs).To(ContainLines(
-				MatchRegexp(`    Selected CPython version \(using <unknown>\): 3\.\d+\.\d+`),
-			))
-
-			Expect(logs).To(ContainLines(
-				MatchRegexp(fmt.Sprintf("  Reusing cached layer /layers/%s/cpython", strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_"))),
-			))
 
 			secondContainer, err = docker.Container.Run.
 				WithCommand("python3 server.py").
@@ -159,7 +125,6 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 		it("rebuilds the layer", func() {
 			var (
 				err         error
-				logs        fmt.Stringer
 				firstImage  occam.Image
 				secondImage occam.Image
 
@@ -167,20 +132,16 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 				secondContainer occam.Container
 			)
 
-			source, err = occam.Source(filepath.Join("testdata", "buildpack_yml_app"))
+			source, err = occam.Source(filepath.Join("testdata", "default_app"))
 			Expect(err).NotTo(HaveOccurred())
-			// Overwrite the cpython version the buildpack.yml with a version from the buildpack.toml
-			// TODO: Can we use the BP_CPYTHON_VERSION environment variable to make this change instead of buildpack.yml?
-			Expect(ioutil.WriteFile(filepath.Join(source, "buildpack.yml"), []byte(fmt.Sprintf("---\ncpython:\n  version: %s", buildpackInfo.Metadata.Dependencies[2].Version)), 0644)).To(Succeed())
 
-			build := pack.WithNoColor().Build.
+			firstImage, _, err = pack.WithNoColor().Build.
 				WithPullPolicy("never").
 				WithBuildpacks(
 					settings.Buildpacks.Cpython.Online,
 					settings.Buildpacks.BuildPlan.Online,
-				)
-
-			firstImage, logs, err = build.
+				).
+				WithEnv(map[string]string{"BP_CPYTHON_VERSION": "3.9.*"}).
 				Execute(name, source)
 			Expect(err).NotTo(HaveOccurred())
 
@@ -189,24 +150,6 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			Expect(firstImage.Buildpacks).To(HaveLen(2))
 			Expect(firstImage.Buildpacks[0].Key).To(Equal(buildpackInfo.Buildpack.ID))
 			Expect(firstImage.Buildpacks[0].Layers).To(HaveKey("cpython"))
-
-			Expect(logs).To(ContainLines(
-				MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, buildpackInfo.Buildpack.Name)),
-				"  Resolving CPython version",
-				"    Candidate version sources (in priority order):",
-				MatchRegexp(`      buildpack.yml -> \"3\.\d+\.\d+\"`),
-				"      <unknown>     -> \"\"",
-			))
-
-			Expect(logs).To(ContainLines(
-				MatchRegexp(`    Selected CPython version \(using buildpack.yml\): 3\.\d+\.\d+`),
-			))
-
-			Expect(logs).To(ContainLines(
-				"  Executing build process",
-				MatchRegexp(`    Installing CPython 3\.\d+\.\d+`),
-				MatchRegexp(`      Completed in \d+\.\d+`),
-			))
 
 			firstContainer, err = docker.Container.Run.
 				WithCommand("python3 server.py").
@@ -219,9 +162,14 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 
 			Eventually(firstContainer).Should(BeAvailable())
 
-			Expect(ioutil.WriteFile(filepath.Join(source, "buildpack.yml"), []byte(fmt.Sprintf("---\ncpython:\n  version: %s", buildpackInfo.Metadata.Dependencies[0].Version)), 0644)).To(Succeed())
-			// Second pack build
-			secondImage, logs, err = build.Execute(name, source)
+			secondImage, _, err = pack.WithNoColor().Build.
+				WithPullPolicy("never").
+				WithBuildpacks(
+					settings.Buildpacks.Cpython.Online,
+					settings.Buildpacks.BuildPlan.Online,
+				).
+				WithEnv(map[string]string{"BP_CPYTHON_VERSION": "3.10.*"}).
+				Execute(name, source)
 			Expect(err).NotTo(HaveOccurred())
 
 			imageIDs[secondImage.ID] = struct{}{}
@@ -229,24 +177,6 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			Expect(secondImage.Buildpacks).To(HaveLen(2))
 			Expect(secondImage.Buildpacks[0].Key).To(Equal(buildpackInfo.Buildpack.ID))
 			Expect(secondImage.Buildpacks[0].Layers).To(HaveKey("cpython"))
-
-			Expect(logs).To(ContainLines(
-				MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, buildpackInfo.Buildpack.Name)),
-				"  Resolving CPython version",
-				"    Candidate version sources (in priority order):",
-				MatchRegexp(`      buildpack.yml -> \"\d+\.\d+\.\d+\"`),
-				"      <unknown>     -> \"\"",
-			))
-
-			Expect(logs).To(ContainLines(
-				MatchRegexp(`    Selected CPython version \(using buildpack.yml\): 3\.\d+\.\d+`),
-			))
-
-			Expect(logs).To(ContainLines(
-				"  Executing build process",
-				MatchRegexp(`    Installing CPython 3\.\d+\.\d+`),
-				MatchRegexp(`      Completed in \d+\.\d+`),
-			))
 
 			secondContainer, err = docker.Container.Run.
 				WithCommand("python3 server.py").

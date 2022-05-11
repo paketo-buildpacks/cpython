@@ -20,12 +20,11 @@ func (f Generator) GenerateFromDependency(dependency postal.Dependency, path str
 
 func main() {
 	dependencies := postal.NewService(cargo.NewTransport())
-	buildpackYMLParser := cpython.NewBuildpackYMLParser()
 	sbomGenerator := Generator{}
 	logger := scribe.NewEmitter(os.Stdout).WithLevel(os.Getenv("BP_LOG_LEVEL"))
 
 	packit.Run(
-		cpython.Detect(buildpackYMLParser),
+		cpython.Detect(),
 		cpython.Build(dependencies, sbomGenerator, logger, chronos.DefaultClock),
 	)
 }
