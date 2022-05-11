@@ -4,7 +4,6 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/Masterminds/semver"
 	"github.com/paketo-buildpacks/packit/v2"
 	"github.com/paketo-buildpacks/packit/v2/chronos"
 	"github.com/paketo-buildpacks/packit/v2/draft"
@@ -62,14 +61,6 @@ func Build(dependencies DependencyManager, sbomGenerator SBOMGenerator, logger s
 		dependency.Name = "CPython"
 
 		logger.SelectedDependency(entry, dependency, clock.Now())
-
-		source, _ := entry.Metadata["version-source"].(string)
-		if source == "buildpack.yml" {
-			nextMajorVersion := semver.MustParse(context.BuildpackInfo.Version).IncMajor()
-			logger.Subprocess("WARNING: Setting the CPython version through buildpack.yml is deprecated and will be removed in %s v%s.", context.BuildpackInfo.Name, nextMajorVersion.String())
-			logger.Subprocess("Please specify the version through the $BP_CPYTHON_VERSION environment variable instead. See docs for more information.")
-			logger.Break()
-		}
 
 		legacySBOM := dependencies.GenerateBillOfMaterials(dependency)
 		launch, build := planner.MergeLayerTypes(Cpython, context.Plan.Entries)
