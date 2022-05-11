@@ -3,7 +3,6 @@ package cpython_test
 import (
 	"bytes"
 	"errors"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
@@ -41,10 +40,10 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 
 	it.Before(func() {
 		var err error
-		layersDir, err = ioutil.TempDir("", "layers")
+		layersDir, err = os.MkdirTemp("", "layers")
 		Expect(err).NotTo(HaveOccurred())
 
-		cnbDir, err = ioutil.TempDir("", "cnb")
+		cnbDir, err = os.MkdirTemp("", "cnb")
 		Expect(err).NotTo(HaveOccurred())
 
 		clock = chronos.DefaultClock
@@ -245,7 +244,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 
 	context("when the cached SHA matches the dependency SHA", func() {
 		it.Before(func() {
-			err := ioutil.WriteFile(filepath.Join(layersDir, "cpython.toml"), []byte("[metadata]\ndependency-sha = \"python-dependency-sha\"\n"), 0600)
+			err := os.WriteFile(filepath.Join(layersDir, "cpython.toml"), []byte("[metadata]\ndependency-sha = \"python-dependency-sha\"\n"), 0600)
 			Expect(err).NotTo(HaveOccurred())
 
 			buildContext.Plan.Entries[0].Metadata = map[string]interface{}{"build": true}
@@ -322,7 +321,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 
 		context("when the python layer cannot be retrieved", func() {
 			it.Before(func() {
-				err := ioutil.WriteFile(filepath.Join(layersDir, "cpython.toml"), nil, 0000)
+				err := os.WriteFile(filepath.Join(layersDir, "cpython.toml"), nil, 0000)
 				Expect(err).NotTo(HaveOccurred())
 			})
 
