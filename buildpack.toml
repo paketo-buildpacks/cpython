@@ -72,20 +72,6 @@ api = "0.7"
     version = "3.8.13"
 
   [[metadata.dependencies]]
-    cpe = "cpe:2.3:a:python:python:3.9.11:*:*:*:*:*:*:*"
-    deprecation_date = "2025-10-01T00:00:00Z"
-    id = "python"
-    licenses = ["0BSD", "CNRI-Python-GPL-Compatible"]
-    name = "Python"
-    purl = "pkg:generic/python@3.9.11?checksum=3442400072f582ac2f0df30895558f08883b416c8c7877ea55d40d00d8a93112&download_url=https://www.python.org/ftp/python/3.9.11/Python-3.9.11.tgz"
-    sha256 = "921d793e5b85d6e94e1231e7ff3b54e8faec4afc102145ab19e41c8b995bb57b"
-    source = "https://www.python.org/ftp/python/3.9.11/Python-3.9.11.tgz"
-    source_sha256 = "3442400072f582ac2f0df30895558f08883b416c8c7877ea55d40d00d8a93112"
-    stacks = ["io.buildpacks.stacks.bionic"]
-    uri = "https://deps.paketo.io/python/python_3.9.11_linux_x64_bionic_921d793e.tgz"
-    version = "3.9.11"
-
-  [[metadata.dependencies]]
     cpe = "cpe:2.3:a:python:python:3.9.12:*:*:*:*:*:*:*"
     deprecation_date = "2025-10-01T00:00:00Z"
     id = "python"
@@ -98,6 +84,20 @@ api = "0.7"
     stacks = ["io.buildpacks.stacks.bionic"]
     uri = "https://deps.paketo.io/python/python_3.9.12_linux_x64_bionic_d09c1fa2.tgz"
     version = "3.9.12"
+
+  [[metadata.dependencies]]
+    cpe = "cpe:2.3:a:python:python:3.9.13:*:*:*:*:*:*:*"
+    deprecation_date = "2025-10-01T00:00:00Z"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible"]
+    name = "Python"
+    purl = "pkg:generic/python@3.9.13?checksum=829b0d26072a44689a6b0810f5b4a3933ee2a0b8a4bfc99d7c5893ffd4f97c44&download_url=https://www.python.org/ftp/python/3.9.13/Python-3.9.13.tgz"
+    sha256 = "85a29adadf918b7df74d4dc7ec4e28273fbb2f4a35cd31d9b1a18b8aa4de4908"
+    source = "https://www.python.org/ftp/python/3.9.13/Python-3.9.13.tgz"
+    source_sha256 = "829b0d26072a44689a6b0810f5b4a3933ee2a0b8a4bfc99d7c5893ffd4f97c44"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://deps.paketo.io/python/python_3.9.13_linux_x64_bionic_85a29ada.tgz"
+    version = "3.9.13"
 
   [[metadata.dependencies]]
     cpe = "cpe:2.3:a:python:python:3.10.3:*:*:*:*:*:*:*"
