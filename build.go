@@ -140,9 +140,8 @@ func Build(dependencies DependencyManager, sbomGenerator SBOMGenerator, logger s
 		cpythonLayer.SharedEnv.Default("PYTHONPYCACHEPREFIX", "$HOME/.pycache")
 
 		logger.Break()
-		logger.Process("Configuring environment")
-		logger.Subprocess("%s", scribe.NewFormattedMapFromEnvironment(cpythonLayer.SharedEnv))
-		logger.Break()
+
+		logger.EnvironmentVariables(cpythonLayer)
 
 		return packit.BuildResult{
 			Layers: []packit.Layer{cpythonLayer},
