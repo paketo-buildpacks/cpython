@@ -67,7 +67,10 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 			Expect(err).ToNot(HaveOccurred())
 
 			Eventually(container).Should(BeAvailable())
-			Eventually(container).Should(Serve(ContainSubstring("hello world")).OnPort(8080))
+			Eventually(container).Should(Serve(SatisfyAll(
+				ContainSubstring("hello world"),
+				ContainSubstring("PYTHONPYCACHEPREFIX=/home/cnb/.pycache"),
+			)).OnPort(8080))
 
 			Expect(logs).To(ContainLines(
 				MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, buildpackInfo.Buildpack.Name)),
@@ -84,12 +87,10 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 			))
 			Expect(logs).To(ContainLines(
 				"  Configuring build environment",
-				fmt.Sprintf(`    PYTHONPATH          -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_")),
-				`    PYTHONPYCACHEPREFIX -> "$HOME/.pycache"`,
+				fmt.Sprintf(`    PYTHONPATH -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_")),
 				"",
 				"  Configuring launch environment",
-				fmt.Sprintf(`    PYTHONPATH          -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_")),
-				`    PYTHONPYCACHEPREFIX -> "$HOME/.pycache"`,
+				fmt.Sprintf(`    PYTHONPATH -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_")),
 			))
 		})
 
@@ -218,12 +219,10 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 
 				Expect(logs).To(ContainLines(
 					"  Configuring build environment",
-					fmt.Sprintf(`    PYTHONPATH          -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_")),
-					`    PYTHONPYCACHEPREFIX -> "$HOME/.pycache"`,
+					fmt.Sprintf(`    PYTHONPATH -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_")),
 					"",
 					"  Configuring launch environment",
-					fmt.Sprintf(`    PYTHONPATH          -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_")),
-					`    PYTHONPYCACHEPREFIX -> "$HOME/.pycache"`,
+					fmt.Sprintf(`    PYTHONPATH -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_")),
 				))
 			})
 		})

@@ -10,7 +10,7 @@ api = "0.7"
     uri = "https://github.com/paketo-buildpacks/cpython/blob/main/LICENSE"
 
 [metadata]
-  include-files = ["bin/run", "bin/build", "bin/detect", "buildpack.toml"]
+  include-files = ["bin/run", "bin/build", "bin/detect", "bin/env", "buildpack.toml"]
   pre-package = "./scripts/build.sh"
   [metadata.default-versions]
     python = "3.9.x"

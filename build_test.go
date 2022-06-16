@@ -117,8 +117,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		Expect(layer.Path).To(Equal(filepath.Join(layersDir, "cpython")))
 
 		Expect(layer.SharedEnv).To(Equal(packit.Environment{
-			"PYTHONPATH.default":          filepath.Join(layersDir, "cpython"),
-			"PYTHONPYCACHEPREFIX.default": "$HOME/.pycache",
+			"PYTHONPATH.default": filepath.Join(layersDir, "cpython"),
 		}))
 		Expect(layer.BuildEnv).To(BeEmpty())
 		Expect(layer.LaunchEnv).To(BeEmpty())
@@ -130,6 +129,10 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 
 		Expect(layer.Metadata).To(Equal(map[string]interface{}{
 			"dependency-sha": "python-dependency-sha",
+		}))
+
+		Expect(layer.ExecD).To(Equal([]string{
+			filepath.Join(cnbDir, "bin", "env"),
 		}))
 
 		Expect(layer.SBOM.Formats()).To(Equal([]packit.SBOMFormat{

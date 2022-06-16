@@ -48,6 +48,7 @@ func TestIntegration(t *testing.T) {
 	// Do not truncate Gomega matcher output
 	// The buildpack output text can be large and we often want to see all of it.
 	format.MaxLength = 0
+	SetDefaultEventuallyTimeout(30 * time.Second)
 
 	Expect := NewWithT(t).Expect
 
@@ -82,8 +83,6 @@ func TestIntegration(t *testing.T) {
 	settings.Buildpacks.BuildPlan.Online, err = buildpackStore.Get.
 		Execute(settings.Config.BuildPlan)
 	Expect(err).NotTo(HaveOccurred())
-
-	SetDefaultEventuallyTimeout(5 * time.Second)
 
 	suite := spec.New("Integration", spec.Report(report.Terminal{}), spec.Parallel())
 	suite("Default", testDefault)
