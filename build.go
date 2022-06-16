@@ -137,7 +137,7 @@ func Build(dependencies DependencyManager, sbomGenerator SBOMGenerator, logger s
 		}
 
 		cpythonLayer.SharedEnv.Default("PYTHONPATH", cpythonLayer.Path)
-		cpythonLayer.SharedEnv.Default("PYTHONPYCACHEPREFIX", "$HOME/.pycache")
+		cpythonLayer.ExecD = []string{filepath.Join(context.CNBPath, "bin", "env")}
 
 		logger.Break()
 
