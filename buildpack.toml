@@ -18,7 +18,7 @@ api = "0.5"
     source = "https://www.python.org/ftp/python/3.6.14/Python-3.6.14.tgz"
     source_sha256 = "70064897bc434d6eae8bcc3e5678f282b5ea776d60e695da548a1219ccfd27a5"
     stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
-    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.6.14_linux_x64_cflinuxfs3_44f5e786.tgz"
+    uri = "http://dash-app-resources.plotly-system.svc.cluster.local/packages/kpack-offline-files/python_3.6.14_linux_x64_cflinuxfs3_44f5e786.tgz"
     version = "3.6.14"
 
   [[metadata.dependencies]]
@@ -29,7 +29,7 @@ api = "0.5"
     source = "https://www.python.org/ftp/python/3.6.15/Python-3.6.15.tgz"
     source_sha256 = "54570b7e339e2cfd72b29c7e2fdb47c0b7b18b7412e61de5b463fc087c13b043"
     stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
-    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.6.15_linux_x64_cflinuxfs3_00084a8a.tgz"
+    uri = "http://dash-app-resources.plotly-system.svc.cluster.local/packages/kpack-offline-files/python_3.6.15_linux_x64_cflinuxfs3_00084a8a.tgz"
     version = "3.6.15"
 
   [[metadata.dependencies]]
@@ -40,7 +40,7 @@ api = "0.5"
     source = "https://www.python.org/ftp/python/3.7.11/Python-3.7.11.tgz"
     source_sha256 = "b4fba32182e16485d0a6022ba83c9251e6a1c14676ec243a9a07d3722cd4661a"
     stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
-    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.7.11_linux_x64_cflinuxfs3_b214c524.tgz"
+    uri = "http://dash-app-resources.plotly-system.svc.cluster.local/packages/kpack-offline-files/python_3.7.11_linux_x64_cflinuxfs3_b214c524.tgz"
     version = "3.7.11"
 
   [[metadata.dependencies]]
@@ -51,7 +51,7 @@ api = "0.5"
     source = "https://www.python.org/ftp/python/3.7.12/Python-3.7.12.tgz"
     source_sha256 = "33b4daaf831be19219659466d12645f87ecec6eb21d4d9f9711018a7b66cce46"
     stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
-    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.7.12_linux_x64_cflinuxfs3_b89d366c.tgz"
+    uri = "http://dash-app-resources.plotly-system.svc.cluster.local/packages/kpack-offline-files/python_3.7.12_linux_x64_cflinuxfs3_b89d366c.tgz"
     version = "3.7.12"
 
   [[metadata.dependencies]]
@@ -62,7 +62,7 @@ api = "0.5"
     source = "https://www.python.org/ftp/python/3.8.11/Python-3.8.11.tgz"
     source_sha256 = "b77464ea80cec14581b86aeb7fb2ff02830e0abc7bcdc752b7b4bdfcd8f3e393"
     stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
-    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.8.11_linux_x64_cflinuxfs3_e57abfea.tgz"
+    uri = "http://dash-app-resources.plotly-system.svc.cluster.local/packages/kpack-offline-files/python_3.8.11_linux_x64_cflinuxfs3_e57abfea.tgz"
     version = "3.8.11"
 
   [[metadata.dependencies]]
@@ -73,7 +73,7 @@ api = "0.5"
     source = "https://www.python.org/ftp/python/3.8.12/Python-3.8.12.tgz"
     source_sha256 = "316aa33f3b7707d041e73f246efedb297a70898c4b91f127f66dc8d80c596f1a"
     stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
-    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.8.12_linux_x64_cflinuxfs3_63d8339a.tgz"
+    uri = "http://dash-app-resources.plotly-system.svc.cluster.local/packages/kpack-offline-files/python_3.8.12_linux_x64_cflinuxfs3_63d8339a.tgz"
     version = "3.8.12"
 
   [[metadata.dependencies]]
@@ -84,7 +84,7 @@ api = "0.5"
     source = "https://www.python.org/ftp/python/3.9.6/Python-3.9.6.tgz"
     source_sha256 = "d0a35182e19e416fc8eae25a3dcd4d02d4997333e4ad1f2eee6010aadc3fe866"
     stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
-    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.9.6_linux_x64_cflinuxfs3_caec8bfa.tgz"
+    uri = "http://dash-app-resources.plotly-system.svc.cluster.local/packages/kpack-offline-files/python_3.9.6_linux_x64_cflinuxfs3_caec8bfa.tgz"
     version = "3.9.6"
 
   [[metadata.dependencies]]
@@ -95,7 +95,7 @@ api = "0.5"
     source = "https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tgz"
     source_sha256 = "a838d3f9360d157040142b715db34f0218e535333696a5569dc6f854604eb9d1"
     stacks = ["io.buildpacks.stacks.bionic", "org.cloudfoundry.stacks.cflinuxfs3"]
-    uri = "https://buildpacks.cloudfoundry.org/dependencies/python/python_3.9.7_linux_x64_cflinuxfs3_eacb311d.tgz"
+    uri = "http://dash-app-resources.plotly-system.svc.cluster.local/packages/kpack-offline-files/python_3.9.7_linux_x64_cflinuxfs3_eacb311d.tgz"
     version = "3.9.7"
 
   [[metadata.dependency_deprecation_dates]]

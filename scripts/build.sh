@@ -47,7 +47,7 @@ function run::build() {
     pushd "${BUILDPACKDIR}/bin" > /dev/null || return
       printf "%s" "Building run... "
 
-      GOOS=linux \
+      CGO_ENABLED=0 GOOS=linux \
         go build \
           -ldflags="-s -w" \
           -o "run" \
@@ -74,7 +74,8 @@ function cmd::build() {
 
       printf "%s" "Building ${name}... "
 
-      GOOS="linux" \
+
+      CGO_ENABLED=0 GOOS="linux" \
         go build \
           -ldflags="-s -w" \
           -o "${BUILDPACKDIR}/bin/${name}" \
