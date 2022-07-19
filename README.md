@@ -27,7 +27,7 @@ that is installed. (Available versions can be found in the
 
 #### `pack build` flag
 ```shell
-pack build my-app --env BP_CPYTHON_VERSION=3.8.*
+pack build my-app --env BP_CPYTHON_VERSION=3.10.*
 ```
 
 #### In a [`project.toml`](https://github.com/buildpacks/spec/blob/main/extensions/project-descriptor.md)
@@ -35,7 +35,7 @@ pack build my-app --env BP_CPYTHON_VERSION=3.8.*
 [build]
   [[build.env]]
     name = 'BP_CPYTHON_VERSION'
-    value = '3.8.*' # any valid semver constraints (e.g. 3.8.7, 3.*) are acceptable
+    value = '3.10.*' # any valid semver constraints (e.g. 3.10.2, 3.*) are acceptable
 ```
 
 ## Integration
@@ -51,15 +51,17 @@ file that looks like the following:
   # part of the public API for the buildpack and will not change without a plan
   # for deprecation.
   name = "cpython"
-  # The version of the CPython dependency is not required. In the case it
-  # is not specified, the buildpack will provide the default version, which can
-  # be seen in the buildpack.toml file.
-  # If you wish to request a specific version, the buildpack supports
-  # specifying a semver constraint in the form of "3.*", "3.8.*", or even
-  # "3.8.2".
-  version = "3.8.2"
+
   # The CPython buildpack supports some non-required metadata options.
   [requires.metadata]
+
+    # The version of the CPython dependency is not required. In the case it
+    # is not specified, the buildpack will provide the default version, which can
+    # be seen in the buildpack.toml file.
+    # If you wish to request a specific version, the buildpack supports
+    # specifying a semver constraint in the form of "3.*", "3.10.*", or even
+    # "3.10.2".
+    version = "3.10.2"
 
     # Setting the build flag to true will ensure that the CPython
     # depdendency is available on the $PATH for subsequent buildpacks during
