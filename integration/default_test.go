@@ -184,7 +184,7 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 						settings.Buildpacks.BuildPlan.Online,
 					).
 					WithEnv(map[string]string{
-						"BP_CPYTHON_VERSION": "3.8.*",
+						"BP_CPYTHON_VERSION": "3.9.*",
 					}).
 					Execute(name, filepath.Join("testdata", "default_app"))
 				Expect(err).ToNot(HaveOccurred(), logs.String)
@@ -203,17 +203,17 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 					MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, buildpackInfo.Buildpack.Name)),
 					"  Resolving CPython version",
 					"    Candidate version sources (in priority order):",
-					`      BP_CPYTHON_VERSION -> "3.8.*"`,
+					`      BP_CPYTHON_VERSION -> "3.9.*"`,
 					`      <unknown>          -> ""`,
 				))
 
 				Expect(logs).To(ContainLines(
-					MatchRegexp(`   Selected CPython version \(using BP_CPYTHON_VERSION\): 3\.8\.\d+`),
+					MatchRegexp(`   Selected CPython version \(using BP_CPYTHON_VERSION\): 3\.9\.\d+`),
 				))
 
 				Expect(logs).To(ContainLines(
 					"  Executing build process",
-					MatchRegexp(`    Installing CPython 3\.8\.\d+`),
+					MatchRegexp(`    Installing CPython 3\.9\.\d+`),
 					MatchRegexp(`      Completed in \d+\.\d+`),
 				))
 
