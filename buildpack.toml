@@ -123,7 +123,7 @@ api = "0.7"
     sha256 = "e8027469448fc94c49140b3de122a2a5b8437c04ca47f72ee4d38e1e6d68a540"
     source = "https://www.python.org/ftp/python/3.10.5/Python-3.10.5.tgz"
     source_sha256 = "18f57182a2de3b0be76dfc39fdcfd28156bb6dd23e5f08696f7492e9e3d0bf2d"
-    stacks = ["io.buildpacks.stacks.bionic"]
+    stacks = ["io.buildpacks.stacks.bionic", "io.buildpacks.stacks.jammy"]
     uri = "https://deps.paketo.io/python/python_3.10.5_linux_x64_bionic_e8027469.tgz"
     version = "3.10.5"
 
@@ -149,6 +149,9 @@ api = "0.7"
 
 [[stacks]]
   id = "io.buildpacks.stacks.bionic"
+
+[[stacks]]
+  id = "io.buildpacks.stacks.jammy"
 
 [[stacks]]
   id = "org.cloudfoundry.stacks.cflinuxfs3"

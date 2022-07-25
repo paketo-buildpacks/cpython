@@ -40,7 +40,8 @@ var settings struct {
 	}
 
 	Config struct {
-		BuildPlan string `json:"build-plan"`
+		BuildPlan string   `json:"build-plan"`
+		Builders  []string `json:"builders"`
 	}
 }
 
