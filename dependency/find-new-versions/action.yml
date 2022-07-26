@@ -1,0 +1,35 @@
+name: 'List New Upstream Python Jammy Versions'
+description: |
+  List new versions of upstream dependency
+
+inputs:
+  min-version:
+    description: Minimum version to check
+    required: true
+  buildpack-toml-path:
+    description: Full path to buildpack.toml
+    required: true
+
+outputs:
+  new-versions:
+    description: JSON array of new versions
+    value: ${{ steps.new-versions.outputs.new-versions }}
+
+runs:
+  using: 'composite'
+  steps:
+    - id: new-versions
+      shell: bash
+      working-directory: ${{ github.action_path }}/entrypoint
+      run: |
+        go build
+        
+        new_versions="$(./retrieval \
+          --min-version=${{ inputs.min-version }} \
+          --buildpack-toml-path=${{ inputs.buildpack-toml-path }}
+        )"
+
+        new_versions="${new_versions//'%'/'%25'}"
+        new_versions="${new_versions//$'\n'/'%0A'}"
+        new_versions="${new_versions//$'\r'/'%0D'}"
+        echo "::set-output name=new-versions::${new_versions}"

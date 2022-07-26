@@ -1,0 +1,42 @@
+name: 'Prepare Commit'
+description: |
+  Prepare commit
+
+inputs:
+  uri:
+    description: URI of the dependency
+    required: true
+  sha256:
+    description: SHA256 of the dependency
+    required: true
+  version:
+    description: version of the dependency
+    required: true
+  upstream-uri:
+    description: URI of the upstream dependency
+    required: true
+  upstream-sha256:
+    description: SHA256 of the upstream dependency
+    required: true
+  stack:
+    description: stack
+    required: true
+  buildpack-toml-path:
+    description: Full path to buildpack.toml
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - shell: bash
+      working-directory: ${{ github.action_path }}/entrypoint
+      run: |
+        go build
+        ./prep_commit \
+          --uri=${{ inputs.uri }} \
+          --sha256=${{ inputs.sha256 }} \
+          --version=${{ inputs.version }} \
+          --upstream-uri=${{ inputs.upstream-uri }} \
+          --upstream-sha256=${{ inputs.upstream-sha256 }} \
+          --stack=${{ inputs.stack }} \
+          --buildpack-toml-path=${{ inputs.buildpack-toml-path }}
