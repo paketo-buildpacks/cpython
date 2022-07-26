@@ -1,0 +1,37 @@
+name: 'Compile CPython on Jammy'
+description: |
+  Compile CPython on Jammy
+
+inputs:
+  version:
+    description: version of the dependency
+    required: true
+  upstream-tarball:
+    description: URI of the upstream tarball
+    required: true
+
+outputs:
+  tarball-name:
+    description: name of the tarball
+    value: ${{ steps.compile.outputs.tarball-name }}
+  tarball-path:
+    description: full path of the tarball
+    value: ${{ steps.compile.outputs.tarball-path }}
+  sha256:
+    description: SHA256 of the dependency
+    value: ${{ steps.compile.outputs.sha256 }}
+  upstream-sha256:
+    description: SHA256 of the upstream dependency
+    value: ${{ steps.compile.outputs.upstream-sha256 }}
+
+runs:
+  using: 'composite'
+  steps:
+    - id: compile
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: |
+        ./compile.sh
+      env:
+        VERSION: ${{ matrix.version }}
+        UPSTREAM_TARBALL: https://www.python.org/ftp/python/${{ matrix.version }}/Python-${{ matrix.version }}.tgz

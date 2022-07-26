@@ -1,0 +1,96 @@
+name: Build CPython on Jammy
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  find-new-versions:
+    name: Find new versions
+    runs-on: ubuntu-latest
+    outputs:
+      new-versions: ${{ steps.find-new-versions.outputs.new-versions }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup go >=1.18.0
+        uses: actions/setup-go@v3
+        with:
+          go-version: '>=1.18.0'
+      - id: find-new-versions
+        uses: ./dependency/find-new-versions
+        with:
+          min-version: 3.10.4
+          buildpack-toml-path: ${{ github.workspace }}/buildpack.toml
+      - name: List new versions
+        run: |
+          echo "${{ steps.find-new-versions.outputs.new-versions }}"
+  compile:
+    name: Compile new versions
+    runs-on: ubuntu-22.04
+    needs:
+      - find-new-versions
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJSON(needs.find-new-versions.outputs.new-versions) }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: compile
+        uses: ./dependency/compile
+        with:
+          version: ${{ matrix.version }}
+          upstream-tarball: 'https://www.python.org/ftp/python/${{ matrix.version }}/Python-${{ matrix.version }}.tgz'
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.compile.outputs.tarball-name }}
+          path: ${{ steps.compile.outputs.tarball-path }}
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Upload
+        id: upload
+        uses: paketo-buildpacks/dep-server/actions/upload-dependency@main
+        with:
+          bucket-name: ${{ secrets.DEPS_BUCKET }}
+          dependency-name: python
+          artifact-path: ${{ steps.compile.outputs.tarball-path }}
+      - name: Prepare commit
+        uses: ./dependency/prep-commit
+        with:
+          uri: ${{ steps.upload.outputs.dependency-uri }}
+          sha256: ${{ steps.compile.outputs.sha256 }}
+          version: ${{ matrix.version }}
+          upstream-uri: 'https://www.python.org/ftp/python/${{ matrix.version }}/Python-${{ matrix.version }}.tgz'
+          upstream-sha256: ${{ steps.compile.outputs.upstream-sha256 }}
+          stack: 'io.buildpacks.stacks.jammy'
+          buildpack-toml-path: ${{ github.workspace }}/buildpack.toml
+      - name: Checkout Branch 'automation/dependencies/update-jammy-${{ matrix.version }}'
+        run: |
+          git checkout -b automation/dependencies/update-jammy-${{ matrix.version }}
+      - name: Show git diff
+        run: |
+          cat ${{ github.workspace }}/buildpack.toml
+          git diff
+      - name: Commit
+        id: commit
+        uses: paketo-buildpacks/github-config/actions/pull-request/create-commit@main
+        with:
+          message: "Updating buildpack.toml with jammy dependency version {{ matrix.version }}"
+          pathspec: "."
+          keyid: ${{ secrets.PAKETO_BOT_GPG_SIGNING_KEY_ID }}
+          key: ${{ secrets.PAKETO_BOT_GPG_SIGNING_KEY }}
+      - name: Push Branch 'automation/dependencies/update-jammy-${{ matrix.version }}'
+        if: ${{ steps.commit.outputs.commit_sha != '' }}
+        uses: paketo-buildpacks/github-config/actions/pull-request/push-branch@main
+        with:
+          branch: automation/dependencies/update-jammy-${{ matrix.version }}
+      - name: Open Pull Request
+        if: ${{ steps.commit.outputs.commit_sha != '' }}
+        uses: paketo-buildpacks/github-config/actions/pull-request/open@main
+        with:
+          token: ${{ secrets.PAKETO_BOT_GITHUB_TOKEN }}
+          title: "Add Jammy dependency v${{ matrix.version }}"
+          branch: automation/dependencies/update-jammy-${{ matrix.version }}
