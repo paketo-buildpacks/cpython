@@ -39,7 +39,6 @@ pushd "${WORKING_DIR}"
 
   UPSTREAM_SHA256=$(sha256sum upstream.tgz)
   UPSTREAM_SHA256=${UPSTREAM_SHA256:0:64}
-  OUTPUT_TARBALL_NAME="python-${VERSION}-linux_x64_jammy_${UPSTREAM_SHA256:0:8}.tgz"
 
   tar --extract \
     --file upstream.tgz
@@ -64,20 +63,27 @@ pushd "${WORKING_DIR}"
 popd
 
 pushd "${DEST_DIR}"
-    scream "Building tarball ${OUTPUT_TARBALL_NAME}"
+  tar --create \
+    --gzip \
+    --verbose \
+    --hard-dereference \
+    --file "${OUTPUT_DIR}/temp.tgz" \
+    .
+popd
 
-    tar --create \
-      --gzip \
-      --verbose \
-      --hard-dereference \
-      --file "${OUTPUT_DIR}/${OUTPUT_TARBALL_NAME}" \
-      .
+pushd "${OUTPUT_DIR}"
+
+  SHA256=$(sha256sum temp.tgz)
+  SHA256="${SHA256:0:64}"
+
+  OUTPUT_TARBALL_NAME="python_${VERSION}_linux_x64_jammy_${SHA256:0:8}.tgz"
+
+  scream "Building tarball ${OUTPUT_TARBALL_NAME}"
+
+  mv temp.tgz "${OUTPUT_TARBALL_NAME}"
 popd
 
 echo "::set-output name=upstream-sha256::${UPSTREAM_SHA256}"
 echo "::set-output name=tarball-name::${OUTPUT_TARBALL_NAME}"
 echo "::set-output name=tarball-path::${OUTPUT_DIR}/${OUTPUT_TARBALL_NAME}"
-
-SHA256=$(sha256sum "${OUTPUT_DIR}/${OUTPUT_TARBALL_NAME}")
-SHA256="${SHA256:0:64}"
 echo "::set-output name=sha256::${SHA256}"
