@@ -127,16 +127,15 @@ api = "0.7"
 
   [[metadata.dependencies]]
     cpe = "cpe:2.3:a:python:python:3.10.4:*:*:*:*:*:*:*"
-    deprecation_date = "2026-10-01T00:00:00Z"
     id = "python"
     licenses = ["0BSD", "CNRI-Python-GPL-Compatible"]
     name = "Python"
     purl = "pkg:generic/python@3.10.4?checksum=f3bcc65b1d5f1dc78675c746c98fcee823c038168fc629c5935b044d0911ad28&download_url=https://www.python.org/ftp/python/3.10.4/Python-3.10.4.tgz"
-    sha256 = "3dd1b75a54794bc4b25bfc536d3bbd2f04b0cd32e84f1634083ac823408b9480"
+    sha256 = "c8231ea3a8d05ea45c388fe5b75f9d9432323d860ca7ec1a58aad33b0ebaa60e"
     source = "https://www.python.org/ftp/python/3.10.4/Python-3.10.4.tgz"
     source_sha256 = "f3bcc65b1d5f1dc78675c746c98fcee823c038168fc629c5935b044d0911ad28"
-    stacks = ["io.buildpacks.stacks.bionic"]
-    uri = "https://deps.paketo.io/python/python_3.10.4_linux_x64_bionic_3dd1b75a.tgz"
+    stacks = ["io.buildpacks.stacks.jammy"]
+    uri = "https://deps.paketo.io/python/python_3.10.4_linux_x64_jammy_c8231ea3.tgz"
     version = "3.10.4"
 
   [[metadata.dependencies]]
@@ -154,19 +153,6 @@ api = "0.7"
     version = "3.10.5"
 
   [[metadata.dependencies]]
-    cpe = "cpe:2.3:a:python:python:3.10.4:*:*:*:*:*:*:*"
-    id = "python"
-    licenses = ["0BSD", "CNRI-Python-GPL-Compatible"]
-    name = "Python"
-    purl = "pkg:generic/python@3.10.4?checksum=f3bcc65b1d5f1dc78675c746c98fcee823c038168fc629c5935b044d0911ad28&download_url=https://www.python.org/ftp/python/3.10.4/Python-3.10.4.tgz"
-    sha256 = "c8231ea3a8d05ea45c388fe5b75f9d9432323d860ca7ec1a58aad33b0ebaa60e"
-    source = "https://www.python.org/ftp/python/3.10.4/Python-3.10.4.tgz"
-    source_sha256 = "f3bcc65b1d5f1dc78675c746c98fcee823c038168fc629c5935b044d0911ad28"
-    stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://deps.paketo.io/python/python_3.10.4_linux_x64_jammy_c8231ea3.tgz"
-    version = "3.10.4"
-
-  [[metadata.dependencies]]
     cpe = "cpe:2.3:a:python:python:3.10.5:*:*:*:*:*:*:*"
     id = "python"
     licenses = ["0BSD", "CNRI-Python-GPL-Compatible"]
@@ -178,6 +164,20 @@ api = "0.7"
     stacks = ["io.buildpacks.stacks.jammy"]
     uri = "https://deps.paketo.io/python/python_3.10.5_linux_x64_jammy_0864d6e0.tgz"
     version = "3.10.5"
+
+  [[metadata.dependencies]]
+    cpe = "cpe:2.3:a:python:python:3.10.6:*:*:*:*:*:*:*"
+    deprecation_date = "2026-10-01T00:00:00Z"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible"]
+    name = "Python"
+    purl = "pkg:generic/python@3.10.6?checksum=848cb06a5caa85da5c45bd7a9221bb821e33fc2bdcba088c127c58fad44e6343&download_url=https://www.python.org/ftp/python/3.10.6/Python-3.10.6.tgz"
+    sha256 = "dbe8573a67909a5736a65a9246d1e5c27659575bba39419d1f8421c495abd202"
+    source = "https://www.python.org/ftp/python/3.10.6/Python-3.10.6.tgz"
+    source_sha256 = "848cb06a5caa85da5c45bd7a9221bb821e33fc2bdcba088c127c58fad44e6343"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://deps.paketo.io/python/python_3.10.6_linux_x64_bionic_dbe8573a.tgz"
+    version = "3.10.6"
 
   [[metadata.dependency-constraints]]
     constraint = "3.7.*"
