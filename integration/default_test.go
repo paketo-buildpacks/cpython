@@ -47,55 +47,52 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 			Expect(docker.Volume.Remove.Execute(occam.CacheVolumeNames(name))).To(Succeed())
 		})
 
-		for _, builder := range settings.Config.Builders {
-			it(fmt.Sprintf("builds on %s with the defaults", builder), func() {
-				var err error
-				var logs fmt.Stringer
-				image, logs, err = pack.WithNoColor().Build.
-					WithPullPolicy("never").
-					WithBuildpacks(
-						settings.Buildpacks.Cpython.Online,
-						settings.Buildpacks.BuildPlan.Online,
-					).
-					WithBuilder(builder).
-					Execute(name, filepath.Join("testdata", "default_app"))
-				Expect(err).ToNot(HaveOccurred(), logs.String)
+		it("builds with the defaults", func() {
+			var err error
+			var logs fmt.Stringer
+			image, logs, err = pack.WithNoColor().Build.
+				WithPullPolicy("never").
+				WithBuildpacks(
+					settings.Buildpacks.Cpython.Online,
+					settings.Buildpacks.BuildPlan.Online,
+				).
+				Execute(name, filepath.Join("testdata", "default_app"))
+			Expect(err).ToNot(HaveOccurred(), logs.String)
 
-				container, err = docker.Container.Run.
-					WithCommand("python3 server.py").
-					WithEnv(map[string]string{"PORT": "8080"}).
-					WithPublish("8080").
-					Execute(image.ID)
-				Expect(err).ToNot(HaveOccurred())
+			container, err = docker.Container.Run.
+				WithCommand("python3 server.py").
+				WithEnv(map[string]string{"PORT": "8080"}).
+				WithPublish("8080").
+				Execute(image.ID)
+			Expect(err).ToNot(HaveOccurred())
 
-				Eventually(container).Should(BeAvailable())
-				Eventually(container).Should(Serve(SatisfyAll(
-					ContainSubstring("hello world"),
-					ContainSubstring("PYTHONPYCACHEPREFIX=/home/cnb/.pycache"),
-				)).OnPort(8080))
+			Eventually(container).Should(BeAvailable())
+			Eventually(container).Should(Serve(SatisfyAll(
+				ContainSubstring("hello world"),
+				ContainSubstring("PYTHONPYCACHEPREFIX=/home/cnb/.pycache"),
+			)).OnPort(8080))
 
-				Expect(logs).To(ContainLines(
-					MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, buildpackInfo.Buildpack.Name)),
-					"  Resolving CPython version",
-					"    Candidate version sources (in priority order):",
-					"      <unknown> -> \"\"",
-					"",
-					MatchRegexp(`    Selected CPython version \(using <unknown>\): 3\.\d+\.\d+`),
-				))
-				Expect(logs).To(ContainLines(
-					"  Executing build process",
-					MatchRegexp(`    Installing CPython 3\.\d+\.\d+`),
-					MatchRegexp(`      Completed in \d+\.\d+`),
-				))
-				Expect(logs).To(ContainLines(
-					"  Configuring build environment",
-					fmt.Sprintf(`    PYTHONPATH -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_")),
-					"",
-					"  Configuring launch environment",
-					fmt.Sprintf(`    PYTHONPATH -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_")),
-				))
-			})
-		}
+			Expect(logs).To(ContainLines(
+				MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, buildpackInfo.Buildpack.Name)),
+				"  Resolving CPython version",
+				"    Candidate version sources (in priority order):",
+				"      <unknown> -> \"\"",
+				"",
+				MatchRegexp(`    Selected CPython version \(using <unknown>\): 3\.\d+\.\d+`),
+			))
+			Expect(logs).To(ContainLines(
+				"  Executing build process",
+				MatchRegexp(`    Installing CPython 3\.\d+\.\d+`),
+				MatchRegexp(`      Completed in \d+\.\d+`),
+			))
+			Expect(logs).To(ContainLines(
+				"  Configuring build environment",
+				fmt.Sprintf(`    PYTHONPATH -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_")),
+				"",
+				"  Configuring launch environment",
+				fmt.Sprintf(`    PYTHONPATH -> "/layers/%s/cpython"`, strings.ReplaceAll(buildpackInfo.Buildpack.ID, "/", "_")),
+			))
+		})
 
 		context("validating SBOM", func() {
 			var (
