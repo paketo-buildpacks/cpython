@@ -43,6 +43,18 @@ func main() {
 
 	config := parseBuildpackToml(buildpackTomlPath)
 
+	for _, existingDependency := range config.Metadata.Dependencies {
+		if existingDependency.Name == "Python" &&
+			existingDependency.Version == version &&
+			len(existingDependency.Stacks) == 1 &&
+			existingDependency.Stacks[0] == stack {
+			if verbose {
+				fmt.Printf("Dependency already exists\n")
+				return
+			}
+		}
+	}
+
 	newDependency := cargo.ConfigMetadataDependency{}
 	newDependency.CPE = fmt.Sprintf("cpe:2.3:a:python:python:%s:*:*:*:*:*:*:*", version)
 	newDependency.ID = "python"

@@ -9,6 +9,9 @@ inputs:
   buildpack-toml-path:
     description: Full path to buildpack.toml
     required: true
+  stack:
+    description: stack for which to check for new versions
+    required: true
 
 outputs:
   new-versions:
@@ -26,7 +29,8 @@ runs:
         
         new_versions="$(./retrieval \
           --min-version=${{ inputs.min-version }} \
-          --buildpack-toml-path=${{ inputs.buildpack-toml-path }}
+          --buildpack-toml-path=${{ inputs.buildpack-toml-path }} \
+          --stack=${{ inputs.stack }}
         )"
 
         new_versions="${new_versions//'%'/'%25'}"

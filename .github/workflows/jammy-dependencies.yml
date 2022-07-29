@@ -18,8 +18,9 @@ jobs:
       - id: find-new-versions
         uses: ./dependency/find-new-versions
         with:
-          min-version: 3.10.4
+          min-version: 3.9.12
           buildpack-toml-path: ${{ github.workspace }}/buildpack.toml
+          stack: io.buildpacks.stacks.jammy
       - name: List new versions
         run: |
           echo "${{ steps.find-new-versions.outputs.new-versions }}"

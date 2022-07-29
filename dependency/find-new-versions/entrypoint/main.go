@@ -53,9 +53,9 @@ func main() {
 		}
 	}
 
-	GetNewVersions("python", "Python", stack, buildpackTomlPath, versionsAtLeastMin)
+	newVersionsFilteredByConstraintsAndPatches := GetNewVersions("python", "Python", stack, buildpackTomlPath, versionsAtLeastMin)
 
-	newVersionsJSON, err := json.Marshal(versionsAtLeastMin)
+	newVersionsJSON, err := json.Marshal(newVersionsFilteredByConstraintsAndPatches)
 	if err != nil {
 		fmt.Printf("failed to marshal new versions: %e", err)
 		os.Exit(1)
