@@ -32,7 +32,7 @@ func GetNewVersions(id, name, stack string, buildpackTomlPath string, allVersion
 	config := ParseBuildpackToml(buildpackTomlPath)
 	buildpackVersions := GetBuildpackVersions(id, stack, config)
 	versionsFilteredByConstraints := FilterToConstraints(id, config, allVersions)
-	versionsFilteredByPatches := FilterToPatches(versionsFilteredByConstraints, config, buildpackVersions)
+	versionsFilteredByPatches := FilterToPatches(id, versionsFilteredByConstraints, config, buildpackVersions)
 
 	if len(versionsFilteredByPatches) < 1 {
 		panic("No versions found")
@@ -52,12 +52,12 @@ func GetBuildpackVersions(id, stack string, config cargo.Config) []string {
 	return buildpackVersions
 }
 
-func FilterToPatches(versionsFilteredByConstraints map[string][]*semver.Version, config cargo.Config, buildpackVersions []string) []string {
+func FilterToPatches(id string, versionsFilteredByConstraints map[string][]*semver.Version, config cargo.Config, buildpackVersions []string) []string {
 	var versionsToAdd []*semver.Version
 	for constraintId, versions := range versionsFilteredByConstraints {
 		var buildpackConstraint cargo.ConfigMetadataDependencyConstraint
 		for _, constraint := range config.Metadata.DependencyConstraints {
-			if constraint.ID == constraintId {
+			if constraint.Constraint == constraintId && constraint.ID == id {
 				buildpackConstraint = constraint
 			}
 		}
@@ -78,6 +78,10 @@ func FilterToPatches(versionsFilteredByConstraints map[string][]*semver.Version,
 		// Here, we are returning the n highest matching Dependencies.
 		versionsToAdd = append(versionsToAdd, versions[len(versions)-buildpackConstraint.Patches:]...)
 	}
+
+	sort.Slice(versionsToAdd, func(i, j int) bool {
+		return versionsToAdd[i].LessThan(versionsToAdd[j])
+	})
 
 	var versionsAsStrings []string
 	for _, version := range versionsToAdd {
@@ -101,14 +105,14 @@ func FilterToConstraints(id string, config cargo.Config, allVersions []*semver.V
 		if err != nil {
 			panic(err)
 		}
-		semverConstraints[constraint.ID] = semverConstraint
+		semverConstraints[constraint.Constraint] = semverConstraint
 	}
 
 	newVersions := make(map[string][]*semver.Version)
 	for _, version := range allVersions {
-		for constraintId, constraint := range semverConstraints {
+		for key, constraint := range semverConstraints {
 			if constraint.Check(version) {
-				newVersions[constraintId] = append(newVersions[constraintId], version)
+				newVersions[key] = append(newVersions[key], version)
 			}
 		}
 	}
