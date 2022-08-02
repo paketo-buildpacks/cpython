@@ -1,12 +1,14 @@
 package cpython
 
 import (
+	"os"
 	"path/filepath"
 	"time"
 
 	"github.com/paketo-buildpacks/packit/v2"
 	"github.com/paketo-buildpacks/packit/v2/chronos"
 	"github.com/paketo-buildpacks/packit/v2/draft"
+	"github.com/paketo-buildpacks/packit/v2/fs"
 	"github.com/paketo-buildpacks/packit/v2/postal"
 	"github.com/paketo-buildpacks/packit/v2/sbom"
 	"github.com/paketo-buildpacks/packit/v2/scribe"
@@ -138,6 +140,17 @@ func Build(dependencies DependencyManager, sbomGenerator SBOMGenerator, logger s
 
 		cpythonLayer.SharedEnv.Default("PYTHONPATH", cpythonLayer.Path)
 		cpythonLayer.ExecD = []string{filepath.Join(context.CNBPath, "bin", "env")}
+
+		if exists, err := fs.Exists(filepath.Join(cpythonLayer.Path, "bin", "python")); err != nil {
+			return packit.BuildResult{}, err
+		} else if exists {
+			logger.Debug.Detail("bin/python already exists")
+		} else {
+			logger.Debug.Detail("Writing symlink bin/python")
+			if err := os.Symlink(filepath.Join(cpythonLayer.Path, "bin", "python3"), filepath.Join(cpythonLayer.Path, "bin", "python")); err != nil {
+				return packit.BuildResult{}, err
+			}
+		}
 
 		logger.Break()
 

@@ -94,6 +94,32 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 			))
 		})
 
+		it("should have a runnable 'python' on the path", func() {
+			var err error
+			var logs fmt.Stringer
+			image, logs, err = pack.WithNoColor().Build.
+				WithPullPolicy("never").
+				WithBuildpacks(
+					settings.Buildpacks.Cpython.Online,
+					settings.Buildpacks.BuildPlan.Online,
+				).
+				Execute(name, filepath.Join("testdata", "default_app"))
+			Expect(err).ToNot(HaveOccurred(), logs.String)
+
+			container, err = docker.Container.Run.
+				WithCommand("python server.py").
+				WithEnv(map[string]string{"PORT": "8080"}).
+				WithPublish("8080").
+				Execute(image.ID)
+			Expect(err).ToNot(HaveOccurred())
+
+			Eventually(container).Should(BeAvailable())
+			Eventually(container).Should(Serve(SatisfyAll(
+				ContainSubstring("hello world"),
+				ContainSubstring("PYTHONPYCACHEPREFIX=/home/cnb/.pycache"),
+			)).OnPort(8080))
+		})
+
 		context("validating SBOM", func() {
 			var (
 				container2 occam.Container

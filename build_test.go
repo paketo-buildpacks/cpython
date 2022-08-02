@@ -74,12 +74,19 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 			},
 		}
 
+		dependencyManager.DeliverCall.Stub = func(_ postal.Dependency, _ string, destinationPath string, _ string) error {
+			Expect(os.MkdirAll(filepath.Join(destinationPath, "bin"), os.ModePerm)).To(Succeed())
+			Expect(os.WriteFile(filepath.Join(destinationPath, "bin", "python"), []byte{}, os.ModePerm)).To(Succeed())
+			Expect(os.WriteFile(filepath.Join(destinationPath, "bin", "python3"), []byte{}, os.ModePerm)).To(Succeed())
+			return nil
+		}
+
 		// Syft SBOM
 		sbomGenerator = &fakes.SBOMGenerator{}
 		sbomGenerator.GenerateFromDependencyCall.Returns.SBOM = sbom.SBOM{}
 
 		buffer = bytes.NewBuffer(nil)
-		logEmitter = scribe.NewEmitter(buffer)
+		logEmitter = scribe.NewEmitter(buffer).WithLevel("DEBUG")
 
 		build = cpython.Build(dependencyManager, sbomGenerator, logEmitter, clock)
 
@@ -288,6 +295,43 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		})
 	})
 
+	context("ensures that 'bin/python' exists", func() {
+		context("when bin/python does not already exist", func() {
+			it.Before(func() {
+				dependencyManager.DeliverCall.Stub = func(_ postal.Dependency, _ string, destinationPath string, _ string) error {
+					Expect(os.MkdirAll(filepath.Join(destinationPath, "bin"), os.ModePerm)).To(Succeed())
+					Expect(os.WriteFile(filepath.Join(destinationPath, "bin", "python3"), []byte{}, os.ModePerm)).To(Succeed())
+					return nil
+				}
+			})
+
+			it("will add a 'bin/python => bin/python3' symlink", func() {
+				_, err := build(buildContext)
+				Expect(err).NotTo(HaveOccurred())
+
+				Expect(filepath.Join(layersDir, "cpython", "bin", "python")).To(BeARegularFile())
+				Expect(buffer.String()).To(ContainSubstring("Writing symlink bin/python"))
+
+				symlink, err := filepath.EvalSymlinks(filepath.Join(layersDir, "cpython", "bin", "python"))
+				Expect(err).NotTo(HaveOccurred())
+
+				expectedPath, err := filepath.EvalSymlinks(filepath.Join(layersDir, "cpython", "bin", "python3"))
+				Expect(err).NotTo(HaveOccurred())
+				Expect(symlink).To(Equal(expectedPath))
+			})
+		})
+
+		context("when bin/python already exists", func() {
+			it("will not add a symlink", func() {
+				_, err := build(buildContext)
+				Expect(err).NotTo(HaveOccurred())
+
+				Expect(filepath.Join(layersDir, "cpython", "bin", "python")).To(BeARegularFile())
+				Expect(buffer.String()).To(ContainSubstring("bin/python already exists"))
+			})
+		})
+	})
+
 	context("failure cases", func() {
 		context("when the dependency cannot be resolved", func() {
 			it.Before(func() {
@@ -352,6 +396,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 
 		context("when the dependency cannot be installed", func() {
 			it.Before(func() {
+				dependencyManager.DeliverCall.Stub = nil
 				dependencyManager.DeliverCall.Returns.Error = errors.New("failed to install dependency")
 			})
 
