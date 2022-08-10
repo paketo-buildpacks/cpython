@@ -6,7 +6,7 @@ require (
 	github.com/BurntSushi/toml v1.2.0
 	github.com/onsi/gomega v1.20.0
 	github.com/paketo-buildpacks/occam v0.12.0
-	github.com/paketo-buildpacks/packit/v2 v2.3.1
+	github.com/paketo-buildpacks/packit/v2 v2.4.1
 	github.com/sclevine/spec v1.4.0
 )
 
@@ -23,8 +23,8 @@ require (
 	github.com/anchore/go-macholibre v0.0.0-20220308212642-53e6d0aaf6fb // indirect
 	github.com/anchore/go-version v1.2.2-0.20200701162849-18adb9c92b9b // indirect
 	github.com/anchore/packageurl-go v0.1.1-0.20220428202044-a072fa3cb6d7 // indirect
-	github.com/anchore/stereoscope v0.0.0-20220708133445-777471f38c5b // indirect
-	github.com/anchore/syft v0.52.0 // indirect
+	github.com/anchore/stereoscope v0.0.0-20220803153229-c55b13fee7e4 // indirect
+	github.com/anchore/syft v0.53.4 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/bmatcuk/doublestar/v4 v4.2.0 // indirect
 	github.com/cenkalti/backoff/v4 v4.1.3 // indirect
@@ -62,6 +62,7 @@ require (
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/mattn/go-runewidth v0.0.13 // indirect
 	github.com/mholt/archiver/v3 v3.5.1 // indirect
+	github.com/microsoft/go-rustaudit v0.0.0-20220730194248-4b17361d90a5 // indirect
 	github.com/mitchellh/copystructure v1.2.0 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/mitchellh/hashstructure/v2 v2.0.2 // indirect
@@ -88,7 +89,10 @@ require (
 	github.com/spdx/tools-golang v0.3.0 // indirect
 	github.com/spf13/afero v1.9.2 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
+	github.com/sylabs/sif/v2 v2.7.0 // indirect
+	github.com/sylabs/squashfs v0.5.5-0.20220803150326-9393a0b4cef5 // indirect
 	github.com/testcontainers/testcontainers-go v0.13.0 // indirect
+	github.com/therootcompany/xz v1.0.1 // indirect
 	github.com/ulikunitz/xz v0.5.10 // indirect
 	github.com/vbatts/go-mtree v0.5.2 // indirect
 	github.com/vbatts/tar-split v0.11.2 // indirect
