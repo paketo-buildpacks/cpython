@@ -33,11 +33,15 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 			image     occam.Image
 			container occam.Container
 			name      string
+			source    string
 		)
 
 		it.Before(func() {
 			var err error
 			name, err = occam.RandomName()
+			Expect(err).NotTo(HaveOccurred())
+
+			source, err = occam.Source(filepath.Join("testdata", "default_app"))
 			Expect(err).NotTo(HaveOccurred())
 		})
 
@@ -45,6 +49,7 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 			Expect(docker.Container.Remove.Execute(container.ID)).To(Succeed())
 			Expect(docker.Image.Remove.Execute(image.ID)).To(Succeed())
 			Expect(docker.Volume.Remove.Execute(occam.CacheVolumeNames(name))).To(Succeed())
+			Expect(os.RemoveAll(source)).To(Succeed())
 		})
 
 		it("builds with the defaults", func() {
@@ -56,7 +61,7 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 					settings.Buildpacks.Cpython.Online,
 					settings.Buildpacks.BuildPlan.Online,
 				).
-				Execute(name, filepath.Join("testdata", "default_app"))
+				Execute(name, source)
 			Expect(err).ToNot(HaveOccurred(), logs.String)
 
 			container, err = docker.Container.Run.
@@ -103,7 +108,7 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 					settings.Buildpacks.Cpython.Online,
 					settings.Buildpacks.BuildPlan.Online,
 				).
-				Execute(name, filepath.Join("testdata", "default_app"))
+				Execute(name, source)
 			Expect(err).ToNot(HaveOccurred(), logs.String)
 
 			container, err = docker.Container.Run.
@@ -151,7 +156,7 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 						"BP_LOG_LEVEL": "DEBUG",
 					}).
 					WithSBOMOutputDir(sbomDir).
-					Execute(name, filepath.Join("testdata", "default_app"))
+					Execute(name, source)
 				Expect(err).ToNot(HaveOccurred(), logs.String)
 
 				container, err = docker.Container.Run.
@@ -212,7 +217,7 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 					WithEnv(map[string]string{
 						"BP_CPYTHON_VERSION": "3.9.*",
 					}).
-					Execute(name, filepath.Join("testdata", "default_app"))
+					Execute(name, source)
 				Expect(err).ToNot(HaveOccurred(), logs.String)
 
 				container, err = docker.Container.Run.
