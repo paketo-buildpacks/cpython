@@ -2,6 +2,7 @@ package integration_test
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"testing"
 
@@ -31,11 +32,15 @@ func testOffline(t *testing.T, context spec.G, it spec.S) {
 			image     occam.Image
 			container occam.Container
 			name      string
+			source    string
 		)
 
 		it.Before(func() {
 			var err error
 			name, err = occam.RandomName()
+			Expect(err).NotTo(HaveOccurred())
+
+			source, err = occam.Source(filepath.Join("testdata", "default_app"))
 			Expect(err).NotTo(HaveOccurred())
 		})
 
@@ -43,6 +48,7 @@ func testOffline(t *testing.T, context spec.G, it spec.S) {
 			Expect(docker.Container.Remove.Execute(container.ID)).To(Succeed())
 			Expect(docker.Image.Remove.Execute(image.ID)).To(Succeed())
 			Expect(docker.Volume.Remove.Execute(occam.CacheVolumeNames(name))).To(Succeed())
+			Expect(os.RemoveAll(source)).To(Succeed())
 		})
 
 		it("installs python", func() {
@@ -55,7 +61,7 @@ func testOffline(t *testing.T, context spec.G, it spec.S) {
 					settings.Buildpacks.BuildPlan.Online,
 				).
 				WithNetwork("none").
-				Execute(name, filepath.Join("testdata", "default_app"))
+				Execute(name, source)
 
 			Expect(err).NotTo(HaveOccurred(), logs.String())
 
