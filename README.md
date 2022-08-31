@@ -1,4 +1,4 @@
-# Paketo CPython Cloud Native Buildpack
+# Paketo Buildpack for CPython Cloud Native
 The CPython Buildpack provides CPython (reference implementation of Python) 3.
 The buildpack installs CPython onto the `$PATH` which makes it available for
 subsequent buildpacks and in the final running container. It also sets the

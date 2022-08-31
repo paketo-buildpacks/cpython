@@ -2,7 +2,7 @@ api = "0.7"
 
 [buildpack]
   id = "paketo-buildpacks/cpython"
-  name = "Paketo CPython Buildpack"
+  name = "Paketo Buildpack for CPython"
   sbom-formats = ["application/vnd.cyclonedx+json", "application/spdx+json", "application/vnd.syft+json"]
 
   [[buildpack.licenses]]
