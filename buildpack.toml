@@ -126,6 +126,19 @@ api = "0.7"
     version = "3.9.14"
 
   [[metadata.dependencies]]
+    cpe = "cpe:2.3:a:python:python:3.9.14:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible"]
+    name = "Python"
+    purl = "pkg:generic/python@3.9.14?checksum=9201836e2c16361b2b7408680502393737d44f227333fe2e5729c7d5f6041675&download_url=https://www.python.org/ftp/python/3.9.14/Python-3.9.14.tgz"
+    sha256 = "f44d667b4bcc9946e5c49d4d8eadf9b08fc583b5fb48d5f3b3ce77dd34d13885"
+    source = "https://www.python.org/ftp/python/3.9.14/Python-3.9.14.tgz"
+    source_sha256 = "9201836e2c16361b2b7408680502393737d44f227333fe2e5729c7d5f6041675"
+    stacks = ["io.buildpacks.stacks.jammy"]
+    uri = "https://deps.paketo.io/python/python_3.9.14_linux_x64_jammy_f44d667b.tgz"
+    version = "3.9.14"
+
+  [[metadata.dependencies]]
     cpe = "cpe:2.3:a:python:python:3.10.5:*:*:*:*:*:*:*"
     id = "python"
     licenses = ["0BSD", "CNRI-Python-GPL-Compatible"]
@@ -180,17 +193,17 @@ api = "0.7"
     version = "3.10.7"
 
   [[metadata.dependencies]]
-    cpe = "cpe:2.3:a:python:python:3.9.14:*:*:*:*:*:*:*"
+    cpe = "cpe:2.3:a:python:python:3.10.7:*:*:*:*:*:*:*"
     id = "python"
     licenses = ["0BSD", "CNRI-Python-GPL-Compatible"]
     name = "Python"
-    purl = "pkg:generic/python@3.9.14?checksum=9201836e2c16361b2b7408680502393737d44f227333fe2e5729c7d5f6041675&download_url=https://www.python.org/ftp/python/3.9.14/Python-3.9.14.tgz"
-    sha256 = "f44d667b4bcc9946e5c49d4d8eadf9b08fc583b5fb48d5f3b3ce77dd34d13885"
-    source = "https://www.python.org/ftp/python/3.9.14/Python-3.9.14.tgz"
-    source_sha256 = "9201836e2c16361b2b7408680502393737d44f227333fe2e5729c7d5f6041675"
+    purl = "pkg:generic/python@3.10.7?checksum=1b2e4e2df697c52d36731666979e648beeda5941d0f95740aafbf4163e5cc126&download_url=https://www.python.org/ftp/python/3.10.7/Python-3.10.7.tgz"
+    sha256 = "5835bf952b1006c5ce51726ac6e699f60de43d8d8cf2cdade565260a35a7d3bf"
+    source = "https://www.python.org/ftp/python/3.10.7/Python-3.10.7.tgz"
+    source_sha256 = "1b2e4e2df697c52d36731666979e648beeda5941d0f95740aafbf4163e5cc126"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://deps.paketo.io/python/python_3.9.14_linux_x64_jammy_f44d667b.tgz"
-    version = "3.9.14"
+    uri = "https://deps.paketo.io/python/python_3.10.7_linux_x64_jammy_5835bf95.tgz"
+    version = "3.10.7"
 
   [[metadata.dependency-constraints]]
     constraint = "3.7.*"
