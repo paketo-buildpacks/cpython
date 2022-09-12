@@ -130,6 +130,8 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 
 				firstContainer  occam.Container
 				secondContainer occam.Container
+
+				otherVersion string
 			)
 
 			source, err = occam.Source(filepath.Join("testdata", "default_app"))
@@ -141,7 +143,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 					settings.Buildpacks.Cpython.Online,
 					settings.Buildpacks.BuildPlan.Online,
 				).
-				WithEnv(map[string]string{"BP_CPYTHON_VERSION": "3.9.*"}).
+				WithEnv(map[string]string{"BP_CPYTHON_VERSION": defaultVersion}).
 				Execute(name, source)
 			Expect(err).NotTo(HaveOccurred())
 
@@ -162,13 +164,20 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 
 			Eventually(firstContainer).Should(BeAvailable())
 
+			for _, dependency := range buildpackInfo.Metadata.Dependencies {
+				if dependency.Version != defaultVersion {
+					otherVersion = dependency.Version
+					break
+				}
+			}
+
 			secondImage, _, err = pack.WithNoColor().Build.
 				WithPullPolicy("never").
 				WithBuildpacks(
 					settings.Buildpacks.Cpython.Online,
 					settings.Buildpacks.BuildPlan.Online,
 				).
-				WithEnv(map[string]string{"BP_CPYTHON_VERSION": "3.10.*"}).
+				WithEnv(map[string]string{"BP_CPYTHON_VERSION": otherVersion}).
 				Execute(name, source)
 			Expect(err).NotTo(HaveOccurred())
 

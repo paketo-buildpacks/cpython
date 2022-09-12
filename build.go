@@ -15,6 +15,7 @@ import (
 )
 
 //go:generate faux --interface DependencyManager --output fakes/dependency_manager.go
+//go:generate faux --interface PythonInstaller --output fakes/installer.go
 //go:generate faux --interface SBOMGenerator --output fakes/sbom_generator.go
 
 // DependencyManager defines the interface for picking the best matching
@@ -23,6 +24,17 @@ type DependencyManager interface {
 	Resolve(path, id, version, stack string) (postal.Dependency, error)
 	Deliver(dependency postal.Dependency, cnbPath, destinationPath, platformPath string) error
 	GenerateBillOfMaterials(dependencies ...postal.Dependency) []packit.BOMEntry
+}
+
+// PythonInstaller defines the interface for installing python from source
+type PythonInstaller interface {
+	Install(
+		sourcePath string,
+		workingDir string,
+		entry packit.BuildpackPlanEntry,
+		dependency postal.Dependency,
+		layerPath string,
+	) error
 }
 
 type SBOMGenerator interface {
@@ -35,7 +47,13 @@ type SBOMGenerator interface {
 // Build will find the right cpython dependency to install, install it in a
 // layer, and generate Bill-of-Materials. It also makes use of the checksum of
 // the dependency to reuse the layer when possible.
-func Build(dependencies DependencyManager, sbomGenerator SBOMGenerator, logger scribe.Emitter, clock chronos.Clock) packit.BuildFunc {
+func Build(
+	dependencies DependencyManager,
+	pythonInstaller PythonInstaller,
+	sbomGenerator SBOMGenerator,
+	logger scribe.Emitter,
+	clock chronos.Clock,
+) packit.BuildFunc {
 	return func(context packit.BuildContext) (packit.BuildResult, error) {
 		logger.Title("%s %s", context.BuildpackInfo.Name, context.BuildpackInfo.Version)
 
@@ -106,12 +124,54 @@ func Build(dependencies DependencyManager, sbomGenerator SBOMGenerator, logger s
 		cpythonLayer.Launch, cpythonLayer.Build, cpythonLayer.Cache = launch, build, build
 
 		logger.Subprocess("Installing CPython %s", dependency.Version)
-		duration, err := clock.Measure(func() error {
-			return dependencies.Deliver(dependency, context.CNBPath, cpythonLayer.Path, context.Platform.Path)
-		})
-		if err != nil {
-			return packit.BuildResult{}, err
+
+		var duration time.Duration
+
+		// Install python from source when URI and Source match
+		if dependency.URI == dependency.Source {
+			sourcePath := filepath.Join(cpythonLayer.Path, "python-source")
+
+			// CPython distributions have one layer of directory prefix, so strip that when unpacking
+			dependency.StripComponents = 1
+
+			err = os.Mkdir(sourcePath, 0755)
+			if err != nil {
+				// untested - hard to force a test failure
+				return packit.BuildResult{}, err
+			}
+
+			downloadDuration, err := clock.Measure(func() error {
+				return dependencies.Deliver(dependency, context.CNBPath, sourcePath, context.Platform.Path)
+			})
+			if err != nil {
+				return packit.BuildResult{}, err
+			}
+
+			installDuration, err := clock.Measure(func() error {
+				return pythonInstaller.Install(sourcePath, context.WorkingDir, entry, dependency, cpythonLayer.Path)
+			})
+			if err != nil {
+				return packit.BuildResult{}, err
+			}
+
+			duration = downloadDuration + installDuration
+
+			err = os.RemoveAll(sourcePath)
+			if err != nil {
+				return packit.BuildResult{}, err
+			}
+		} else {
+			// Otherwise extract context from URI into layer
+			downloadDuration, err := clock.Measure(func() error {
+				return dependencies.Deliver(dependency, context.CNBPath, cpythonLayer.Path, context.Platform.Path)
+			})
+			if err != nil {
+				return packit.BuildResult{}, err
+			}
+
+			duration = downloadDuration
 		}
+
 		logger.Action("Completed in %s", duration.Round(time.Millisecond))
 		logger.Break()
 

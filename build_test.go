@@ -30,6 +30,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		cnbDir            string
 		clock             chronos.Clock
 		dependencyManager *fakes.DependencyManager
+		pythonInstaller   *fakes.PythonInstaller
 		sbomGenerator     *fakes.SBOMGenerator
 		buffer            *bytes.Buffer
 		logEmitter        scribe.Emitter
@@ -88,8 +89,6 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		buffer = bytes.NewBuffer(nil)
 		logEmitter = scribe.NewEmitter(buffer).WithLevel("DEBUG")
 
-		build = cpython.Build(dependencyManager, sbomGenerator, logEmitter, clock)
-
 		buildContext = packit.BuildContext{
 			BuildpackInfo: packit.BuildpackInfo{
 				Name:        "cpython",
@@ -106,6 +105,11 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 			Layers:   packit.Layers{Path: layersDir},
 			Stack:    "some-stack",
 		}
+
+		pythonInstaller = &fakes.PythonInstaller{}
+
+		build = cpython.Build(dependencyManager, pythonInstaller, sbomGenerator, logEmitter, clock)
+
 	})
 
 	it.After(func() {
@@ -189,6 +193,115 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 			Stacks:  []string{"some-stack"},
 			URI:     "python-dependency-uri",
 			Version: "python-dependency-version",
+		}))
+		Expect(sbomGenerator.GenerateFromDependencyCall.Receives.Dir).To(Equal(filepath.Join(layersDir, "cpython")))
+
+		Expect(buffer.String()).To(ContainSubstring("cpython some-version"))
+		Expect(buffer.String()).To(ContainSubstring("Resolving CPython version"))
+		Expect(buffer.String()).To(ContainSubstring("Selected CPython version (using <unknown>): python-dependency-version"))
+		Expect(buffer.String()).To(ContainSubstring("Executing build process"))
+		Expect(buffer.String()).To(ContainSubstring("Installing CPython python-dependency-version"))
+		Expect(buffer.String()).To(ContainSubstring("Completed in"))
+
+		// Pre-compiled binary installation does not call pythonInstaller.Install
+		Expect(pythonInstaller.InstallCall.CallCount).To(Equal(0))
+	})
+
+	it("returns a result that compiles and installs python from source", func() {
+		// Let the build function know to install from source
+		dependencyManager.ResolveCall.Returns.Dependency.Source = dependencyManager.ResolveCall.Returns.Dependency.URI
+
+		// Dependency manager only delivers source to python-source directory in layersDir
+		dependencyManager.DeliverCall.Returns.Error = nil
+
+		pythonInstaller.InstallCall.Stub = func(_ string, _ string, _ packit.BuildpackPlanEntry, _ postal.Dependency, destinationPath string) error {
+			Expect(os.MkdirAll(filepath.Join(destinationPath, "bin"), os.ModePerm)).To(Succeed())
+			Expect(os.WriteFile(filepath.Join(destinationPath, "bin", "python3"), []byte{}, os.ModePerm)).To(Succeed())
+			return nil
+		}
+
+		result, err := build(buildContext)
+		Expect(err).NotTo(HaveOccurred())
+
+		Expect(pythonInstaller.InstallCall.CallCount).To(Equal(1))
+
+		Expect(result.Layers).To(HaveLen(1))
+		layer := result.Layers[0]
+
+		Expect(layer.Name).To(Equal("cpython"))
+		Expect(layer.Path).To(Equal(filepath.Join(layersDir, "cpython")))
+
+		Expect(layer.SharedEnv).To(Equal(packit.Environment{
+			"PYTHONPATH.default": filepath.Join(layersDir, "cpython"),
+		}))
+		Expect(layer.BuildEnv).To(BeEmpty())
+		Expect(layer.LaunchEnv).To(BeEmpty())
+		Expect(layer.ProcessLaunchEnv).To(BeEmpty())
+
+		Expect(layer.Build).To(BeFalse())
+		Expect(layer.Launch).To(BeFalse())
+		Expect(layer.Cache).To(BeFalse())
+
+		Expect(layer.Metadata).To(Equal(map[string]interface{}{
+			"dependency-sha": "python-dependency-sha",
+		}))
+
+		Expect(layer.ExecD).To(Equal([]string{
+			filepath.Join(cnbDir, "bin", "env"),
+		}))
+
+		Expect(layer.SBOM.Formats()).To(Equal([]packit.SBOMFormat{
+			{
+				Extension: sbom.Format(sbom.CycloneDXFormat).Extension(),
+				Content:   sbom.NewFormattedReader(sbom.SBOM{}, sbom.CycloneDXFormat),
+			},
+			{
+				Extension: sbom.Format(sbom.SPDXFormat).Extension(),
+				Content:   sbom.NewFormattedReader(sbom.SBOM{}, sbom.SPDXFormat),
+			},
+		}))
+
+		Expect(dependencyManager.ResolveCall.Receives.Path).To(Equal(filepath.Join(cnbDir, "buildpack.toml")))
+		// Dependecy is called python not cpython
+		Expect(dependencyManager.ResolveCall.Receives.Id).To(Equal("python"))
+		Expect(dependencyManager.ResolveCall.Receives.Version).To(Equal(""))
+		Expect(dependencyManager.ResolveCall.Receives.Stack).To(Equal("some-stack"))
+
+		Expect(dependencyManager.DeliverCall.Receives.Dependency).To(Equal(postal.Dependency{
+			ID:              "cpython",
+			Name:            "CPython",
+			SHA256:          "python-dependency-sha",
+			Stacks:          []string{"some-stack"},
+			URI:             "python-dependency-uri",
+			Source:          "python-dependency-uri",
+			Version:         "python-dependency-version",
+			StripComponents: 1,
+		}))
+		Expect(dependencyManager.DeliverCall.Receives.CnbPath).To(Equal(cnbDir))
+		Expect(dependencyManager.DeliverCall.Receives.DestinationPath).To(Equal(filepath.Join(layersDir, "cpython/python-source")))
+		Expect(dependencyManager.DeliverCall.Receives.PlatformPath).To(Equal("platform"))
+
+		Expect(dependencyManager.GenerateBillOfMaterialsCall.Receives.Dependencies).To(Equal([]postal.Dependency{
+			{
+				ID:      "cpython",
+				Name:    "CPython",
+				SHA256:  "python-dependency-sha",
+				Stacks:  []string{"some-stack"},
+				URI:     "python-dependency-uri",
+				Source:  "python-dependency-uri",
+				Version: "python-dependency-version",
+			},
+		}))
+
+		Expect(sbomGenerator.GenerateFromDependencyCall.Receives.Dependency).To(Equal(postal.Dependency{
+			ID:              "cpython",
+			Name:            "CPython",
+			SHA256:          "python-dependency-sha",
+			Stacks:          []string{"some-stack"},
+			URI:             "python-dependency-uri",
+			Source:          "python-dependency-uri",
+			Version:         "python-dependency-version",
+			StripComponents: 1,
 		}))
 		Expect(sbomGenerator.GenerateFromDependencyCall.Receives.Dir).To(Equal(filepath.Join(layersDir, "cpython")))
 
@@ -403,6 +516,68 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 			it("returns an error", func() {
 				_, err := build(buildContext)
 				Expect(err).To(MatchError("failed to install dependency"))
+			})
+		})
+
+		context("installing python from source", func() {
+			it.Before(func() {
+				dependencyManager.ResolveCall.Returns.Dependency.Source = dependencyManager.ResolveCall.Returns.Dependency.URI
+
+				dependencyManager.DeliverCall.Stub = nil
+				dependencyManager.DeliverCall.Returns.Error = nil
+
+				pythonInstaller.InstallCall.Stub = func(_ string, _ string, _ packit.BuildpackPlanEntry, _ postal.Dependency, destinationPath string) error {
+					Expect(os.MkdirAll(filepath.Join(destinationPath, "bin"), os.ModePerm)).To(Succeed())
+					Expect(os.WriteFile(filepath.Join(destinationPath, "bin", "python3"), []byte{}, os.ModePerm)).To(Succeed())
+					return nil
+				}
+			})
+
+			context("delivering the source dependency fails with error", func() {
+				it.Before(func() {
+					dependencyManager.DeliverCall.Returns.Error = errors.New("failed to download source dependency")
+				})
+
+				it("returns an error", func() {
+					_, err := build(buildContext)
+					Expect(err).To(MatchError("failed to download source dependency"))
+				})
+			})
+
+			context("removing source path directory fails with error", func() {
+				var pythonSourcePath string
+				var testFilePath string
+
+				it.Before(func() {
+					pythonInstaller.InstallCall.Stub = func(sourcePath string, _ string, _ packit.BuildpackPlanEntry, _ postal.Dependency, destinationPath string) error {
+						pythonSourcePath = sourcePath
+						testFilePath = filepath.Join(sourcePath, "some-file")
+						Expect(os.WriteFile(testFilePath, []byte{}, os.ModePerm)).To(Succeed())
+						Expect(os.Chmod(sourcePath, 0500)).NotTo(HaveOccurred())
+						return nil
+					}
+				})
+
+				it.After(func() {
+					Expect(os.Chmod(pythonSourcePath, os.ModePerm)).NotTo(HaveOccurred())
+				})
+
+				it("returns an error", func() {
+					_, err := build(buildContext)
+					Expect(err).To(MatchError(ContainSubstring(testFilePath + ": permission denied")))
+				})
+			})
+
+			context("when the installation process fails with error", func() {
+				it.Before(func() {
+					pythonInstaller.InstallCall.Stub = nil
+					pythonInstaller.InstallCall.Returns.Error = errors.New("failed to install python")
+				})
+
+				it("returns an error", func() {
+					_, err := build(buildContext)
+					Expect(err).To(MatchError("failed to install python"))
+				})
 			})
 		})
 	})

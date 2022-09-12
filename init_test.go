@@ -11,5 +11,6 @@ func TestUnitPython(t *testing.T) {
 	suite := spec.New("python", spec.Report(report.Terminal{}), spec.Sequential())
 	suite("Build", testBuild)
 	suite("Detect", testDetect)
+	suite("CPythonInstaller", testCPythonInstaller)
 	suite.Run(t)
 }

@@ -7,6 +7,7 @@ import (
 	"github.com/paketo-buildpacks/packit/v2"
 	"github.com/paketo-buildpacks/packit/v2/cargo"
 	"github.com/paketo-buildpacks/packit/v2/chronos"
+	"github.com/paketo-buildpacks/packit/v2/pexec"
 	"github.com/paketo-buildpacks/packit/v2/postal"
 	"github.com/paketo-buildpacks/packit/v2/sbom"
 	"github.com/paketo-buildpacks/packit/v2/scribe"
@@ -19,12 +20,22 @@ func (f Generator) GenerateFromDependency(dependency postal.Dependency, path str
 }
 
 func main() {
-	dependencies := postal.NewService(cargo.NewTransport())
-	sbomGenerator := Generator{}
 	logger := scribe.NewEmitter(os.Stdout).WithLevel(os.Getenv("BP_LOG_LEVEL"))
+	dependencies := postal.NewService(cargo.NewTransport())
+	pythonSourceInstaller := cpython.NewCPythonInstaller(
+		pexec.NewExecutable("configure"),
+		pexec.NewExecutable("make"),
+		logger,
+	)
+	sbomGenerator := Generator{}
 
 	packit.Run(
 		cpython.Detect(),
-		cpython.Build(dependencies, sbomGenerator, logger, chronos.DefaultClock),
+		cpython.Build(
+			dependencies,
+			pythonSourceInstaller,
+			sbomGenerator,
+			logger,
+			chronos.DefaultClock),
 	)
 }

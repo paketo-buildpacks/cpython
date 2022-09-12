@@ -4,11 +4,14 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
 	"github.com/BurntSushi/toml"
 	"github.com/paketo-buildpacks/occam"
+	"github.com/paketo-buildpacks/packit/v2/cargo"
+	"github.com/paketo-buildpacks/packit/v2/postal"
 	"github.com/sclevine/spec"
 	"github.com/sclevine/spec/report"
 
@@ -16,34 +19,37 @@ import (
 	"github.com/onsi/gomega/format"
 )
 
-var buildpackInfo struct {
-	Buildpack struct {
-		ID   string
-		Name string
-	}
-	Metadata struct {
-		Dependencies []struct {
-			Version string
+var (
+	builder       occam.Builder
+	buildpackInfo struct {
+		Buildpack struct {
+			ID   string
+			Name string
+		}
+		Metadata struct {
+			Dependencies []struct {
+				Version string
+			}
 		}
 	}
-}
+	defaultVersion string
+	settings       struct {
+		Buildpacks struct {
+			Cpython struct {
+				Online  string
+				Offline string
+			}
+			BuildPlan struct {
+				Online string
+			}
+		}
 
-var settings struct {
-	Buildpacks struct {
-		Cpython struct {
-			Online  string
-			Offline string
-		}
-		BuildPlan struct {
-			Online string
+		Config struct {
+			BuildPlan string   `json:"build-plan"`
+			Builders  []string `json:"builders"`
 		}
 	}
-
-	Config struct {
-		BuildPlan string   `json:"build-plan"`
-		Builders  []string `json:"builders"`
-	}
-}
+)
 
 func TestIntegration(t *testing.T) {
 	// Do not truncate Gomega matcher output
@@ -85,9 +91,21 @@ func TestIntegration(t *testing.T) {
 		Execute(settings.Config.BuildPlan)
 	Expect(err).NotTo(HaveOccurred())
 
+	pack := occam.NewPack().WithVerbose()
+	builder, err = pack.Builder.Inspect.Execute()
+	Expect(err).NotTo(HaveOccurred())
+
+	transport := cargo.NewTransport()
+	service := postal.NewService(transport)
+	defaultDependency, err := service.Resolve("../buildpack.toml", "python", "default", builder.LocalInfo.Stack.ID)
+	Expect(err).NotTo(HaveOccurred())
+	defaultVersion = defaultDependency.Version
+
 	suite := spec.New("Integration", spec.Report(report.Terminal{}), spec.Parallel())
 	suite("Default", testDefault)
-	suite("Offline", testOffline)
+	if strings.Contains(builder.LocalInfo.Stack.ID, "jammy") || strings.Contains(builder.LocalInfo.Stack.ID, "bionic") {
+		suite("Offline", testOffline)
+	}
 	suite("LayerReuse", testLayerReuse)
 	suite.Run(t)
 }

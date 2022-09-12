@@ -41,11 +41,7 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 
 	context("when the BP_CPYTHON_VERSION env var is set", func() {
 		it.Before(func() {
-			Expect(os.Setenv("BP_CPYTHON_VERSION", "some-version")).To(Succeed())
-		})
-
-		it.After(func() {
-			Expect(os.Unsetenv("BP_CPYTHON_VERSION")).To(Succeed())
+			t.Setenv("BP_CPYTHON_VERSION", "some-version")
 		})
 
 		it("returns a plan that provides and requires that version of cpython", func() {
@@ -62,6 +58,28 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 						Metadata: cpython.BuildPlanMetadata{
 							Version:       "some-version",
 							VersionSource: "BP_CPYTHON_VERSION",
+						},
+					},
+				},
+			}))
+		})
+
+		it("returns a plan that provides and requires that version of cpython with configure flags", func() {
+			t.Setenv("BP_CPYTHON_CONFIGURE_FLAGS", "--flag1 --flag2=value")
+			result, err := detect(detectContext)
+			Expect(err).NotTo(HaveOccurred())
+
+			Expect(result.Plan).To(Equal(packit.BuildPlan{
+				Provides: []packit.BuildPlanProvision{
+					{Name: cpython.Cpython},
+				},
+				Requires: []packit.BuildPlanRequirement{
+					{
+						Name: cpython.Cpython,
+						Metadata: cpython.BuildPlanMetadata{
+							Version:        "some-version",
+							VersionSource:  "BP_CPYTHON_VERSION",
+							ConfigureFlags: "--flag1 --flag2=value",
 						},
 					},
 				},
