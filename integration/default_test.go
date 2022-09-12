@@ -83,12 +83,12 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 				"    Candidate version sources (in priority order):",
 				"      <unknown> -> \"\"",
 				"",
-				MatchRegexp(`    Selected CPython version \(using <unknown>\): 3\.\d+\.\d+`),
+				MatchRegexp(`    Selected CPython version \(using <unknown>\): `+strings.ReplaceAll(defaultVersion, ".", `\.`)),
 			))
 			Expect(logs).To(ContainLines(
 				"  Executing build process",
-				MatchRegexp(`    Installing CPython 3\.\d+\.\d+`),
-				MatchRegexp(`      Completed in \d+\.\d+`),
+				MatchRegexp(`    Installing CPython `+strings.ReplaceAll(defaultVersion, ".", `\.`)),
+				MatchRegexp(`      Completed in \w+\.\d+`),
 			))
 			Expect(logs).To(ContainLines(
 				"  Configuring build environment",
@@ -206,8 +206,19 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 
 		context("when the BP_CPYTHON_VERSION environment variable is set", func() {
 			it("builds with the requested version of python", func() {
-				var err error
-				var logs fmt.Stringer
+				var (
+					err               error
+					logs              fmt.Stringer
+					nonDefaultVersion string
+				)
+
+				for _, dependency := range buildpackInfo.Metadata.Dependencies {
+					if dependency.Version != defaultVersion {
+						nonDefaultVersion = dependency.Version
+						break
+					}
+				}
+
 				image, logs, err = pack.WithNoColor().Build.
 					WithPullPolicy("never").
 					WithBuildpacks(
@@ -215,7 +226,7 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 						settings.Buildpacks.BuildPlan.Online,
 					).
 					WithEnv(map[string]string{
-						"BP_CPYTHON_VERSION": "3.9.*",
+						"BP_CPYTHON_VERSION": nonDefaultVersion,
 					}).
 					Execute(name, source)
 				Expect(err).ToNot(HaveOccurred(), logs.String)
@@ -234,18 +245,18 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 					MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, buildpackInfo.Buildpack.Name)),
 					"  Resolving CPython version",
 					"    Candidate version sources (in priority order):",
-					`      BP_CPYTHON_VERSION -> "3.9.*"`,
+					`      BP_CPYTHON_VERSION -> "`+nonDefaultVersion+`"`,
 					`      <unknown>          -> ""`,
 				))
 
 				Expect(logs).To(ContainLines(
-					MatchRegexp(`   Selected CPython version \(using BP_CPYTHON_VERSION\): 3\.9\.\d+`),
+					MatchRegexp(`   Selected CPython version \(using BP_CPYTHON_VERSION\): ` + strings.ReplaceAll(nonDefaultVersion, ".", `\.`)),
 				))
 
 				Expect(logs).To(ContainLines(
 					"  Executing build process",
-					MatchRegexp(`    Installing CPython 3\.9\.\d+`),
-					MatchRegexp(`      Completed in \d+\.\d+`),
+					"    Installing CPython "+nonDefaultVersion,
+					MatchRegexp(`      Completed in \w+\.\d+`),
 				))
 
 				Expect(logs).To(ContainLines(
@@ -257,5 +268,6 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 				))
 			})
 		})
+
 	})
 }
