@@ -1,2 +1,3 @@
 CODEOWNERS
 workflows/jammy-dependencies.yml
+workflows/update-dependencies-from-metadata.yml
