@@ -164,7 +164,7 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 
 			Eventually(firstContainer).Should(BeAvailable())
 
-			for _, dependency := range buildpackInfo.Metadata.Dependencies {
+			for _, dependency := range dependenciesForStack() {
 				if dependency.Version != defaultVersion {
 					otherVersion = dependency.Version
 					break

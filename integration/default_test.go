@@ -212,7 +212,7 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 					nonDefaultVersion string
 				)
 
-				for _, dependency := range buildpackInfo.Metadata.Dependencies {
+				for _, dependency := range dependenciesForStack() {
 					if dependency.Version != defaultVersion {
 						nonDefaultVersion = dependency.Version
 						break
