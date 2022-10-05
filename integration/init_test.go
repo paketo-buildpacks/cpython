@@ -19,6 +19,11 @@ import (
 	"github.com/onsi/gomega/format"
 )
 
+type Dependency struct {
+	Version string
+	Stacks  []string
+}
+
 var (
 	builder       occam.Builder
 	buildpackInfo struct {
@@ -27,9 +32,7 @@ var (
 			Name string
 		}
 		Metadata struct {
-			Dependencies []struct {
-				Version string
-			}
+			Dependencies []Dependency
 		}
 	}
 	defaultVersion string
@@ -108,4 +111,33 @@ func TestIntegration(t *testing.T) {
 	}
 	suite("LayerReuse", testLayerReuse)
 	suite.Run(t)
+}
+
+func dependenciesForStack() []Dependency {
+	var stackMatcher = "*"
+	switch builder.LocalInfo.Stack.ID {
+	case "io.buildpacks.stacks.bionic", "io.buildpacks.stacks.jammy":
+		stackMatcher = builder.LocalInfo.Stack.ID
+	default:
+	}
+
+	deps := []Dependency{}
+	for _, dependency := range buildpackInfo.Metadata.Dependencies {
+		if stringSliceContains(dependency.Stacks, stackMatcher) {
+			deps = append(deps, dependency)
+			continue
+		}
+	}
+	return deps
+
+}
+
+func stringSliceContains(slice []string, str string) bool {
+	for _, s := range slice {
+		if s == str {
+			return true
+		}
+	}
+
+	return false
 }
