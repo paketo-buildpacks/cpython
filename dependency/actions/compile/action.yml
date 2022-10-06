@@ -1,0 +1,38 @@
+name: 'Compile CPython on Target'
+description: |
+  Compiles CPython
+
+inputs:
+  version:
+    description: 'dependency version'
+    required: true
+  outputDir:
+    description: 'output directory'
+    required: true
+  target:
+    description: 'dependency OS target variant'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+
+  - name: docker build
+    id: docker-build
+    env:
+      SKIP_LOGIN: true
+    uses: actions-hub/docker/cli@master
+    with:
+      args: "build -t compilation -f dependency/actions/compile/${{ inputs.target }}.Dockerfile dependency/actions/compile"
+
+  - name: docker run
+    id: docker-run
+    uses: actions-hub/docker/cli@master
+    env:
+      SKIP_LOGIN: true
+    with:
+      args: "run -v ${{ inputs.outputDir }}:/home compilation --version ${{ inputs.version }} --outputDir /home --target ${{ inputs.target }}"
+
+  - name: print contents of output dir
+    shell: bash
+    run: ls -lah ${{ inputs.outputDir }}
