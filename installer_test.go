@@ -13,7 +13,6 @@ import (
 	"github.com/paketo-buildpacks/cpython/fakes"
 	"github.com/paketo-buildpacks/packit/v2"
 	"github.com/paketo-buildpacks/packit/v2/pexec"
-	"github.com/paketo-buildpacks/packit/v2/postal"
 	"github.com/paketo-buildpacks/packit/v2/scribe"
 	"github.com/sclevine/spec"
 
@@ -29,8 +28,8 @@ func testCPythonInstaller(t *testing.T, context spec.G, it spec.S) {
 		layerPath  string
 		workingDir string
 
-		entry      packit.BuildpackPlanEntry
-		dependency postal.Dependency
+		entry             packit.BuildpackPlanEntry
+		dependencyVersion string
 
 		configureProcess *fakes.Executable
 		makeProcess      *fakes.Executable
@@ -54,6 +53,8 @@ func testCPythonInstaller(t *testing.T, context spec.G, it spec.S) {
 
 		configureProcess = &fakes.Executable{}
 		makeProcess = &fakes.Executable{}
+
+		dependencyVersion = "1.2.3"
 
 		pythonInstaller = cpython.NewCPythonInstaller(configureProcess, makeProcess, scribe.NewEmitter(bytes.NewBuffer(nil)))
 	})
@@ -79,7 +80,7 @@ func testCPythonInstaller(t *testing.T, context spec.G, it spec.S) {
 		})
 
 		it("runs installation", func() {
-			err := pythonInstaller.Install(sourcePath, workingDir, entry, dependency, layerPath)
+			err := pythonInstaller.Install(sourcePath, workingDir, entry, dependencyVersion, layerPath)
 			Expect(err).NotTo(HaveOccurred())
 
 			Expect(configureProcess.ExecuteCall.CallCount).To(Equal(1))
@@ -111,7 +112,7 @@ func testCPythonInstaller(t *testing.T, context spec.G, it spec.S) {
 			})
 
 			it("uses the provided flags instead of the default", func() {
-				err := pythonInstaller.Install(sourcePath, workingDir, entry, dependency, layerPath)
+				err := pythonInstaller.Install(sourcePath, workingDir, entry, dependencyVersion, layerPath)
 				Expect(err).NotTo(HaveOccurred())
 
 				Expect(configureProcess.ExecuteCall.CallCount).To(Equal(1))
@@ -132,7 +133,7 @@ func testCPythonInstaller(t *testing.T, context spec.G, it spec.S) {
 				})
 
 				it("fails with error", func() {
-					err := pythonInstaller.Install(sourcePath, workingDir, entry, dependency, layerPath)
+					err := pythonInstaller.Install(sourcePath, workingDir, entry, dependencyVersion, layerPath)
 					Expect(err).Should(MatchError(And(
 						ContainSubstring(sourcePath),
 						ContainSubstring("permission denied"),
@@ -146,7 +147,7 @@ func testCPythonInstaller(t *testing.T, context spec.G, it spec.S) {
 				})
 
 				it("fails with error", func() {
-					err := pythonInstaller.Install(sourcePath, workingDir, entry, dependency, layerPath)
+					err := pythonInstaller.Install(sourcePath, workingDir, entry, dependencyVersion, layerPath)
 					Expect(err).Should(MatchError("some configure error"))
 
 				})
@@ -159,7 +160,7 @@ func testCPythonInstaller(t *testing.T, context spec.G, it spec.S) {
 				})
 
 				it("fails with error", func() {
-					err := pythonInstaller.Install(sourcePath, workingDir, entry, dependency, layerPath)
+					err := pythonInstaller.Install(sourcePath, workingDir, entry, dependencyVersion, layerPath)
 					Expect(err).Should(MatchError("some make error"))
 
 				})
@@ -185,7 +186,7 @@ func testCPythonInstaller(t *testing.T, context spec.G, it spec.S) {
 				})
 
 				it("fails with error", func() {
-					err := pythonInstaller.Install(sourcePath, workingDir, entry, dependency, layerPath)
+					err := pythonInstaller.Install(sourcePath, workingDir, entry, dependencyVersion, layerPath)
 					Expect(err).Should(MatchError("some make error (second invocation)"))
 
 					Expect(makeProcess.ExecuteCall.CallCount).To(Equal(2))
@@ -198,7 +199,7 @@ func testCPythonInstaller(t *testing.T, context spec.G, it spec.S) {
 				})
 
 				it("fails with error", func() {
-					err := pythonInstaller.Install(sourcePath, workingDir, entry, dependency, layerPath)
+					err := pythonInstaller.Install(sourcePath, workingDir, entry, dependencyVersion, layerPath)
 					Expect(err).Should(MatchError(And(
 						ContainSubstring(filepath.Join(layerPath, "bin")),
 						ContainSubstring("permission denied"),
@@ -215,7 +216,7 @@ func testCPythonInstaller(t *testing.T, context spec.G, it spec.S) {
 				})
 
 				it("fails with error", func() {
-					err := pythonInstaller.Install(sourcePath, workingDir, entry, dependency, layerPath)
+					err := pythonInstaller.Install(sourcePath, workingDir, entry, dependencyVersion, layerPath)
 					Expect(err).Should(MatchError(ContainSubstring("symlink")))
 				})
 			})
@@ -226,7 +227,7 @@ func testCPythonInstaller(t *testing.T, context spec.G, it spec.S) {
 				})
 
 				it("fails with error", func() {
-					err := pythonInstaller.Install(sourcePath, workingDir, entry, dependency, layerPath)
+					err := pythonInstaller.Install(sourcePath, workingDir, entry, dependencyVersion, layerPath)
 					Expect(err).Should(MatchError(And(
 						ContainSubstring(workingDir),
 						ContainSubstring("permission denied"),

@@ -10,7 +10,6 @@ import (
 
 	"github.com/paketo-buildpacks/packit/v2"
 	"github.com/paketo-buildpacks/packit/v2/pexec"
-	"github.com/paketo-buildpacks/packit/v2/postal"
 	"github.com/paketo-buildpacks/packit/v2/scribe"
 )
 
@@ -46,7 +45,7 @@ func (i CPythonInstaller) Install(
 	sourcePath string,
 	workingDir string,
 	entry packit.BuildpackPlanEntry,
-	dependency postal.Dependency,
+	dependencyVersion string,
 	layerPath string,
 ) error {
 	flags, _ := entry.Metadata["configure-flags"].(string)
@@ -105,7 +104,7 @@ func (i CPythonInstaller) Install(
 		return err
 	}
 
-	versionList := strings.Split(dependency.Version, ".")
+	versionList := strings.Split(dependencyVersion, ".")
 	major := versionList[0]
 	majorMinor := strings.Join(versionList[:len(versionList)-1], ".")
 

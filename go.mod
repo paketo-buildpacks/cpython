@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/BurntSushi/toml v1.2.0
-	github.com/onsi/gomega v1.20.2
+	github.com/onsi/gomega v1.21.1
 	github.com/paketo-buildpacks/occam v0.13.2
 	github.com/paketo-buildpacks/packit/v2 v2.6.1
 	github.com/sclevine/spec v1.4.0
@@ -127,3 +127,5 @@ require (
 	modernc.org/strutil v1.1.3 // indirect
 	modernc.org/token v1.0.1 // indirect
 )
+
+replace github.com/paketo-buildpacks/packit/v2 => github.com/paketo-buildpacks/packit/v2 v2.6.2-0.20221010233742-a38426095868

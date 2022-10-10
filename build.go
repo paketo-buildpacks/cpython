@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/paketo-buildpacks/packit/v2"
+	"github.com/paketo-buildpacks/packit/v2/cargo"
 	"github.com/paketo-buildpacks/packit/v2/chronos"
 	"github.com/paketo-buildpacks/packit/v2/draft"
 	"github.com/paketo-buildpacks/packit/v2/fs"
@@ -14,15 +15,20 @@ import (
 	"github.com/paketo-buildpacks/packit/v2/scribe"
 )
 
+//go:generate faux --interface BuildpackParser --output fakes/buildpack_parser.go
 //go:generate faux --interface DependencyManager --output fakes/dependency_manager.go
 //go:generate faux --interface PythonInstaller --output fakes/installer.go
 //go:generate faux --interface SBOMGenerator --output fakes/sbom_generator.go
 
+// BuildpackParser defines the interface for parsing the buildpack config
+type BuildpackParser interface {
+	Parse(path string) (cargo.Config, error)
+}
+
 // DependencyManager defines the interface for picking the best matching
 // dependency installing it, and generating a BOM.
 type DependencyManager interface {
-	Resolve(path, id, version, stack string) (postal.Dependency, error)
-	Deliver(dependency postal.Dependency, cnbPath, destinationPath, platformPath string) error
+	DeliverDependency(dependency cargo.ConfigMetadataDependency, cnbPath, destinationPath, platformPath string) error
 	GenerateBillOfMaterials(dependencies ...postal.Dependency) []packit.BOMEntry
 }
 
@@ -32,7 +38,7 @@ type PythonInstaller interface {
 		sourcePath string,
 		workingDir string,
 		entry packit.BuildpackPlanEntry,
-		dependency postal.Dependency,
+		dependencyVersion string,
 		layerPath string,
 	) error
 }
@@ -48,6 +54,7 @@ type SBOMGenerator interface {
 // layer, and generate Bill-of-Materials. It also makes use of the checksum of
 // the dependency to reuse the layer when possible.
 func Build(
+	buildpackParser BuildpackParser,
 	dependencies DependencyManager,
 	pythonInstaller PythonInstaller,
 	sbomGenerator SBOMGenerator,
@@ -70,7 +77,12 @@ func Build(
 		// dependency under the name python.
 		entry.Name = "python"
 
-		dependency, err := dependencies.Resolve(filepath.Join(context.CNBPath, "buildpack.toml"), entry.Name, entryVersion, context.Stack)
+		config, err := buildpackParser.Parse(filepath.Join(context.CNBPath, "buildpack.toml"))
+		if err != nil {
+			return packit.BuildResult{}, err
+		}
+
+		dependency, err := cargo.ResolveDependency(config, entry.Name, entryVersion, context.Stack)
 		if err != nil {
 			return packit.BuildResult{}, err
 		}
@@ -80,9 +92,9 @@ func Build(
 		dependency.ID = "cpython"
 		dependency.Name = "CPython"
 
-		logger.SelectedDependency(entry, dependency, clock.Now())
+		logger.SelectedDependency(entry, postal.DependencyFrom(dependency), clock.Now())
 
-		legacySBOM := dependencies.GenerateBillOfMaterials(dependency)
+		legacySBOM := dependencies.GenerateBillOfMaterials(postal.DependencyFrom(dependency))
 		launch, build := planner.MergeLayerTypes(Cpython, context.Plan.Entries)
 
 		var launchMetadata packit.LaunchMetadata
@@ -141,14 +153,14 @@ func Build(
 			}
 
 			downloadDuration, err := clock.Measure(func() error {
-				return dependencies.Deliver(dependency, context.CNBPath, sourcePath, context.Platform.Path)
+				return dependencies.DeliverDependency(dependency, context.CNBPath, sourcePath, context.Platform.Path)
 			})
 			if err != nil {
 				return packit.BuildResult{}, err
 			}
 
 			installDuration, err := clock.Measure(func() error {
-				return pythonInstaller.Install(sourcePath, context.WorkingDir, entry, dependency, cpythonLayer.Path)
+				return pythonInstaller.Install(sourcePath, context.WorkingDir, entry, dependency.Version, cpythonLayer.Path)
 			})
 			if err != nil {
 				return packit.BuildResult{}, err
@@ -163,7 +175,7 @@ func Build(
 		} else {
 			// Otherwise extract context from URI into layer
 			downloadDuration, err := clock.Measure(func() error {
-				return dependencies.Deliver(dependency, context.CNBPath, cpythonLayer.Path, context.Platform.Path)
+				return dependencies.DeliverDependency(dependency, context.CNBPath, cpythonLayer.Path, context.Platform.Path)
 			})
 			if err != nil {
 				return packit.BuildResult{}, err
@@ -178,7 +190,7 @@ func Build(
 		logger.GeneratingSBOM(cpythonLayer.Path)
 		var sbomContent sbom.SBOM
 		duration, err = clock.Measure(func() error {
-			sbomContent, err = sbomGenerator.GenerateFromDependency(dependency, cpythonLayer.Path)
+			sbomContent, err = sbomGenerator.GenerateFromDependency(postal.DependencyFrom(dependency), cpythonLayer.Path)
 			return err
 		})
 		if err != nil {

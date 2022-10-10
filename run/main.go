@@ -32,10 +32,12 @@ func main() {
 	packit.Run(
 		cpython.Detect(),
 		cpython.Build(
+			cargo.NewBuildpackParser(),
 			dependencies,
 			pythonSourceInstaller,
 			sbomGenerator,
 			logger,
-			chronos.DefaultClock),
+			chronos.DefaultClock,
+		),
 	)
 }
