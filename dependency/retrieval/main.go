@@ -71,9 +71,9 @@ func generateMetadata(versionFetcher versionology.VersionFetcher) ([]versionolog
 	version := versionFetcher.Version().String()
 	sourceURL := fmt.Sprintf("https://www.python.org/ftp/python/%[1]s/Python-%[1]s.tgz", version)
 
-	sourceSHA256, dependencies, err2 := getSha256(sourceURL, version)
-	if err2 != nil {
-		return dependencies, err2
+	sourceSHA256, err := getSha256(sourceURL, version)
+	if err != nil {
+		return nil, err
 	}
 
 	configMetadataDependency := cargo.ConfigMetadataDependency{
@@ -84,7 +84,6 @@ func generateMetadata(versionFetcher versionology.VersionFetcher) ([]versionolog
 		PURL:           retrieve.GeneratePURL("python", version, sourceSHA256, sourceURL),
 		Source:         sourceURL,
 		SourceChecksum: fmt.Sprintf("sha256:%s", sourceSHA256),
-		Stacks:         []string{"io.buildpacks.stacks.jammy"},
 		Version:        version,
 	}
 
@@ -99,7 +98,7 @@ func generateMetadata(versionFetcher versionology.VersionFetcher) ([]versionolog
 	})
 }
 
-func getSha256(sourceURL string, version string) (string, []versionology.Dependency, error) {
+func getSha256(sourceURL string, version string) (string, error) {
 	resp, err := http.Get(sourceURL)
 	if err != nil {
 		panic(fmt.Errorf("failed to query url: %w", err))
@@ -112,26 +111,22 @@ func getSha256(sourceURL string, version string) (string, []versionology.Depende
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return "", nil, err
+		return "", err
 	}
 
 	tempDir, err := os.MkdirTemp("", "python")
 	if err != nil {
-		return "", nil, err
+		return "", err
 	}
 
 	tarballPath := filepath.Join(tempDir, fmt.Sprintf("python-%s.tgz", version))
 	err = os.WriteFile(tarballPath, body, os.ModePerm)
 	if err != nil {
-		return "", nil, err
+		return "", err
 	}
 
 	calculator := fs.NewChecksumCalculator()
-	sourceSHA256, err := calculator.Sum(tarballPath)
-	if err != nil {
-		return "", nil, err
-	}
-	return sourceSHA256, nil, nil
+	return calculator.Sum(tarballPath)
 }
 
 func main() {
