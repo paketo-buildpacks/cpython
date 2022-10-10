@@ -9,7 +9,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Masterminds/semver/v3"
 	"github.com/joshuatcasey/collections"
 	"github.com/joshuatcasey/libdependency/retrieve"
 	"github.com/joshuatcasey/libdependency/upstream"
@@ -29,8 +28,6 @@ var supportedStacks = []StackAndTargetPair{
 	{stacks: []string{"io.buildpacks.stacks.bionic"}, target: "bionic"},
 	{stacks: []string{"*"}, target: "NONE"},
 }
-
-var minVersion = semver.MustParse("3.9.12")
 
 func getAsString(url string) (string, error) {
 	response, err := http.DefaultClient.Get(url)
@@ -67,14 +64,7 @@ func getAllVersions() (versionology.VersionFetcherArray, error) {
 		}
 	}
 
-	versionFetcherArray, err := versionology.NewSimpleVersionFetcherArray(versions...)
-	if err != nil {
-		return nil, err
-	}
-
-	return collections.FilterFunc(versionFetcherArray, func(versionFetcher versionology.VersionFetcher) bool {
-		return versionFetcher.Version().Equal(minVersion) || versionFetcher.Version().GreaterThan(minVersion)
-	}), nil
+	return versionology.NewSimpleVersionFetcherArray(versions...)
 }
 
 func generateMetadata(versionFetcher versionology.VersionFetcher) ([]versionology.Dependency, error) {

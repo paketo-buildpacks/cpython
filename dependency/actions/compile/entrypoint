@@ -2,6 +2,7 @@
 
 set -eu
 set -o pipefail
+shopt -s inherit_errexit
 
 DEST_DIR=$(mktemp -d)
 
@@ -70,6 +71,7 @@ function main() {
 
     curl "${upstream_tarball}" \
       --silent \
+      --fail \
       --output upstream.tgz
 
     tar --extract \
