@@ -101,10 +101,10 @@ func generateMetadata(versionFetcher versionology.VersionFetcher) ([]versionolog
 func getSha256(sourceURL string, version string) (string, error) {
 	resp, err := http.Get(sourceURL)
 	if err != nil {
-		panic(fmt.Errorf("failed to query url: %w", err))
+		return "", fmt.Errorf("failed to query url: %w", err)
 	}
 	if resp.StatusCode != http.StatusOK {
-		panic(fmt.Errorf("failed to query url %s with: status code %d", sourceURL, resp.StatusCode))
+		return "", fmt.Errorf("failed to query url %s with: status code %d", sourceURL, resp.StatusCode)
 	}
 
 	defer resp.Body.Close()
@@ -118,6 +118,8 @@ func getSha256(sourceURL string, version string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+
+	defer os.RemoveAll(tempDir)
 
 	tarballPath := filepath.Join(tempDir, fmt.Sprintf("python-%s.tgz", version))
 	err = os.WriteFile(tarballPath, body, os.ModePerm)
