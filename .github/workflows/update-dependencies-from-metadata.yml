@@ -233,7 +233,7 @@ jobs:
     #   (1) Retrieval step has succeeded
     #   (2) Compilation/Testing step has succeeded OR been skipped
     #   (3) Update metadata step has succeeded OR been skipped
-    if: ${{ needs.retrieve.result == 'success' && (needs.compile.result == 'success' || needs.compile.result == 'skip') && (needs.update-metadata.result == 'success' || needs.update-metadata.result == 'skip') }}
+    if: always() && needs.retrieve.result == 'success' && (needs.compile.result == 'success' || needs.compile.result == 'skipped') && (needs.update-metadata.result == 'success' || needs.update-metadata.result == 'skipped')
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
