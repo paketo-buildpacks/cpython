@@ -169,9 +169,12 @@ jobs:
     if: ${{ needs.get-compile-and-test.outputs.should-compile == 'true' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Download artifact files
+        if: ${{ matrix.includes.checksum == '' && matrix.includes.uri == '' }}
+        run: exit 0
+
       - name: Check out code
         uses: actions/checkout@v3
-
       - name: Download artifact files
         if: ${{ matrix.includes.checksum == '' && matrix.includes.uri == '' }}
         uses: actions/download-artifact@v3
