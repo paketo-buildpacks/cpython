@@ -341,26 +341,11 @@ api = "0.7"
     stacks = ["*"]
     uri = "https://www.python.org/ftp/python/3.10.7/Python-3.10.7.tgz"
     version = "3.10.7"
-  
-  [[metadata.dependency-constraints]]
-    constraint = "3.7.*"
-    id = "python"
-    patches = 2
-
-  [[metadata.dependency-constraints]]
-    constraint = "3.8.*"
-    id = "python"
-    patches = 2
-
-  [[metadata.dependency-constraints]]
-    constraint = "3.9.*"
-    id = "python"
-    patches = 2
 
   [[metadata.dependency-constraints]]
     constraint = "3.10.*"
     id = "python"
-    patches = 2
+    patches = 1
 
 [[stacks]]
   id = "*"
