@@ -178,6 +178,7 @@ jobs:
           name: '${{ needs.retrieve.outputs.id }}-${{ matrix.includes.version }}-${{ matrix.includes.target }}'
 
       - name: Get artifact file name
+        if: ${{ matrix.includes.checksum == '' && matrix.includes.uri == '' }}
         id: get-file-names
         run: |
           echo "::set-output name=artifact-file::$(basename ./*.tgz)"
