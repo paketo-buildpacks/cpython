@@ -57,6 +57,10 @@ jobs:
           content="${content//$'\n'/'%0A'}"
           content="${content//$'\r'/'%0D'}"
 
+          compilation="${compilation//'%'/'%25'}"
+          compilation="${compilation//$'\n'/'%0A'}"
+          compilation="${compilation//$'\r'/'%0D'}"
+
           echo "::set-output name=metadata-filepath::${OUTPUT}"
           echo "::set-output name=metadata-json::$content"
           echo "::set-output name=compilation-json::$compilation"
@@ -264,6 +268,7 @@ jobs:
     name: Update buildpack.toml
     needs:
       - retrieve
+      - test
       - compile
       - update-metadata
     # Update buildpack.toml only if ALL of the following conditions are met:
