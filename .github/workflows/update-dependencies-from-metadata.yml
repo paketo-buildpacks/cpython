@@ -25,6 +25,9 @@ jobs:
     outputs:
       metadata-filepath: ${{ steps.retrieve.outputs.metadata-filepath }}
       metadata-json: ${{ steps.retrieve.outputs.metadata-json }}
+      # compilation-json is a subset of metadata-json entries which are missing
+      # a `checksum` and `uri`
+      compilation-json: ${{ steps.retrieve.outputs.compilation-json }}
       id: ${{ steps.retrieve.outputs.id }}
     steps:
       - name: Check out code
@@ -48,12 +51,17 @@ jobs:
           id=$(jq -r .[0].id < "${OUTPUT}")
           content=$(jq -r < "${OUTPUT}")
 
+          # compilation-json is a subset of metadata-json entries which are missing
+          # a `checksum` and `uri` (need compilation)
+          compilation-content=$(echo $content | jq -r 'map(select(.checksum == null and .uri == null))')
+
           content="${content//'%'/'%25'}"
           content="${content//$'\n'/'%0A'}"
           content="${content//$'\r'/'%0D'}"
 
           echo "::set-output name=metadata-filepath::${OUTPUT}"
           echo "::set-output name=metadata-json::$content"
+          echo "::set-output name=compilation-json::$compilation-content"
           echo "::set-output name=id::$id"
 
       - name: Upload `${{ steps.retrieve.outputs.metadata-filepath }}`
@@ -91,6 +99,46 @@ jobs:
             echo "::set-output name=should-test::true"
           fi
 
+  test:
+    name: Test Non-Compiled Dependency
+    needs:
+      - retrieve
+      - get-compile-and-test
+    strategy:
+      matrix:
+        includes: ${{ fromJSON(needs.retrieve.outputs.metadata-json) }}
+    # Run job step if BOTH:
+    #   (1) needs.get-compile-and-test.outputs.should-test = TRUE -> if there is a dependency/test directory in the buildpack
+    #   (2) needs.get-compile-and-test.outputs.should-compile = FALSE -> if there is NOT a dependency/actions/compile directory in the buildpack
+    if: ${{ needs.get-compile-and-test.outputs.should-test == 'true' && needs.get-compile-and-test.outputs.should-compile == 'false' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Make Temporary Artifact Directory
+        id: make-outputdir
+        run: |
+          echo "::set-output name=outputdir::$(mktemp -d)"
+
+      # Download the tarball for testing if:
+      #   (1) dependency testing code is present in the buildpack directory
+      #   (2) URI in metadata.json is available
+      - name: Download upstream tarball (if not compiled)
+        if: ${{ matrix.includes.uri != ''  && needs.get-compile-and-test.outputs.should-test == 'true' }}
+        run: |
+          curl ${{ matrix.includes.uri }} --silent --location --output ${{ steps.make-outputdir.outputs.outputdir }}/dependency.tgz
+
+      # Test the dependency tarball if:
+      #   (1) dependency testing code is present in the buildpack directory
+      - name: Test Upstream Dependency
+        working-directory: dependency
+        if: ${{ needs.get-compile-and-test.outputs.should-test == 'true' }}
+        run: |
+          make test \
+            version="${{ matrix.includes.version }}" \
+            tarballPath="${{ steps.make-outputdir.outputs.outputdir }}/*.tgz"
+
   compile:
     name: Compile and/or Test Dependency
     needs:
@@ -98,11 +146,10 @@ jobs:
       - get-compile-and-test
     strategy:
       matrix:
-        includes: ${{ fromJSON(needs.retrieve.outputs.metadata-json) }}
+        includes: ${{ fromJSON(needs.retrieve.outputs.compilation-json) }}
     # Run job step if
     #   (1) needs.get-compile-and-test.outputs.should-compile -> if there is a dependency/actions/compile directory in the buildpack
     #   (2) needs.get-compile-and-test.outputs.should-test -> if there is a dependency/test directory in the buildpack
-    #   (3) See line 113 -> if the dependency checksum and URI field are empty, signaling they need to be calculated
     if: ${{ needs.get-compile-and-test.outputs.should-compile == 'true' || needs.get-compile-and-test.outputs.should-test == 'true' }}
     runs-on: ubuntu-latest
     steps:
@@ -135,17 +182,9 @@ jobs:
           name: '${{ needs.retrieve.outputs.id }}-${{ matrix.includes.version }}-${{ matrix.includes.target }}'
           path: '${{ steps.make-outputdir.outputs.outputdir }}/*'
 
-      # Download the tarball for testing if:
-      #   (1) dependency testing code is present in the buildpack directory
-      #   (2) URI in metadata.json is available
-      - name: Download upstream tarball (if not compiled)
-        if: ${{ matrix.includes.uri != ''  && needs.get-compile-and-test.outputs.should-test == 'true' }}
-        run: |
-          curl ${{ matrix.includes.uri }} --silent --location --output ${{ steps.make-outputdir.outputs.outputdir }}/dependency.tgz
-
       # Test the dependency tarball if:
       #   (1) dependency testing code is present in the buildpack directory
-      - name: Test Dependency
+      - name: Test Compiled Dependency
         working-directory: dependency
         if: ${{ needs.get-compile-and-test.outputs.should-test == 'true' }}
         run: |
@@ -162,21 +201,17 @@ jobs:
       - compile
     strategy:
       matrix:
-        includes: ${{ fromJSON(needs.retrieve.outputs.metadata-json) }}
+        includes: ${{ fromJSON(needs.retrieve.outputs.compilation-json) }}
       # Run metadata update step sequentially so that metadata.json can be
       # modified for each version
       max-parallel: 1
     if: ${{ needs.get-compile-and-test.outputs.should-compile == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Download artifact files
-        if: ${{ matrix.includes.checksum == '' && matrix.includes.uri == '' }}
-        run: exit 0
-
       - name: Check out code
         uses: actions/checkout@v3
+
       - name: Download artifact files
-        if: ${{ matrix.includes.checksum == '' && matrix.includes.uri == '' }}
         uses: actions/download-artifact@v3
         with:
           name: '${{ needs.retrieve.outputs.id }}-${{ matrix.includes.version }}-${{ matrix.includes.target }}'
