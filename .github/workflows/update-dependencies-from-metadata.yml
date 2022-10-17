@@ -51,8 +51,6 @@ jobs:
           id=$(jq -r .[0].id < "${OUTPUT}")
           content=$(jq -r < "${OUTPUT}")
 
-          # compilation-json is a subset of metadata-json entries which are missing
-          # a `checksum` and `uri` (need compilation)
           compilation-content=$(echo $content | jq -r 'map(select(.checksum == null and .uri == null))')
 
           content="${content//'%'/'%25'}"
