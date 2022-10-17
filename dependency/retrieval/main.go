@@ -84,6 +84,8 @@ func generateMetadata(versionFetcher versionology.VersionFetcher) ([]versionolog
 		PURL:           retrieve.GeneratePURL("python", version, sourceSHA256, sourceURL),
 		Source:         sourceURL,
 		SourceChecksum: fmt.Sprintf("sha256:%s", sourceSHA256),
+		URI:            sourceURL,
+		Checksum:       fmt.Sprintf("sha256:%s", sourceSHA256),
 		Version:        version,
 	}
 
