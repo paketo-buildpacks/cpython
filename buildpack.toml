@@ -14,7 +14,319 @@ api = "0.7"
   pre-package = "./scripts/build.sh"
   [metadata.default-versions]
     python = "3.10.x"
-  
+
+  [[metadata.dependencies]]
+    checksum = "sha256:d5b5f863644f21d06e4979cb31ab196759bd34558e4b502ca739e49eb348cbd1"
+    cpe = "cpe:2.3:a:python:python:3.7.14:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.7.14?checksum=82b2abf8978caa61a9011d166eede831b32de9cbebc0db8162900fa23437b709&download_url=https://www.python.org/ftp/python/3.7.14/Python-3.7.14.tgz"
+    source = "https://www.python.org/ftp/python/3.7.14/Python-3.7.14.tgz"
+    source-checksum = "sha256:82b2abf8978caa61a9011d166eede831b32de9cbebc0db8162900fa23437b709"
+    stacks = ["io.buildpacks.stacks.jammy"]
+    uri = "https://artifacts.paketo.io/python/python_3.7.14_linux_x64_jammy_d5b5f863.tgz"
+    version = "3.7.14"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:d50eee25f21b3d976e8159169879bd4a3d208d5c8039b17ad8b195ffa4dbaf8a"
+    cpe = "cpe:2.3:a:python:python:3.7.14:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.7.14?checksum=82b2abf8978caa61a9011d166eede831b32de9cbebc0db8162900fa23437b709&download_url=https://www.python.org/ftp/python/3.7.14/Python-3.7.14.tgz"
+    source = "https://www.python.org/ftp/python/3.7.14/Python-3.7.14.tgz"
+    source-checksum = "sha256:82b2abf8978caa61a9011d166eede831b32de9cbebc0db8162900fa23437b709"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://artifacts.paketo.io/python/python_3.7.14_linux_x64_bionic_d50eee25.tgz"
+    version = "3.7.14"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:82b2abf8978caa61a9011d166eede831b32de9cbebc0db8162900fa23437b709"
+    cpe = "cpe:2.3:a:python:python:3.7.14:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.7.14?checksum=82b2abf8978caa61a9011d166eede831b32de9cbebc0db8162900fa23437b709&download_url=https://www.python.org/ftp/python/3.7.14/Python-3.7.14.tgz"
+    source = "https://www.python.org/ftp/python/3.7.14/Python-3.7.14.tgz"
+    source-checksum = "sha256:82b2abf8978caa61a9011d166eede831b32de9cbebc0db8162900fa23437b709"
+    stacks = ["*"]
+    uri = "https://www.python.org/ftp/python/3.7.14/Python-3.7.14.tgz"
+    version = "3.7.14"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:f8c9a4f6520ccbafd2fbb8a31445b548e697ecb6cee53822b54158358553e3ed"
+    cpe = "cpe:2.3:a:python:python:3.7.15:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.7.15?checksum=cf2993798ae8430f3af3a00d96d9fdf320719f4042f039380dca79967c25e436&download_url=https://www.python.org/ftp/python/3.7.15/Python-3.7.15.tgz"
+    source = "https://www.python.org/ftp/python/3.7.15/Python-3.7.15.tgz"
+    source-checksum = "sha256:cf2993798ae8430f3af3a00d96d9fdf320719f4042f039380dca79967c25e436"
+    stacks = ["io.buildpacks.stacks.jammy"]
+    uri = "https://artifacts.paketo.io/python/python_3.7.15_linux_x64_jammy_f8c9a4f6.tgz"
+    version = "3.7.15"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:fc954e10fc001b345995343ff4eb1f31a37af0fee1034ff3fb5167f200ff81bc"
+    cpe = "cpe:2.3:a:python:python:3.7.15:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.7.15?checksum=cf2993798ae8430f3af3a00d96d9fdf320719f4042f039380dca79967c25e436&download_url=https://www.python.org/ftp/python/3.7.15/Python-3.7.15.tgz"
+    source = "https://www.python.org/ftp/python/3.7.15/Python-3.7.15.tgz"
+    source-checksum = "sha256:cf2993798ae8430f3af3a00d96d9fdf320719f4042f039380dca79967c25e436"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://artifacts.paketo.io/python/python_3.7.15_linux_x64_bionic_fc954e10.tgz"
+    version = "3.7.15"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:cf2993798ae8430f3af3a00d96d9fdf320719f4042f039380dca79967c25e436"
+    cpe = "cpe:2.3:a:python:python:3.7.15:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.7.15?checksum=cf2993798ae8430f3af3a00d96d9fdf320719f4042f039380dca79967c25e436&download_url=https://www.python.org/ftp/python/3.7.15/Python-3.7.15.tgz"
+    source = "https://www.python.org/ftp/python/3.7.15/Python-3.7.15.tgz"
+    source-checksum = "sha256:cf2993798ae8430f3af3a00d96d9fdf320719f4042f039380dca79967c25e436"
+    stacks = ["*"]
+    uri = "https://www.python.org/ftp/python/3.7.15/Python-3.7.15.tgz"
+    version = "3.7.15"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:d1948892675b1baef430e53c61d49076e3e683b7479f66311ff61b751ba1df23"
+    cpe = "cpe:2.3:a:python:python:3.8.14:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.8.14?checksum=41f959c480c59211feb55d5a28851a56c7e22d02ef91035606ebb21011723c31&download_url=https://www.python.org/ftp/python/3.8.14/Python-3.8.14.tgz"
+    source = "https://www.python.org/ftp/python/3.8.14/Python-3.8.14.tgz"
+    source-checksum = "sha256:41f959c480c59211feb55d5a28851a56c7e22d02ef91035606ebb21011723c31"
+    stacks = ["io.buildpacks.stacks.jammy"]
+    uri = "https://artifacts.paketo.io/python/python_3.8.14_linux_x64_jammy_d1948892.tgz"
+    version = "3.8.14"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:ac0d76a7ed9234d59579f4c29f197c2d783e933cd116f2fa6439bb535c09b13e"
+    cpe = "cpe:2.3:a:python:python:3.8.14:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.8.14?checksum=41f959c480c59211feb55d5a28851a56c7e22d02ef91035606ebb21011723c31&download_url=https://www.python.org/ftp/python/3.8.14/Python-3.8.14.tgz"
+    source = "https://www.python.org/ftp/python/3.8.14/Python-3.8.14.tgz"
+    source-checksum = "sha256:41f959c480c59211feb55d5a28851a56c7e22d02ef91035606ebb21011723c31"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://artifacts.paketo.io/python/python_3.8.14_linux_x64_bionic_ac0d76a7.tgz"
+    version = "3.8.14"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:41f959c480c59211feb55d5a28851a56c7e22d02ef91035606ebb21011723c31"
+    cpe = "cpe:2.3:a:python:python:3.8.14:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.8.14?checksum=41f959c480c59211feb55d5a28851a56c7e22d02ef91035606ebb21011723c31&download_url=https://www.python.org/ftp/python/3.8.14/Python-3.8.14.tgz"
+    source = "https://www.python.org/ftp/python/3.8.14/Python-3.8.14.tgz"
+    source-checksum = "sha256:41f959c480c59211feb55d5a28851a56c7e22d02ef91035606ebb21011723c31"
+    stacks = ["*"]
+    uri = "https://www.python.org/ftp/python/3.8.14/Python-3.8.14.tgz"
+    version = "3.8.14"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:ee4b5f093833b75ee25d917eb06642fd7a4f062c53eee50038f2e852e8590912"
+    cpe = "cpe:2.3:a:python:python:3.8.15:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.8.15?checksum=924d46999df82aa2eaa1de5ca51d6800ffb56b4bf52486a28f40634e3362abc4&download_url=https://www.python.org/ftp/python/3.8.15/Python-3.8.15.tgz"
+    source = "https://www.python.org/ftp/python/3.8.15/Python-3.8.15.tgz"
+    source-checksum = "sha256:924d46999df82aa2eaa1de5ca51d6800ffb56b4bf52486a28f40634e3362abc4"
+    stacks = ["io.buildpacks.stacks.jammy"]
+    uri = "https://artifacts.paketo.io/python/python_3.8.15_linux_x64_jammy_ee4b5f09.tgz"
+    version = "3.8.15"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:7b6035a162be46fdf578bde61d74f85d8e1045a6025fa86929d2b20e89733567"
+    cpe = "cpe:2.3:a:python:python:3.8.15:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.8.15?checksum=924d46999df82aa2eaa1de5ca51d6800ffb56b4bf52486a28f40634e3362abc4&download_url=https://www.python.org/ftp/python/3.8.15/Python-3.8.15.tgz"
+    source = "https://www.python.org/ftp/python/3.8.15/Python-3.8.15.tgz"
+    source-checksum = "sha256:924d46999df82aa2eaa1de5ca51d6800ffb56b4bf52486a28f40634e3362abc4"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://artifacts.paketo.io/python/python_3.8.15_linux_x64_bionic_7b6035a1.tgz"
+    version = "3.8.15"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:924d46999df82aa2eaa1de5ca51d6800ffb56b4bf52486a28f40634e3362abc4"
+    cpe = "cpe:2.3:a:python:python:3.8.15:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.8.15?checksum=924d46999df82aa2eaa1de5ca51d6800ffb56b4bf52486a28f40634e3362abc4&download_url=https://www.python.org/ftp/python/3.8.15/Python-3.8.15.tgz"
+    source = "https://www.python.org/ftp/python/3.8.15/Python-3.8.15.tgz"
+    source-checksum = "sha256:924d46999df82aa2eaa1de5ca51d6800ffb56b4bf52486a28f40634e3362abc4"
+    stacks = ["*"]
+    uri = "https://www.python.org/ftp/python/3.8.15/Python-3.8.15.tgz"
+    version = "3.8.15"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:3748b4799cab5986ae0baa13ecb802078937e68be052930be269bdf838da1c89"
+    cpe = "cpe:2.3:a:python:python:3.9.14:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.9.14?checksum=9201836e2c16361b2b7408680502393737d44f227333fe2e5729c7d5f6041675&download_url=https://www.python.org/ftp/python/3.9.14/Python-3.9.14.tgz"
+    source = "https://www.python.org/ftp/python/3.9.14/Python-3.9.14.tgz"
+    source-checksum = "sha256:9201836e2c16361b2b7408680502393737d44f227333fe2e5729c7d5f6041675"
+    stacks = ["io.buildpacks.stacks.jammy"]
+    uri = "https://artifacts.paketo.io/python/python_3.9.14_linux_x64_jammy_3748b479.tgz"
+    version = "3.9.14"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:771d92bc566b2e1a897ceacf4f1d23cc3d39246eae2c48066b34f173b6f93e86"
+    cpe = "cpe:2.3:a:python:python:3.9.14:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.9.14?checksum=9201836e2c16361b2b7408680502393737d44f227333fe2e5729c7d5f6041675&download_url=https://www.python.org/ftp/python/3.9.14/Python-3.9.14.tgz"
+    source = "https://www.python.org/ftp/python/3.9.14/Python-3.9.14.tgz"
+    source-checksum = "sha256:9201836e2c16361b2b7408680502393737d44f227333fe2e5729c7d5f6041675"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://artifacts.paketo.io/python/python_3.9.14_linux_x64_bionic_771d92bc.tgz"
+    version = "3.9.14"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:9201836e2c16361b2b7408680502393737d44f227333fe2e5729c7d5f6041675"
+    cpe = "cpe:2.3:a:python:python:3.9.14:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.9.14?checksum=9201836e2c16361b2b7408680502393737d44f227333fe2e5729c7d5f6041675&download_url=https://www.python.org/ftp/python/3.9.14/Python-3.9.14.tgz"
+    source = "https://www.python.org/ftp/python/3.9.14/Python-3.9.14.tgz"
+    source-checksum = "sha256:9201836e2c16361b2b7408680502393737d44f227333fe2e5729c7d5f6041675"
+    stacks = ["*"]
+    uri = "https://www.python.org/ftp/python/3.9.14/Python-3.9.14.tgz"
+    version = "3.9.14"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:11196c84587ce8e916abd8cb43790061a29b4762978ad8dced6bfebf3fb0b851"
+    cpe = "cpe:2.3:a:python:python:3.9.15:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.9.15?checksum=48d1ccb29d5fbaf1fb8f912271d09f7450e426d4dfe95978ef6aaada70ece4d8&download_url=https://www.python.org/ftp/python/3.9.15/Python-3.9.15.tgz"
+    source = "https://www.python.org/ftp/python/3.9.15/Python-3.9.15.tgz"
+    source-checksum = "sha256:48d1ccb29d5fbaf1fb8f912271d09f7450e426d4dfe95978ef6aaada70ece4d8"
+    stacks = ["io.buildpacks.stacks.jammy"]
+    uri = "https://artifacts.paketo.io/python/python_3.9.15_linux_x64_jammy_11196c84.tgz"
+    version = "3.9.15"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:1bc053f3db9659dded18757d9bb831ca87747c6357a04d9e480a7b4f370ad30e"
+    cpe = "cpe:2.3:a:python:python:3.9.15:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.9.15?checksum=48d1ccb29d5fbaf1fb8f912271d09f7450e426d4dfe95978ef6aaada70ece4d8&download_url=https://www.python.org/ftp/python/3.9.15/Python-3.9.15.tgz"
+    source = "https://www.python.org/ftp/python/3.9.15/Python-3.9.15.tgz"
+    source-checksum = "sha256:48d1ccb29d5fbaf1fb8f912271d09f7450e426d4dfe95978ef6aaada70ece4d8"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://artifacts.paketo.io/python/python_3.9.15_linux_x64_bionic_1bc053f3.tgz"
+    version = "3.9.15"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:48d1ccb29d5fbaf1fb8f912271d09f7450e426d4dfe95978ef6aaada70ece4d8"
+    cpe = "cpe:2.3:a:python:python:3.9.15:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.9.15?checksum=48d1ccb29d5fbaf1fb8f912271d09f7450e426d4dfe95978ef6aaada70ece4d8&download_url=https://www.python.org/ftp/python/3.9.15/Python-3.9.15.tgz"
+    source = "https://www.python.org/ftp/python/3.9.15/Python-3.9.15.tgz"
+    source-checksum = "sha256:48d1ccb29d5fbaf1fb8f912271d09f7450e426d4dfe95978ef6aaada70ece4d8"
+    stacks = ["*"]
+    uri = "https://www.python.org/ftp/python/3.9.15/Python-3.9.15.tgz"
+    version = "3.9.15"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:8b8f550089626ba714d5cbc36fd338bc06448e574ebb5e4e7d1431007b2f19c3"
+    cpe = "cpe:2.3:a:python:python:3.10.7:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.10.7?checksum=1b2e4e2df697c52d36731666979e648beeda5941d0f95740aafbf4163e5cc126&download_url=https://www.python.org/ftp/python/3.10.7/Python-3.10.7.tgz"
+    source = "https://www.python.org/ftp/python/3.10.7/Python-3.10.7.tgz"
+    source-checksum = "sha256:1b2e4e2df697c52d36731666979e648beeda5941d0f95740aafbf4163e5cc126"
+    stacks = ["io.buildpacks.stacks.jammy"]
+    uri = "https://artifacts.paketo.io/python/python_3.10.7_linux_x64_jammy_8b8f5500.tgz"
+    version = "3.10.7"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:033b24dd3a60adb5b134a322c0f660c68d08de4a89f75da276faf9ba7d7e919e"
+    cpe = "cpe:2.3:a:python:python:3.10.7:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.10.7?checksum=1b2e4e2df697c52d36731666979e648beeda5941d0f95740aafbf4163e5cc126&download_url=https://www.python.org/ftp/python/3.10.7/Python-3.10.7.tgz"
+    source = "https://www.python.org/ftp/python/3.10.7/Python-3.10.7.tgz"
+    source-checksum = "sha256:1b2e4e2df697c52d36731666979e648beeda5941d0f95740aafbf4163e5cc126"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://artifacts.paketo.io/python/python_3.10.7_linux_x64_bionic_033b24dd.tgz"
+    version = "3.10.7"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:1b2e4e2df697c52d36731666979e648beeda5941d0f95740aafbf4163e5cc126"
+    cpe = "cpe:2.3:a:python:python:3.10.7:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.10.7?checksum=1b2e4e2df697c52d36731666979e648beeda5941d0f95740aafbf4163e5cc126&download_url=https://www.python.org/ftp/python/3.10.7/Python-3.10.7.tgz"
+    source = "https://www.python.org/ftp/python/3.10.7/Python-3.10.7.tgz"
+    source-checksum = "sha256:1b2e4e2df697c52d36731666979e648beeda5941d0f95740aafbf4163e5cc126"
+    stacks = ["*"]
+    uri = "https://www.python.org/ftp/python/3.10.7/Python-3.10.7.tgz"
+    version = "3.10.7"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:c012e394b692ed8fa51f8e1d5a2e4bafc5506dd99d3e0c057fdff732c9fc2b5e"
+    cpe = "cpe:2.3:a:python:python:3.10.8:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.10.8?checksum=f400c3fb394b8bef1292f6dc1292c5fadc3533039a5bc0c3e885f3e16738029a&download_url=https://www.python.org/ftp/python/3.10.8/Python-3.10.8.tgz"
+    source = "https://www.python.org/ftp/python/3.10.8/Python-3.10.8.tgz"
+    source-checksum = "sha256:f400c3fb394b8bef1292f6dc1292c5fadc3533039a5bc0c3e885f3e16738029a"
+    stacks = ["io.buildpacks.stacks.jammy"]
+    uri = "https://artifacts.paketo.io/python/python_3.10.8_linux_x64_jammy_c012e394.tgz"
+    version = "3.10.8"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:c9bf0ad21f3df3b80da8a0db152297e5e6c215799bd585294ef7eb2d852398c8"
+    cpe = "cpe:2.3:a:python:python:3.10.8:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.10.8?checksum=f400c3fb394b8bef1292f6dc1292c5fadc3533039a5bc0c3e885f3e16738029a&download_url=https://www.python.org/ftp/python/3.10.8/Python-3.10.8.tgz"
+    source = "https://www.python.org/ftp/python/3.10.8/Python-3.10.8.tgz"
+    source-checksum = "sha256:f400c3fb394b8bef1292f6dc1292c5fadc3533039a5bc0c3e885f3e16738029a"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://artifacts.paketo.io/python/python_3.10.8_linux_x64_bionic_c9bf0ad2.tgz"
+    version = "3.10.8"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:f400c3fb394b8bef1292f6dc1292c5fadc3533039a5bc0c3e885f3e16738029a"
+    cpe = "cpe:2.3:a:python:python:3.10.8:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.10.8?checksum=f400c3fb394b8bef1292f6dc1292c5fadc3533039a5bc0c3e885f3e16738029a&download_url=https://www.python.org/ftp/python/3.10.8/Python-3.10.8.tgz"
+    source = "https://www.python.org/ftp/python/3.10.8/Python-3.10.8.tgz"
+    source-checksum = "sha256:f400c3fb394b8bef1292f6dc1292c5fadc3533039a5bc0c3e885f3e16738029a"
+    stacks = ["*"]
+    uri = "https://www.python.org/ftp/python/3.10.8/Python-3.10.8.tgz"
+    version = "3.10.8"
+
   [[metadata.dependency-constraints]]
     constraint = "3.7.*"
     id = "python"
