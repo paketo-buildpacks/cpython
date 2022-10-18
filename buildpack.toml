@@ -44,6 +44,19 @@ api = "0.7"
     version = "3.7.14"
 
   [[metadata.dependencies]]
+    checksum = "sha256:d5b5f863644f21d06e4979cb31ab196759bd34558e4b502ca739e49eb348cbd1"
+    cpe = "cpe:2.3:a:python:python:3.7.14:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.7.14?checksum=82b2abf8978caa61a9011d166eede831b32de9cbebc0db8162900fa23437b709&download_url=https://www.python.org/ftp/python/3.7.14/Python-3.7.14.tgz"
+    source = "https://www.python.org/ftp/python/3.7.14/Python-3.7.14.tgz"
+    source-checksum = "sha256:82b2abf8978caa61a9011d166eede831b32de9cbebc0db8162900fa23437b709"
+    stacks = ["io.buildpacks.stacks.jammy"]
+    uri = "https://artifacts.paketo.io/python/python_3.7.14_linux_x64_jammy_d5b5f863.tgz"
+    version = "3.7.14"
+
+  [[metadata.dependencies]]
     checksum = "sha256:7e35fd3f427137beca6d6fcdc60257c902712dac52aa2ece8250a5d389506952"
     cpe = "cpe:2.3:a:python:python:3.7.15:*:*:*:*:*:*:*"
     id = "python"
@@ -108,6 +121,19 @@ api = "0.7"
     source_sha256 = "41f959c480c59211feb55d5a28851a56c7e22d02ef91035606ebb21011723c31"
     stacks = ["*"]
     uri = "https://www.python.org/ftp/python/3.8.14/Python-3.8.14.tgz"
+    version = "3.8.14"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:d1948892675b1baef430e53c61d49076e3e683b7479f66311ff61b751ba1df23"
+    cpe = "cpe:2.3:a:python:python:3.8.14:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.8.14?checksum=41f959c480c59211feb55d5a28851a56c7e22d02ef91035606ebb21011723c31&download_url=https://www.python.org/ftp/python/3.8.14/Python-3.8.14.tgz"
+    source = "https://www.python.org/ftp/python/3.8.14/Python-3.8.14.tgz"
+    source-checksum = "sha256:41f959c480c59211feb55d5a28851a56c7e22d02ef91035606ebb21011723c31"
+    stacks = ["io.buildpacks.stacks.jammy"]
+    uri = "https://artifacts.paketo.io/python/python_3.8.14_linux_x64_jammy_d1948892.tgz"
     version = "3.8.14"
 
   [[metadata.dependencies]]
