@@ -39,6 +39,19 @@ The `BP_CPYTHON_VERSION` variable allows you to specify the version of CPython
 that is installed. (Available versions can be found in the
 [buildpack.toml](./buildpack.toml).)
 
+#### `pack build` flag
+```shell
+pack build my-app --env BP_CPYTHON_VERSION=3.10.*
+```
+
+#### In a [`project.toml`](https://github.com/buildpacks/spec/blob/main/extensions/project-descriptor.md)
+```toml
+[build]
+  [[build.env]]
+    name = 'BP_CPYTHON_VERSION'
+    value = '3.10.*' # any valid semver constraints (e.g. 3.10.2, 3.*) are acceptable
+```
+
 ### `BP_CPYTHON_CONFIGURE_FLAGS`
 The `BP_CPYTHON_CONFIGURE_FLAGS` variable allows you to specify configure flags
 when python is installed from source. This is only applicable when using custom
@@ -58,19 +71,6 @@ For more detail, set it to `debug`.
 
 For example, when compiling from source, setting `BP_LOG_LEVEL=debug` shows the
 commands and outputs run to build python.
-
-#### `pack build` flag
-```shell
-pack build my-app --env BP_CPYTHON_VERSION=3.10.*
-```
-
-#### In a [`project.toml`](https://github.com/buildpacks/spec/blob/main/extensions/project-descriptor.md)
-```toml
-[build]
-  [[build.env]]
-    name = 'BP_CPYTHON_VERSION'
-    value = '3.10.*' # any valid semver constraints (e.g. 3.10.2, 3.*) are acceptable
-```
 
 ## Integration
 
