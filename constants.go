@@ -5,7 +5,7 @@ const Cpython = "cpython"
 
 // DepKey is the key in the Layer Content Metadata used to determine if layer
 // can be reused.
-const DepKey = "dependency-sha"
+const DepKey = "dependency-checksum"
 
 // Priorities is a list of version-source values that may appear in
 // the BuildpackPlan entries that the buildpack receives. The list is

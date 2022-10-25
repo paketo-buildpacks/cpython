@@ -1,5 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import os
+import sys
 
 class Server(BaseHTTPRequestHandler):
   def do_GET(self):
@@ -7,10 +8,13 @@ class Server(BaseHTTPRequestHandler):
     self.send_header("Content-type","text/plain")
     self.end_headers()
 
-    self.wfile.write(bytes("hello world", "utf8"))
+    self.wfile.write(bytes("hello world\n", "utf8"))
 
     prefix = os.getenv("PYTHONPYCACHEPREFIX")
-    self.wfile.write(bytes(f'PYTHONPYCACHEPREFIX={prefix}', "utf8"))
+    self.wfile.write(bytes(f'PYTHONPYCACHEPREFIX={prefix}\n', "utf8"))
+
+    version = sys.version
+    self.wfile.write(bytes(f'Python version: {version}\n', "utf8"))
 
   def do_HEAD(self):
     self.send_response(200)

@@ -102,8 +102,8 @@ func Build(
 
 		cpythonLayer.Launch, cpythonLayer.Build, cpythonLayer.Cache = launch, build, build
 
-		cachedSHA, ok := cpythonLayer.Metadata[DepKey].(string)
-		if ok && cachedSHA == dependency.SHA256 {
+		cachedChecksum, ok := cpythonLayer.Metadata[DepKey].(string)
+		if ok && cachedChecksum == dependency.Checksum {
 			logger.Process("Reusing cached layer %s", cpythonLayer.Path)
 			logger.Break()
 
@@ -195,7 +195,7 @@ func Build(
 		}
 
 		cpythonLayer.Metadata = map[string]interface{}{
-			DepKey: dependency.SHA256,
+			DepKey: dependency.Checksum,
 		}
 
 		cpythonLayer.SharedEnv.Default("PYTHONPATH", cpythonLayer.Path)
