@@ -198,6 +198,7 @@ func Build(
 			DepKey: dependency.Checksum,
 		}
 
+		cpythonLayer.BuildEnv.Default("PYTHONPYCACHEPREFIX", "/tmp")
 		cpythonLayer.SharedEnv.Default("PYTHONPATH", cpythonLayer.Path)
 		cpythonLayer.ExecD = []string{filepath.Join(context.CNBPath, "bin", "env")}
 

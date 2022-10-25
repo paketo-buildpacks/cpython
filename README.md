@@ -2,21 +2,35 @@
 The CPython Buildpack provides CPython (reference implementation of Python) 3.
 The buildpack installs CPython onto the `$PATH` which makes it available for
 subsequent buildpacks and in the final running container. It also sets the
-`$PYTHONPATH` environment variable.
+`$PYTHONPATH` environment variable for subsequent buildpacks and launch-time
+processes.
 
 The buildpack is published for consumption at `gcr.io/paketo-buildpacks/cpython` and
 `paketobuildpacks/cpython`.
 
 ## Behavior
+
 This buildpack always participates.
 
-The buildpack will do the following:
-* At build time:
-  - Contributes `cpython` to a layer
-  - Sets the `PYTHONPATH` to the `cpython` layer path.
-  - Adds the newly installed `cpython` bin dir location to `PATH`
-* At run time:
-  - Does nothing
+### Build time
+This buildpack performs the following actions at build time:
+* Contributes `cpython` to a layer - either via a precompiled dependency or by
+  compiling from source.
+* Sets the `PYTHONPYCACHEPREFIX` environment variable to the `/tmp` directory
+  for this and any subsequent buildpacks.
+  * This effectively disables the `__pycache__` directories, in turn enabling
+    reproducible builds.
+  * It can be overridden via standard means (e.g. `pack build --env
+    "PYTHONPYCACHEPREFIX=/some/other/dir"`) if there is a need to keep the
+    `__pycache__` directories in place of reproducible builds.
+* Sets the `PYTHONPATH` to the `cpython` layer path for this and any subsequent
+  buildpacks.
+* Adds the newly installed `cpython` bin dir location to the `PATH`.
+
+### Launch time
+This buildpack does the following at launch time:
+
+* Sets a default value for the `PYTHONPATH` environment variable.
 
 ## Configuration
 
@@ -24,22 +38,6 @@ The buildpack will do the following:
 The `BP_CPYTHON_VERSION` variable allows you to specify the version of CPython
 that is installed. (Available versions can be found in the
 [buildpack.toml](./buildpack.toml).)
-
-### `BP_CPYTHON_CONFIGURE_FLAGS`
-The `BP_CPYTHON_CONFIGURE_FLAGS` variable allows you to specify configure flags
-when python is installed from source. This is only applicable when using custom 
-stacks. Paketo stacks such as `io.buildpacks.stacks.bionic` install pre-built binaries. 
-
-* The format is space-separated strings, and they are passed directly to the `cpython` `./configure` process , e.g. `--foo --bar=baz`.
-* See [python documentation](https://docs.python.org/3/using/configure.html) for supported flags.
-* Default flags if not specified: `--enable-optimizations --with-ensurepip`
-* Note that default flags are overridden if you specify this environment variable,
-which means you almost certainly want to include the defaults along with any custom flags.
-  - e.g. `--enable-optimizations --with-ensurepip --foo --bar=baz`
-
-### `BP_LOG_LEVEL`
-When using custom stacks that install python from source setting `BP_LOG_LEVEL=DEBUG`
-shows the commands and outputs run to build python.
 
 #### `pack build` flag
 ```shell
@@ -53,6 +51,26 @@ pack build my-app --env BP_CPYTHON_VERSION=3.10.*
     name = 'BP_CPYTHON_VERSION'
     value = '3.10.*' # any valid semver constraints (e.g. 3.10.2, 3.*) are acceptable
 ```
+
+### `BP_CPYTHON_CONFIGURE_FLAGS`
+The `BP_CPYTHON_CONFIGURE_FLAGS` variable allows you to specify configure flags
+when python is installed from source. This is only applicable when using custom
+stacks. Paketo stacks such as `io.buildpacks.stacks.bionic` install pre-built binaries.
+
+* The format is space-separated strings, and they are passed directly to the
+  `cpython` `./configure` process , e.g. `--foo --bar=baz`.
+* See [python documentation](https://docs.python.org/3/using/configure.html) for supported flags.
+* Default flags if not specified: `--enable-optimizations --with-ensurepip`
+* Note that default flags are overridden if you specify this environment variable,
+which means you almost certainly want to include the defaults along with any custom flags.
+  - e.g. `--enable-optimizations --with-ensurepip --foo --bar=baz`
+
+### `BP_LOG_LEVEL`
+The `BP_LOG_LEVEL` flag controls the level of verbosity of the buildpack output logs.
+For more detail, set it to `debug`.
+
+For example, when compiling from source, setting `BP_LOG_LEVEL=debug` shows the
+commands and outputs run to build python.
 
 ## Integration
 
@@ -111,3 +129,8 @@ $ ./scripts/unit.sh && ./scripts/integration.sh
 ## Compatibility
 
 This buildpack is currently only supported on linux distributions.
+
+Pre-compiled distributions of Python are provided for the Paketo stacks (i.e.
+`io.buildpacks.stack.jammy` and `io.buildpacks.stacks.bionic`).
+
+Source distributions of Python are provided for all other linux stacks.
