@@ -163,8 +163,6 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 			containerIDs[firstContainer.ID] = struct{}{}
 
 			Eventually(firstContainer).Should(BeAvailable())
-			Eventually(firstContainer).Should(Serve(ContainSubstring("hello world")).OnPort(8080))
-			Eventually(firstContainer).Should(Serve(ContainSubstring("Python version: %s", defaultVersion)).OnPort(8080))
 
 			for _, dependency := range dependenciesForStack() {
 				if dependency.Version != defaultVersion {
@@ -200,7 +198,6 @@ func testLayerReuse(t *testing.T, context spec.G, it spec.S) {
 
 			Eventually(secondContainer).Should(BeAvailable())
 			Eventually(secondContainer).Should(Serve(ContainSubstring("hello world")).OnPort(8080))
-			Eventually(secondContainer).Should(Serve(ContainSubstring("Python version: %s", otherVersion)).OnPort(8080))
 
 			Expect(secondImage.Buildpacks[0].Layers["cpython"].SHA).NotTo(Equal(firstImage.Buildpacks[0].Layers["cpython"].SHA))
 		})
