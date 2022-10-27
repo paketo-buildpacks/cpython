@@ -52,12 +52,12 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		dependencyManager = &fakes.DependencyManager{}
 		dependencyManager.ResolveCall.Returns.Dependency = postal.Dependency{
 			// Dependecy is called python not cpython
-			ID:       "python",
-			Name:     "python-dependency-name",
-			Checksum: "python-dependency-checksum",
-			Stacks:   []string{"some-stack"},
-			URI:      "python-dependency-uri",
-			Version:  "python-dependency-version",
+			ID:      "python",
+			Name:    "python-dependency-name",
+			SHA256:  "python-dependency-sha",
+			Stacks:  []string{"some-stack"},
+			URI:     "python-dependency-uri",
+			Version: "python-dependency-version",
 		}
 
 		// Legacy SBOM
@@ -141,7 +141,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		Expect(layer.Cache).To(BeFalse())
 
 		Expect(layer.Metadata).To(Equal(map[string]interface{}{
-			"dependency-checksum": "python-dependency-checksum",
+			"dependency-sha": "python-dependency-sha",
 		}))
 
 		Expect(layer.ExecD).To(Equal([]string{
@@ -166,12 +166,12 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		Expect(dependencyManager.ResolveCall.Receives.Stack).To(Equal("some-stack"))
 
 		Expect(dependencyManager.DeliverCall.Receives.Dependency).To(Equal(postal.Dependency{
-			ID:       "cpython",
-			Name:     "CPython",
-			Checksum: "python-dependency-checksum",
-			Stacks:   []string{"some-stack"},
-			URI:      "python-dependency-uri",
-			Version:  "python-dependency-version",
+			ID:      "cpython",
+			Name:    "CPython",
+			SHA256:  "python-dependency-sha",
+			Stacks:  []string{"some-stack"},
+			URI:     "python-dependency-uri",
+			Version: "python-dependency-version",
 		}))
 		Expect(dependencyManager.DeliverCall.Receives.CnbPath).To(Equal(cnbDir))
 		Expect(dependencyManager.DeliverCall.Receives.DestinationPath).To(Equal(filepath.Join(layersDir, "cpython")))
@@ -179,22 +179,22 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 
 		Expect(dependencyManager.GenerateBillOfMaterialsCall.Receives.Dependencies).To(Equal([]postal.Dependency{
 			{
-				ID:       "cpython",
-				Name:     "CPython",
-				Checksum: "python-dependency-checksum",
-				Stacks:   []string{"some-stack"},
-				URI:      "python-dependency-uri",
-				Version:  "python-dependency-version",
+				ID:      "cpython",
+				Name:    "CPython",
+				SHA256:  "python-dependency-sha",
+				Stacks:  []string{"some-stack"},
+				URI:     "python-dependency-uri",
+				Version: "python-dependency-version",
 			},
 		}))
 
 		Expect(sbomGenerator.GenerateFromDependencyCall.Receives.Dependency).To(Equal(postal.Dependency{
-			ID:       "cpython",
-			Name:     "CPython",
-			Checksum: "python-dependency-checksum",
-			Stacks:   []string{"some-stack"},
-			URI:      "python-dependency-uri",
-			Version:  "python-dependency-version",
+			ID:      "cpython",
+			Name:    "CPython",
+			SHA256:  "python-dependency-sha",
+			Stacks:  []string{"some-stack"},
+			URI:     "python-dependency-uri",
+			Version: "python-dependency-version",
 		}))
 		Expect(sbomGenerator.GenerateFromDependencyCall.Receives.Dir).To(Equal(filepath.Join(layersDir, "cpython")))
 
@@ -247,7 +247,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		Expect(layer.Cache).To(BeFalse())
 
 		Expect(layer.Metadata).To(Equal(map[string]interface{}{
-			"dependency-checksum": "python-dependency-checksum",
+			"dependency-sha": "python-dependency-sha",
 		}))
 
 		Expect(layer.ExecD).To(Equal([]string{
@@ -274,7 +274,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		Expect(dependencyManager.DeliverCall.Receives.Dependency).To(Equal(postal.Dependency{
 			ID:              "cpython",
 			Name:            "CPython",
-			Checksum:        "python-dependency-checksum",
+			SHA256:          "python-dependency-sha",
 			Stacks:          []string{"some-stack"},
 			URI:             "python-dependency-uri",
 			Source:          "python-dependency-uri",
@@ -287,20 +287,20 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 
 		Expect(dependencyManager.GenerateBillOfMaterialsCall.Receives.Dependencies).To(Equal([]postal.Dependency{
 			{
-				ID:       "cpython",
-				Name:     "CPython",
-				Checksum: "python-dependency-checksum",
-				Stacks:   []string{"some-stack"},
-				URI:      "python-dependency-uri",
-				Source:   "python-dependency-uri",
-				Version:  "python-dependency-version",
+				ID:      "cpython",
+				Name:    "CPython",
+				SHA256:  "python-dependency-sha",
+				Stacks:  []string{"some-stack"},
+				URI:     "python-dependency-uri",
+				Source:  "python-dependency-uri",
+				Version: "python-dependency-version",
 			},
 		}))
 
 		Expect(sbomGenerator.GenerateFromDependencyCall.Receives.Dependency).To(Equal(postal.Dependency{
 			ID:              "cpython",
 			Name:            "CPython",
-			Checksum:        "python-dependency-checksum",
+			SHA256:          "python-dependency-sha",
 			Stacks:          []string{"some-stack"},
 			URI:             "python-dependency-uri",
 			Source:          "python-dependency-uri",
@@ -369,9 +369,9 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		})
 	})
 
-	context("when the cached checksum matches the dependency checksum", func() {
+	context("when the cached SHA matches the dependency SHA", func() {
 		it.Before(func() {
-			err := os.WriteFile(filepath.Join(layersDir, "cpython.toml"), []byte("[metadata]\ndependency-checksum = \"python-dependency-checksum\"\n"), 0600)
+			err := os.WriteFile(filepath.Join(layersDir, "cpython.toml"), []byte("[metadata]\ndependency-sha = \"python-dependency-sha\"\n"), 0600)
 			Expect(err).NotTo(HaveOccurred())
 
 			buildContext.Plan.Entries[0].Metadata = map[string]interface{}{"build": true}
