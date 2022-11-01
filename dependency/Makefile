@@ -9,6 +9,7 @@ retrieve:
 	rm retrieve
 
 test:
-	./test/test.sh \
+	@cd test; \
+	./test.sh \
 		--tarballPath $(tarballPath) \
 		--expectedVersion $(version)
