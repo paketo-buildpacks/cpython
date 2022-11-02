@@ -7,7 +7,7 @@ replace github.com/CycloneDX/cyclonedx-go => github.com/CycloneDX/cyclonedx-go v
 
 require (
 	github.com/BurntSushi/toml v1.2.1
-	github.com/onsi/gomega v1.23.0
+	github.com/onsi/gomega v1.24.0
 	github.com/paketo-buildpacks/occam v0.13.3
 	github.com/paketo-buildpacks/packit/v2 v2.6.1
 	github.com/sclevine/spec v1.4.0
