@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/paketo-buildpacks/packit/v2"
+	"github.com/paketo-buildpacks/packit/v2/cargo"
 	"github.com/paketo-buildpacks/packit/v2/chronos"
 	"github.com/paketo-buildpacks/packit/v2/draft"
 	"github.com/paketo-buildpacks/packit/v2/fs"
@@ -102,8 +103,13 @@ func Build(
 
 		cpythonLayer.Launch, cpythonLayer.Build, cpythonLayer.Cache = launch, build, build
 
-		cachedSHA, ok := cpythonLayer.Metadata[DepKey].(string)
-		if ok && cachedSHA == dependency.SHA256 {
+		cachedChecksum, ok := cpythonLayer.Metadata[DepKey].(string)
+		dependencyChecksum := dependency.Checksum
+		if dependencyChecksum == "" {
+			dependencyChecksum = dependency.SHA256
+		}
+
+		if ok && cachedChecksum != "" && cargo.Checksum(cachedChecksum).MatchString(dependencyChecksum) {
 			logger.Process("Reusing cached layer %s", cpythonLayer.Path)
 			logger.Break()
 
@@ -195,7 +201,7 @@ func Build(
 		}
 
 		cpythonLayer.Metadata = map[string]interface{}{
-			DepKey: dependency.SHA256,
+			DepKey: dependencyChecksum,
 		}
 
 		cpythonLayer.BuildEnv.Default("PYTHONPYCACHEPREFIX", "/tmp")
