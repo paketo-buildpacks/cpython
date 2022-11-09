@@ -307,6 +307,45 @@ api = "0.7"
     uri = "https://www.python.org/ftp/python/3.10.8/Python-3.10.8.tgz"
     version = "3.10.8"
 
+  [[metadata.dependencies]]
+    checksum = "sha256:d3ed1356a0143fbf8a5a7a125755d27c04cf998285aa3be031dca7e6c45a826a"
+    cpe = "cpe:2.3:a:python:python:3.11.0:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.11.0?checksum=64424e96e2457abbac899b90f9530985b51eef2905951febd935f0e73414caeb&download_url=https://www.python.org/ftp/python/3.11.0/Python-3.11.0.tgz"
+    source = "https://www.python.org/ftp/python/3.11.0/Python-3.11.0.tgz"
+    source-checksum = "sha256:64424e96e2457abbac899b90f9530985b51eef2905951febd935f0e73414caeb"
+    stacks = ["io.buildpacks.stacks.jammy"]
+    uri = "https://artifacts.paketo.io/python/python_3.11.0_linux_x64_jammy_d3ed1356.tgz"
+    version = "3.11.0"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:061490b2aba3c1ae16192801ae960b870d41ee6197988de5eb72c9025396cda7"
+    cpe = "cpe:2.3:a:python:python:3.11.0:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.11.0?checksum=64424e96e2457abbac899b90f9530985b51eef2905951febd935f0e73414caeb&download_url=https://www.python.org/ftp/python/3.11.0/Python-3.11.0.tgz"
+    source = "https://www.python.org/ftp/python/3.11.0/Python-3.11.0.tgz"
+    source-checksum = "sha256:64424e96e2457abbac899b90f9530985b51eef2905951febd935f0e73414caeb"
+    stacks = ["io.buildpacks.stacks.bionic"]
+    uri = "https://artifacts.paketo.io/python/python_3.11.0_linux_x64_bionic_061490b2.tgz"
+    version = "3.11.0"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:64424e96e2457abbac899b90f9530985b51eef2905951febd935f0e73414caeb"
+    cpe = "cpe:2.3:a:python:python:3.11.0:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.11.0?checksum=64424e96e2457abbac899b90f9530985b51eef2905951febd935f0e73414caeb&download_url=https://www.python.org/ftp/python/3.11.0/Python-3.11.0.tgz"
+    source = "https://www.python.org/ftp/python/3.11.0/Python-3.11.0.tgz"
+    source-checksum = "sha256:64424e96e2457abbac899b90f9530985b51eef2905951febd935f0e73414caeb"
+    stacks = ["*"]
+    uri = "https://www.python.org/ftp/python/3.11.0/Python-3.11.0.tgz"
+    version = "3.11.0"
+
   [[metadata.dependency-constraints]]
     constraint = "3.7.*"
     id = "python"
