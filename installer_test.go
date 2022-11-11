@@ -85,7 +85,6 @@ func testCPythonInstaller(t *testing.T, context spec.G, it spec.S) {
 			Expect(configureProcess.ExecuteCall.CallCount).To(Equal(1))
 			Expect(configureProcess.ExecuteCall.Receives.Execution).To(MatchFields(IgnoreExtras, Fields{
 				"Args": Equal([]string{
-					"--enable-optimizations",
 					"--with-ensurepip",
 					fmt.Sprintf("--prefix=%s", layerPath),
 				}),
