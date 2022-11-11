@@ -52,7 +52,7 @@ func (i CPythonInstaller) Install(
 	flags, _ := entry.Metadata["configure-flags"].(string)
 
 	if flags == "" {
-		flags = "--enable-optimizations --with-ensurepip"
+		flags = "--with-ensurepip"
 		i.logger.Debug.Subprocess("Using default configure flags: %v\n", flags)
 	}
 
