@@ -60,10 +60,10 @@ stacks. Paketo stacks such as `io.buildpacks.stacks.bionic` install pre-built bi
 * The format is space-separated strings, and they are passed directly to the
   `cpython` `./configure` process , e.g. `--foo --bar=baz`.
 * See [python documentation](https://docs.python.org/3/using/configure.html) for supported flags.
-* Default flags if not specified: `--enable-optimizations --with-ensurepip`
+* Default flags if not specified: `--with-ensurepip`
 * Note that default flags are overridden if you specify this environment variable,
 which means you almost certainly want to include the defaults along with any custom flags.
-  - e.g. `--enable-optimizations --with-ensurepip --foo --bar=baz`
+  - e.g. `--with-ensurepip --foo --bar=baz`
 
 ### `BP_LOG_LEVEL`
 The `BP_LOG_LEVEL` flag controls the level of verbosity of the buildpack output logs.
