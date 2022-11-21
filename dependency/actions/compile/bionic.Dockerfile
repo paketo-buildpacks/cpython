@@ -9,10 +9,14 @@ RUN apt-get update && \
     ca-certificates \
     curl \
     dialog \
+    libbz2-dev \
     libdb-dev \
     libffi-dev \
     libgdbm-dev \
+    liblzma-dev \
+    libreadline-dev \
     libssl-dev \
+    ncurses-dev \
     tk8.6-dev \
     tzdata \
     xz-utils \
