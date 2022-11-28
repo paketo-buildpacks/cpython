@@ -92,7 +92,7 @@ function main() {
 
       echo "Running make and make install"
 
-      make
+      make -j$(nproc) LDFLAGS="-Wl,--strip-all"
       make install
     popd > /dev/null
   popd > /dev/null
