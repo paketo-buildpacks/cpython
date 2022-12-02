@@ -15,6 +15,7 @@ RUN apt-get update && \
     libgdbm-dev \
     liblzma-dev \
     libreadline-dev \
+    libsqlite3-dev \
     libssl-dev \
     ncurses-dev \
     tk8.6-dev \
