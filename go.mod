@@ -60,7 +60,7 @@ require (
 	github.com/imdario/mergo v0.3.13 // indirect
 	github.com/jinzhu/copier v0.3.5 // indirect
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
-	github.com/klauspost/compress v1.15.13 // indirect
+	github.com/klauspost/compress v1.15.14 // indirect
 	github.com/klauspost/pgzip v1.2.5 // indirect
 	github.com/knqyf263/go-rpmdb v0.0.0-20221030135625-4082a22221ce // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
