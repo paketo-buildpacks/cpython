@@ -2,9 +2,6 @@ module github.com/paketo-buildpacks/cpython
 
 go 1.18
 
-// This is required because of a breaking change in a newer version
-replace github.com/CycloneDX/cyclonedx-go => github.com/CycloneDX/cyclonedx-go v0.6.0
-
 require (
 	github.com/BurntSushi/toml v1.2.1
 	github.com/onsi/gomega v1.25.0
