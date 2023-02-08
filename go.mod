@@ -2,6 +2,13 @@ module github.com/paketo-buildpacks/cpython
 
 go 1.18
 
+replace (
+	// https://github.com/testcontainers/testcontainers-go/releases/tag/v0.17.0
+	github.com/docker/docker => github.com/docker/docker v20.10.3-0.20221013203545-33ab36d6b304+incompatible // 22.06 branch
+	// v0.15.0 not compatible with latest github.com/docker/docker
+	github.com/testcontainers/testcontainers-go => github.com/testcontainers/testcontainers-go v0.17.0
+)
+
 require (
 	github.com/BurntSushi/toml v1.2.1
 	github.com/onsi/gomega v1.26.0
@@ -30,7 +37,7 @@ require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/apex/log v1.9.0 // indirect
 	github.com/bmatcuk/doublestar/v4 v4.6.0 // indirect
-	github.com/cenkalti/backoff/v4 v4.1.3 // indirect
+	github.com/cenkalti/backoff/v4 v4.2.0 // indirect
 	github.com/containerd/containerd v1.6.16 // indirect
 	github.com/containerd/stargz-snapshotter/estargz v0.14.1 // indirect
 	github.com/docker/cli v23.0.0+incompatible // indirect
@@ -69,7 +76,7 @@ require (
 	github.com/mitchellh/reflectwalk v1.0.2 // indirect
 	github.com/moby/patternmatcher v0.5.0 // indirect
 	github.com/moby/sys/sequential v0.5.0 // indirect
-	github.com/moby/term v0.0.0-20220808134915-39b0c02b01ae // indirect
+	github.com/moby/term v0.0.0-20221128092401-c43b287e0e0f // indirect
 	github.com/morikuni/aec v1.0.0 // indirect
 	github.com/nwaples/rardecode v1.1.3 // indirect
 	github.com/oklog/ulid v1.3.1 // indirect
