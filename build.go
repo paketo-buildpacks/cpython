@@ -106,6 +106,7 @@ func Build(
 		cachedChecksum, ok := cpythonLayer.Metadata[DepKey].(string)
 		dependencyChecksum := dependency.Checksum
 		if dependencyChecksum == "" {
+			//nolint:staticcheck // SHA256 is only a fallback in case Checksum is not present
 			dependencyChecksum = dependency.SHA256
 		}
 
