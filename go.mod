@@ -38,7 +38,7 @@ require (
 	github.com/apex/log v1.9.0 // indirect
 	github.com/bmatcuk/doublestar/v4 v4.6.0 // indirect
 	github.com/cenkalti/backoff/v4 v4.2.0 // indirect
-	github.com/containerd/containerd v1.6.16 // indirect
+	github.com/containerd/containerd v1.6.18 // indirect
 	github.com/containerd/stargz-snapshotter/estargz v0.14.1 // indirect
 	github.com/docker/cli v23.0.0+incompatible // indirect
 	github.com/docker/distribution v2.8.1+incompatible // indirect
