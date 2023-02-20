@@ -11,7 +11,7 @@ replace (
 
 require (
 	github.com/BurntSushi/toml v1.2.1
-	github.com/onsi/gomega v1.27.0
+	github.com/onsi/gomega v1.27.1
 	github.com/paketo-buildpacks/occam v0.15.1
 	github.com/paketo-buildpacks/packit/v2 v2.8.1
 	github.com/sclevine/spec v1.4.0
