@@ -88,7 +88,7 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 			Expect(logs).To(ContainLines(
 				"  Executing build process",
 				MatchRegexp(`    Installing CPython `+strings.ReplaceAll(defaultVersion, ".", `\.`)),
-				MatchRegexp(`      Completed in \w+\.\d+`),
+				MatchRegexp(`      Completed in \d+(\.?\d+)*`),
 			))
 			Expect(logs).To(ContainLines(
 				"  Configuring build environment",
@@ -257,7 +257,7 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 				Expect(logs).To(ContainLines(
 					"  Executing build process",
 					"    Installing CPython "+nonDefaultVersion,
-					MatchRegexp(`      Completed in \w+\.\d+`),
+					MatchRegexp(`      Completed in \d+(\.?\d+)*`),
 				))
 
 				Expect(logs).To(ContainLines(
