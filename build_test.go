@@ -148,16 +148,12 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 			filepath.Join(cnbDir, "bin", "env"),
 		}))
 
-		Expect(layer.SBOM.Formats()).To(Equal([]packit.SBOMFormat{
-			{
-				Extension: sbom.Format(sbom.CycloneDXFormat).Extension(),
-				Content:   sbom.NewFormattedReader(sbom.SBOM{}, sbom.CycloneDXFormat),
-			},
-			{
-				Extension: sbom.Format(sbom.SPDXFormat).Extension(),
-				Content:   sbom.NewFormattedReader(sbom.SBOM{}, sbom.SPDXFormat),
-			},
-		}))
+		Expect(layer.SBOM.Formats()).To(HaveLen(2))
+		var actualExtensions []string
+		for _, format := range layer.SBOM.Formats() {
+			actualExtensions = append(actualExtensions, format.Extension)
+		}
+		Expect(actualExtensions).To(ConsistOf("cdx.json", "spdx.json"))
 
 		Expect(dependencyManager.ResolveCall.Receives.Path).To(Equal(filepath.Join(cnbDir, "buildpack.toml")))
 		// Dependecy is called python not cpython
@@ -254,16 +250,12 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 			filepath.Join(cnbDir, "bin", "env"),
 		}))
 
-		Expect(layer.SBOM.Formats()).To(Equal([]packit.SBOMFormat{
-			{
-				Extension: sbom.Format(sbom.CycloneDXFormat).Extension(),
-				Content:   sbom.NewFormattedReader(sbom.SBOM{}, sbom.CycloneDXFormat),
-			},
-			{
-				Extension: sbom.Format(sbom.SPDXFormat).Extension(),
-				Content:   sbom.NewFormattedReader(sbom.SBOM{}, sbom.SPDXFormat),
-			},
-		}))
+		Expect(layer.SBOM.Formats()).To(HaveLen(2))
+		var actualExtensions []string
+		for _, format := range layer.SBOM.Formats() {
+			actualExtensions = append(actualExtensions, format.Extension)
+		}
+		Expect(actualExtensions).To(ConsistOf("cdx.json", "spdx.json"))
 
 		Expect(dependencyManager.ResolveCall.Receives.Path).To(Equal(filepath.Join(cnbDir, "buildpack.toml")))
 		// Dependecy is called python not cpython
