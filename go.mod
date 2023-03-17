@@ -13,7 +13,7 @@ require (
 	github.com/BurntSushi/toml v1.2.1
 	github.com/onsi/gomega v1.27.4
 	github.com/paketo-buildpacks/occam v0.15.1
-	github.com/paketo-buildpacks/packit/v2 v2.8.2
+	github.com/paketo-buildpacks/packit/v2 v2.9.0
 	github.com/sclevine/spec v1.4.0
 )
 
@@ -32,8 +32,8 @@ require (
 	github.com/anchore/go-struct-converter v0.0.0-20221221214134-65614c61201e // indirect
 	github.com/anchore/go-version v1.2.2-0.20200701162849-18adb9c92b9b // indirect
 	github.com/anchore/packageurl-go v0.1.1-0.20230104203445-02e0a6721501 // indirect
-	github.com/anchore/stereoscope v0.0.0-20230222185948-fab1c9638abc // indirect
-	github.com/anchore/syft v0.73.0 // indirect
+	github.com/anchore/stereoscope v0.0.0-20230301191755-abfb374a1122 // indirect
+	github.com/anchore/syft v0.74.0 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/apex/log v1.9.0 // indirect
 	github.com/becheran/wildmatch-go v1.0.0 // indirect
@@ -50,7 +50,7 @@ require (
 	github.com/dsnet/compress v0.0.2-0.20210315054119-f66993602bf5 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/facebookincubator/nvdtools v0.1.5 // indirect
-	github.com/gabriel-vasile/mimetype v1.4.1 // indirect
+	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
 	github.com/go-restruct/restruct v1.2.0-alpha // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
@@ -95,7 +95,7 @@ require (
 	github.com/shopspring/decimal v1.3.1 // indirect
 	github.com/sirupsen/logrus v1.9.0 // indirect
 	github.com/spdx/tools-golang v0.5.0-rc1 // indirect
-	github.com/spf13/afero v1.9.3 // indirect
+	github.com/spf13/afero v1.9.4 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/sylabs/sif/v2 v2.9.1 // indirect
 	github.com/sylabs/squashfs v0.6.1 // indirect
@@ -106,7 +106,7 @@ require (
 	github.com/vbatts/tar-split v0.11.2 // indirect
 	github.com/vifraa/gopom v0.2.1 // indirect
 	github.com/wagoodman/go-partybus v0.0.0-20210627031916-db1f5573bbc5 // indirect
-	github.com/wagoodman/go-progress v0.0.0-20220614130704-4b1c25a33c7c // indirect
+	github.com/wagoodman/go-progress v0.0.0-20230301185719-21920a456ad5 // indirect
 	github.com/xi2/xz v0.0.0-20171230120015-48954b6210f8 // indirect
 	golang.org/x/crypto v0.5.0 // indirect
 	golang.org/x/exp v0.0.0-20230206171751-46f607a40771 // indirect
