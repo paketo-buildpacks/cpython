@@ -2,8 +2,9 @@ api = "0.7"
 
 [buildpack]
   id = "paketo-buildpacks/cpython"
-  name = "Paketo Buildpack for CPython"
+  name = "Paketo Buildpack for CPython (Plotly fork)"
   sbom-formats = ["application/vnd.cyclonedx+json", "application/spdx+json", "application/vnd.syft+json"]
+  version = "5.1.1b1"
 
   [[buildpack.licenses]]
     type = "Apache-2.0"
