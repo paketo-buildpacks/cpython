@@ -1,2 +1,3 @@
 CODEOWNERS
-workflows/update-dependencies.yml
+scripts/remove-source-deps
+scripts/remove_source_deps_overlay.yml
