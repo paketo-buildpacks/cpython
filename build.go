@@ -138,8 +138,10 @@ func Build(
 		if dependency.URI == dependency.Source {
 			sourcePath := filepath.Join(cpythonLayer.Path, "python-source")
 
-			// CPython distributions have one layer of directory prefix, so strip that when unpacking
-			dependency.StripComponents = 1
+			if dependency.StripComponents == 0 {
+				// CPython distributions have one layer of directory prefix, so strip that when unpacking
+				dependency.StripComponents = 1
+			}
 
 			err = os.Mkdir(sourcePath, 0755)
 			if err != nil {
