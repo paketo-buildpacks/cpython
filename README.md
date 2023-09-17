@@ -16,6 +16,8 @@ This buildpack always participates.
 This buildpack performs the following actions at build time:
 * Contributes `cpython` to a layer - either via a precompiled dependency or by
   compiling from source.
+  * To gain flexibility from python distribution packaged from the linux distribution, we precompile python from source.
+  * [dependency/](dependency/README.md) contains information how cpython is built.
 * Sets the `PYTHONPYCACHEPREFIX` environment variable to the `/tmp` directory
   for this and any subsequent buildpacks.
   * This effectively disables the `__pycache__` directories, in turn enabling
