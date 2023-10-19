@@ -4,7 +4,7 @@ api = "0.7"
   id = "paketo-buildpacks/cpython"
   name = "Paketo Buildpack for CPython (Plotly fork)"
   sbom-formats = ["application/vnd.cyclonedx+json", "application/spdx+json", "application/vnd.syft+json"]
-  version = "5.1.1"
+  version = "5.2"
 
   [[buildpack.licenses]]
     type = "Apache-2.0"
@@ -15,7 +15,6 @@ api = "0.7"
   pre-package = "./scripts/build.sh"
   [metadata.default-versions]
     python = "3.8.x"
-
 
   [[metadata.dependencies]]
     checksum = "sha256:58676489295f41a709123a3d5ebcf743db5ac028d0c034730e7355d50db4c13e"
