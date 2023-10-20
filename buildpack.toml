@@ -26,7 +26,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.7.15/Python-3.7.15.tgz"
     source-checksum = "sha256:cf2993798ae8430f3af3a00d96d9fdf320719f4042f039380dca79967c25e436"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.7.15_linux_x64_jammy_c1cfc080.tgz"
+    uri = "http://dash-app-resources.plotly-system.svc.cluster.local/packages/kpack-offline-files/python_3.7.15_linux_x64_jammy_c1cfc080.tgz"
     version = "3.7.15"
 
   [[metadata.dependencies]]
@@ -52,7 +52,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.7.16/Python-3.7.16.tgz"
     source-checksum = "sha256:0cf2da07fa464636755215415909e22eb1d058817af4824bc15af8390d05fb38"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.7.16_linux_x64_jammy_c9cecfe2.tgz"
+    uri = "http://dash-app-resources.plotly-system.svc.cluster.local/packages/kpack-offline-files/python_3.7.16_linux_x64_jammy_c9cecfe2.tgz"
     version = "3.7.16"
 
   [[metadata.dependencies]]
@@ -91,7 +91,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.8.15/Python-3.8.15.tgz"
     source-checksum = "sha256:924d46999df82aa2eaa1de5ca51d6800ffb56b4bf52486a28f40634e3362abc4"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.8.15_linux_x64_jammy_a585cf0a.tgz"
+    uri = "http://dash-app-resources.plotly-system.svc.cluster.local/packages/kpack-offline-files/python_3.8.15_linux_x64_jammy_a585cf0a.tgz"
     version = "3.8.15"
 
   [[metadata.dependencies]]
@@ -117,7 +117,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.8.16/Python-3.8.16.tgz"
     source-checksum = "sha256:71ca9d935637ed2feb59e90a368361dc91eca472a90acb1d344a2e8178ccaf10"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.8.16_linux_x64_jammy_b78237cb.tgz"
+    uri = "http://dash-app-resources.plotly-system.svc.cluster.local/packages/kpack-offline-files/python_3.8.16_linux_x64_jammy_b78237cb.tgz"
     version = "3.8.16"
 
   [[metadata.dependencies]]
@@ -143,7 +143,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.9.15/Python-3.9.15.tgz"
     source-checksum = "sha256:48d1ccb29d5fbaf1fb8f912271d09f7450e426d4dfe95978ef6aaada70ece4d8"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.9.15_linux_x64_jammy_53444ba7.tgz"
+    uri = "http://dash-app-resources.plotly-system.svc.cluster.local/packages/kpack-offline-files/python_3.9.15_linux_x64_jammy_53444ba7.tgz"
     version = "3.9.15"
 
   [[metadata.dependencies]]
@@ -169,7 +169,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.9.16/Python-3.9.16.tgz"
     source-checksum = "sha256:1ad539e9dbd2b42df714b69726e0693bc6b9d2d2c8e91c2e43204026605140c5"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.9.16_linux_x64_jammy_437b383f.tgz"
+    uri = "http://dash-app-resources.plotly-system.svc.cluster.local/packages/kpack-offline-files/python_3.9.16_linux_x64_jammy_437b383f.tgz"
     version = "3.9.16"
 
   [[metadata.dependencies]]
@@ -195,7 +195,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.10.10/Python-3.10.10.tgz"
     source-checksum = "sha256:fba64559dde21ebdc953e4565e731573bb61159de8e4d4cedee70fb1196f610d"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.10.10_linux_x64_jammy_72b4995d.tgz"
+    uri = "http://dash-app-resources.plotly-system.svc.cluster.local/packages/kpack-offline-files/python_3.10.10_linux_x64_jammy_72b4995d.tgz"
     version = "3.10.10"
 
 
@@ -222,7 +222,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.10.11/Python-3.10.11.tgz"
     source-checksum = "sha256:f3db31b668efa983508bd67b5712898aa4247899a346f2eb745734699ccd3859"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.10.11_linux_x64_jammy_f58b9d3d.tgz"
+    uri = "http://dash-app-resources.plotly-system.svc.cluster.local/packages/kpack-offline-files/python_3.10.11_linux_x64_jammy_f58b9d3d.tgz"
     version = "3.10.11"
 
   [[metadata.dependencies]]
@@ -248,7 +248,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.11.2/Python-3.11.2.tgz"
     source-checksum = "sha256:2411c74bda5bbcfcddaf4531f66d1adc73f247f529aee981b029513aefdbf849"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.11.2_linux_x64_jammy_33a814ec.tgz"
+    uri = "http://dash-app-resources.plotly-system.svc.cluster.local/packages/kpack-offline-files/python_3.11.2_linux_x64_jammy_33a814ec.tgz"
     version = "3.11.2"
 
   [[metadata.dependencies]]
@@ -274,7 +274,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.11.3/Python-3.11.3.tgz"
     source-checksum = "sha256:1a79f3df32265d9e6625f1a0b31c28eb1594df911403d11f3320ee1da1b3e048"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.11.3_linux_x64_jammy_32d005f1.tgz"
+    uri = "http://dash-app-resources.plotly-system.svc.cluster.local/packages/kpack-offline-files/python_3.11.3_linux_x64_jammy_32d005f1.tgz"
     version = "3.11.3"
 
   [[metadata.dependency-constraints]]
