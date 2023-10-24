@@ -11,9 +11,9 @@ replace (
 
 require (
 	github.com/BurntSushi/toml v1.3.2
-	github.com/onsi/gomega v1.27.10
+	github.com/onsi/gomega v1.28.1
 	github.com/paketo-buildpacks/occam v0.17.0
-	github.com/paketo-buildpacks/packit/v2 v2.11.0
+	github.com/paketo-buildpacks/packit/v2 v2.12.0
 	github.com/sclevine/spec v1.4.0
 )
 
@@ -56,7 +56,7 @@ require (
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
 	github.com/facebookincubator/nvdtools v0.1.5 // indirect
-	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
+	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	github.com/go-git/gcfg v1.5.0 // indirect
 	github.com/go-git/go-billy/v5 v5.4.1 // indirect
 	github.com/go-git/go-git/v5 v5.6.1 // indirect
