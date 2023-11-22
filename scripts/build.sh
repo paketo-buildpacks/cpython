@@ -48,6 +48,7 @@ function run::build() {
       printf "%s" "Building run... "
 
       GOOS=linux \
+      GOARCH=amd64 \
       CGO_ENABLED=0 \
         go build \
           -ldflags="-s -w" \
