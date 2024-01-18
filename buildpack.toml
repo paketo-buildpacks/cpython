@@ -14,7 +14,7 @@ api = "0.7"
   include-files = ["bin/run", "bin/build", "bin/detect", "bin/env", "buildpack.toml"]
   pre-package = "./scripts/build.sh"
   [metadata.default-versions]
-    python = "3.8.x"
+    python = "3.10.x"
 
   [[metadata.dependencies]]
     checksum = "sha256:c1cfc080b790fcd9f5c53155b981524d519ce79fa54c56bc2da9fc9ee86b4e8b"
