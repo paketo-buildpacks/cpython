@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	cpython "github.com/paketo-buildpacks/cpython"
@@ -20,6 +21,7 @@ func (f Generator) GenerateFromDependency(dependency postal.Dependency, path str
 }
 
 func main() {
+	fmt.Println("***************************************** Hello World")
 	logger := scribe.NewEmitter(os.Stdout).WithLevel(os.Getenv("BP_LOG_LEVEL"))
 	dependencies := postal.NewService(cargo.NewTransport())
 	pythonSourceInstaller := cpython.NewCPythonInstaller(

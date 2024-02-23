@@ -25,7 +25,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.8.17/Python-3.8.17.tgz"
     source-checksum = "sha256:def428fa6cf61b66bcde72e3d9f7d07d33b2e4226f04f9d6fce8384c055113ae"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.8.17_linux_x64_jammy_c2b84799.tgz"
+    uri = "{{.Prefix}}python_3.8.17_linux_x64_jammy_c2b84799.tgz"
     version = "3.8.17"
 
   [[metadata.dependencies]]
@@ -38,7 +38,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.8.17/Python-3.8.17.tgz"
     source-checksum = "sha256:def428fa6cf61b66bcde72e3d9f7d07d33b2e4226f04f9d6fce8384c055113ae"
     stacks = ["io.buildpacks.stacks.bionic"]
-    uri = "https://artifacts.paketo.io/python/python_3.8.17_linux_x64_bionic_4a04d5c3.tgz"
+    uri = "{{.Prefix}}python_3.8.17_linux_x64_bionic_4a04d5c3.tgz"
     version = "3.8.17"
 
   [[metadata.dependencies]]
@@ -64,7 +64,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.8.18/Python-3.8.18.tgz"
     source-checksum = "sha256:7c5df68bab1be81a52dea0cc2e2705ea00553b67107a301188383d7b57320b16"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.8.18_linux_x64_jammy_58676489.tgz"
+    uri = "{{.Prefix}}python_3.8.18_linux_x64_jammy_58676489.tgz"
     version = "3.8.18"
 
   [[metadata.dependencies]]
@@ -77,7 +77,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.8.18/Python-3.8.18.tgz"
     source-checksum = "sha256:7c5df68bab1be81a52dea0cc2e2705ea00553b67107a301188383d7b57320b16"
     stacks = ["io.buildpacks.stacks.bionic"]
-    uri = "https://artifacts.paketo.io/python/python_3.8.18_linux_x64_bionic_bcc59a7f.tgz"
+    uri = "{{.Prefix}}python_3.8.18_linux_x64_bionic_bcc59a7f.tgz"
     version = "3.8.18"
 
   [[metadata.dependencies]]
@@ -103,7 +103,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.9.17/Python-3.9.17.tgz"
     source-checksum = "sha256:8ead58f669f7e19d777c3556b62fae29a81d7f06a7122ff9bc57f7dd82d7e014"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.9.17_linux_x64_jammy_39edd64e.tgz"
+    uri = "{{.Prefix}}python_3.9.17_linux_x64_jammy_39edd64e.tgz"
     version = "3.9.17"
 
   [[metadata.dependencies]]
@@ -116,7 +116,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.9.17/Python-3.9.17.tgz"
     source-checksum = "sha256:8ead58f669f7e19d777c3556b62fae29a81d7f06a7122ff9bc57f7dd82d7e014"
     stacks = ["io.buildpacks.stacks.bionic"]
-    uri = "https://artifacts.paketo.io/python/python_3.9.17_linux_x64_bionic_e12fa5d3.tgz"
+    uri = "{{.Prefix}}python_3.9.17_linux_x64_bionic_e12fa5d3.tgz"
     version = "3.9.17"
 
   [[metadata.dependencies]]
@@ -142,7 +142,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.9.18/Python-3.9.18.tgz"
     source-checksum = "sha256:504ce8cfd59addc04c22f590377c6be454ae7406cb1ebf6f5a350149225a9354"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.9.18_linux_x64_jammy_26e47486.tgz"
+    uri = "{{.Prefix}}python_3.9.18_linux_x64_jammy_26e47486.tgz"
     version = "3.9.18"
 
   [[metadata.dependencies]]
@@ -155,7 +155,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.9.18/Python-3.9.18.tgz"
     source-checksum = "sha256:504ce8cfd59addc04c22f590377c6be454ae7406cb1ebf6f5a350149225a9354"
     stacks = ["io.buildpacks.stacks.bionic"]
-    uri = "https://artifacts.paketo.io/python/python_3.9.18_linux_x64_bionic_688350eb.tgz"
+    uri = "{{.Prefix}}python_3.9.18_linux_x64_bionic_688350eb.tgz"
     version = "3.9.18"
 
   [[metadata.dependencies]]
@@ -181,7 +181,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.10.12/Python-3.10.12.tgz"
     source-checksum = "sha256:a43cd383f3999a6f4a7db2062b2fc9594fefa73e175b3aedafa295a51a7bb65c"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.10.12_linux_x64_jammy_68e8a7c2.tgz"
+    uri = "{{.Prefix}}python_3.10.12_linux_x64_jammy_68e8a7c2.tgz"
     version = "3.10.12"
 
   [[metadata.dependencies]]
@@ -194,7 +194,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.10.12/Python-3.10.12.tgz"
     source-checksum = "sha256:a43cd383f3999a6f4a7db2062b2fc9594fefa73e175b3aedafa295a51a7bb65c"
     stacks = ["io.buildpacks.stacks.bionic"]
-    uri = "https://artifacts.paketo.io/python/python_3.10.12_linux_x64_bionic_6da6507b.tgz"
+    uri = "{{.Prefix}}python_3.10.12_linux_x64_bionic_6da6507b.tgz"
     version = "3.10.12"
 
   [[metadata.dependencies]]
@@ -220,7 +220,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.10.13/Python-3.10.13.tgz"
     source-checksum = "sha256:698ec55234c1363bd813b460ed53b0f108877c7a133d48bde9a50a1eb57b7e65"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.10.13_linux_x64_jammy_8ba9a081.tgz"
+    uri = "{{.Prefix}}python_3.10.13_linux_x64_jammy_8ba9a081.tgz"
     version = "3.10.13"
 
   [[metadata.dependencies]]
@@ -233,7 +233,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.10.13/Python-3.10.13.tgz"
     source-checksum = "sha256:698ec55234c1363bd813b460ed53b0f108877c7a133d48bde9a50a1eb57b7e65"
     stacks = ["io.buildpacks.stacks.bionic"]
-    uri = "https://artifacts.paketo.io/python/python_3.10.13_linux_x64_bionic_19a092d0.tgz"
+    uri = "{{.Prefix}}python_3.10.13_linux_x64_bionic_19a092d0.tgz"
     version = "3.10.13"
 
   [[metadata.dependencies]]
@@ -259,7 +259,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.11.7/Python-3.11.7.tgz"
     source-checksum = "sha256:068c05f82262e57641bd93458dfa883128858f5f4997aad7a36fd25b13b29209"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.11.7_linux_x64_jammy_4403f163.tgz"
+    uri = "{{.Prefix}}python_3.11.7_linux_x64_jammy_4403f163.tgz"
     version = "3.11.7"
 
   [[metadata.dependencies]]
@@ -272,7 +272,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.11.7/Python-3.11.7.tgz"
     source-checksum = "sha256:068c05f82262e57641bd93458dfa883128858f5f4997aad7a36fd25b13b29209"
     stacks = ["io.buildpacks.stacks.bionic"]
-    uri = "https://artifacts.paketo.io/python/python_3.11.7_linux_x64_bionic_46308d17.tgz"
+    uri = "{{.Prefix}}python_3.11.7_linux_x64_bionic_46308d17.tgz"
     version = "3.11.7"
 
   [[metadata.dependencies]]
@@ -298,7 +298,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.11.8/Python-3.11.8.tgz"
     source-checksum = "sha256:d3019a613b9e8761d260d9ebe3bd4df63976de30464e5c0189566e1ae3f61889"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.11.8_linux_x64_jammy_569af6f3.tgz"
+    uri = "{{.Prefix}}python_3.11.8_linux_x64_jammy_569af6f3.tgz"
     version = "3.11.8"
 
   [[metadata.dependencies]]
@@ -311,7 +311,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.11.8/Python-3.11.8.tgz"
     source-checksum = "sha256:d3019a613b9e8761d260d9ebe3bd4df63976de30464e5c0189566e1ae3f61889"
     stacks = ["io.buildpacks.stacks.bionic"]
-    uri = "https://artifacts.paketo.io/python/python_3.11.8_linux_x64_bionic_b1b60a01.tgz"
+    uri = "{{.Prefix}}python_3.11.8_linux_x64_bionic_b1b60a01.tgz"
     version = "3.11.8"
 
   [[metadata.dependencies]]
@@ -337,7 +337,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.12.1/Python-3.12.1.tgz"
     source-checksum = "sha256:d01ec6a33bc10009b09c17da95cc2759af5a580a7316b3a446eb4190e13f97b2"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.12.1_linux_x64_jammy_e595960a.tgz"
+    uri = "{{.Prefix}}python_3.12.1_linux_x64_jammy_e595960a.tgz"
     version = "3.12.1"
 
   [[metadata.dependencies]]
@@ -350,7 +350,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.12.1/Python-3.12.1.tgz"
     source-checksum = "sha256:d01ec6a33bc10009b09c17da95cc2759af5a580a7316b3a446eb4190e13f97b2"
     stacks = ["io.buildpacks.stacks.bionic"]
-    uri = "https://artifacts.paketo.io/python/python_3.12.1_linux_x64_bionic_f5d2bff9.tgz"
+    uri = "{{.Prefix}}python_3.12.1_linux_x64_bionic_f5d2bff9.tgz"
     version = "3.12.1"
 
   [[metadata.dependencies]]
@@ -376,7 +376,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.12.2/Python-3.12.2.tgz"
     source-checksum = "sha256:a7c4f6a9dc423d8c328003254ab0c9338b83037bd787d680826a5bf84308116e"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.12.2_linux_x64_jammy_aca1ad62.tgz"
+    uri = "{{.Prefix}}python_3.12.2_linux_x64_jammy_aca1ad62.tgz"
     version = "3.12.2"
 
   [[metadata.dependencies]]
@@ -389,7 +389,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.12.2/Python-3.12.2.tgz"
     source-checksum = "sha256:a7c4f6a9dc423d8c328003254ab0c9338b83037bd787d680826a5bf84308116e"
     stacks = ["io.buildpacks.stacks.bionic"]
-    uri = "https://artifacts.paketo.io/python/python_3.12.2_linux_x64_bionic_b1593a6d.tgz"
+    uri = "{{.Prefix}}python_3.12.2_linux_x64_bionic_b1593a6d.tgz"
     version = "3.12.2"
 
   [[metadata.dependencies]]

@@ -209,7 +209,10 @@ func Build(
 
 		cpythonLayer.BuildEnv.Default("PYTHONPYCACHEPREFIX", "/tmp")
 		cpythonLayer.SharedEnv.Default("PYTHONPATH", cpythonLayer.Path)
-		cpythonLayer.ExecD = []string{filepath.Join(context.CNBPath, "bin", "env")}
+		cpythonLayer.ExecD = []string{
+			filepath.Join(context.CNBPath, "bin", "uri"),
+			filepath.Join(context.CNBPath, "bin", "env"),
+		}
 
 		if exists, err := fs.Exists(filepath.Join(cpythonLayer.Path, "bin", "python")); err != nil {
 			return packit.BuildResult{}, err
