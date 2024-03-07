@@ -12,5 +12,6 @@ func TestUnitPython(t *testing.T) {
 	suite("Build", testBuild)
 	suite("Detect", testDetect)
 	suite("CPythonInstaller", testCPythonInstaller)
+	suite("PipCleanup", testPipCleanup)
 	suite.Run(t)
 }
