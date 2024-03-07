@@ -17,6 +17,7 @@ import (
 
 //go:generate faux --interface DependencyManager --output fakes/dependency_manager.go
 //go:generate faux --interface PythonInstaller --output fakes/installer.go
+//go:generate faux --interface PythonPipCleanup --output fakes/pip_cleanup.go
 //go:generate faux --interface SBOMGenerator --output fakes/sbom_generator.go
 
 // DependencyManager defines the interface for picking the best matching
@@ -38,6 +39,11 @@ type PythonInstaller interface {
 	) error
 }
 
+// PythonPipCleanup defines the interface for cleaning up pip after a python installation
+type PythonPipCleanup interface {
+	Cleanup(packages []string, targetLayer string) error
+}
+
 type SBOMGenerator interface {
 	GenerateFromDependency(dependency postal.Dependency, dir string) (sbom.SBOM, error)
 }
@@ -51,6 +57,7 @@ type SBOMGenerator interface {
 func Build(
 	dependencies DependencyManager,
 	pythonInstaller PythonInstaller,
+	pipCleanup PythonPipCleanup,
 	sbomGenerator SBOMGenerator,
 	logger scribe.Emitter,
 	clock chronos.Clock,
@@ -180,6 +187,17 @@ func Build(
 
 			duration = downloadDuration
 		}
+
+		pipCleanupDuration, err := clock.Measure(func() error {
+			if _, ok := os.LookupEnv("BP_CPYTHON_RM_SETUPTOOLS"); ok {
+				return pipCleanup.Cleanup(pipPackagesToBeUninstalled(), cpythonLayer.Path)
+			}
+			return nil
+		})
+		if err != nil {
+			return packit.BuildResult{}, err
+		}
+		duration += pipCleanupDuration
 
 		logger.Action("Completed in %s", duration.Round(time.Millisecond))
 		logger.Break()

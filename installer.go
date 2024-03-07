@@ -66,9 +66,8 @@ func (i CPythonInstaller) Install(
 
 	i.logger.Debug.Subprocess("Running 'configure %s'", strings.Join(configureFlags, " "))
 	err := i.configureProcess.Execute(pexec.Execution{
-		Args: configureFlags,
-		// Update PATH so configure executable will be found
-		Env:    environWithUpdatedPath(sourcePath),
+		Args:   configureFlags,
+		Env:    environWithUpdatedPath(os.Environ(), "PATH", sourcePath),
 		Stdout: i.logger.Debug.ActionWriter,
 		Stderr: i.logger.Debug.ActionWriter,
 	})
@@ -80,9 +79,8 @@ func (i CPythonInstaller) Install(
 	makeFlags := []string{"-j", fmt.Sprint(runtime.NumCPU()), `LDFLAGS="-Wl,--strip-all"`}
 	i.logger.Debug.Subprocess("Running 'make %s'", strings.Join(makeFlags, " "))
 	err = i.makeProcess.Execute(pexec.Execution{
-		Args: makeFlags,
-		// Update PATH so configure executable will be found
-		Env:    environWithUpdatedPath(sourcePath),
+		Args:   makeFlags,
+		Env:    environWithUpdatedPath(os.Environ(), "PATH", sourcePath),
 		Stdout: i.logger.Debug.ActionWriter,
 		Stderr: i.logger.Debug.ActionWriter,
 	})
@@ -94,9 +92,8 @@ func (i CPythonInstaller) Install(
 	makeInstallFlags := []string{"altinstall"}
 	i.logger.Debug.Subprocess("Running 'make %s'", strings.Join(makeInstallFlags, " "))
 	err = i.makeProcess.Execute(pexec.Execution{
-		Args: makeInstallFlags,
-		// Update PATH so configure executable will be found
-		Env:    environWithUpdatedPath(sourcePath),
+		Args:   makeInstallFlags,
+		Env:    environWithUpdatedPath(os.Environ(), "PATH", sourcePath),
 		Stdout: i.logger.Debug.ActionWriter,
 		Stderr: i.logger.Debug.ActionWriter,
 	})
@@ -127,16 +124,24 @@ func (i CPythonInstaller) Install(
 	return nil
 }
 
-// Returns environment variables with customPath inserted at the beginning of PATH
-func environWithUpdatedPath(customPath string) []string {
+// Returns environment variables with customPath inserted at the beginning of given environment variable
+func environWithUpdatedPath(environ []string, variableName, customPath string) []string {
 	var env []string = nil
+	varNameWithEqual := variableName + "="
+	environmentVariableExists := false
 
-	for _, v := range os.Environ() {
-		if strings.HasPrefix(v, "PATH") {
-			env = append(env, "PATH="+customPath+":"+strings.TrimPrefix(v, "PATH="))
+	for _, v := range environ {
+		if strings.HasPrefix(v, varNameWithEqual) {
+			env = append(env, varNameWithEqual+customPath+":"+strings.TrimPrefix(v, varNameWithEqual))
+			environmentVariableExists = true
 		} else {
 			env = append(env, v)
 		}
 	}
+
+	if !environmentVariableExists {
+		env = append(env, varNameWithEqual+customPath)
+	}
+
 	return env
 }
