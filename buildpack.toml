@@ -26,7 +26,7 @@ api = "0.7"
     source-checksum = "sha256:7c5df68bab1be81a52dea0cc2e2705ea00553b67107a301188383d7b57320b16"
     stacks = ["io.buildpacks.stacks.jammy"]
     uri = "https://artifacts.paketo.io/python/python_3.8.18_linux_x64_jammy_58676489.tgz"
-    deprecation_date = "2024-10-14T00:00:00Z"
+    deprecation_date = "2024-10-31T00:00:00Z"
     version = "3.8.18"
 
   [[metadata.dependencies]]
@@ -40,7 +40,7 @@ api = "0.7"
     source-checksum = "sha256:7c5df68bab1be81a52dea0cc2e2705ea00553b67107a301188383d7b57320b16"
     stacks = ["io.buildpacks.stacks.bionic"]
     uri = "https://artifacts.paketo.io/python/python_3.8.18_linux_x64_bionic_bcc59a7f.tgz"
-    deprecation_date = "2024-10-14T00:00:00Z"
+    deprecation_date = "2024-10-31T00:00:00Z"
     version = "3.8.18"
 
   [[metadata.dependencies]]
@@ -54,7 +54,7 @@ api = "0.7"
     source-checksum = "sha256:7c5df68bab1be81a52dea0cc2e2705ea00553b67107a301188383d7b57320b16"
     stacks = ["*"]
     uri = "https://www.python.org/ftp/python/3.8.18/Python-3.8.18.tgz"
-    deprecation_date = "2024-10-14T00:00:00Z"
+    deprecation_date = "2024-10-31T00:00:00Z"
     version = "3.8.18"
 
   [[metadata.dependencies]]
@@ -110,7 +110,7 @@ api = "0.7"
     source-checksum = "sha256:504ce8cfd59addc04c22f590377c6be454ae7406cb1ebf6f5a350149225a9354"
     stacks = ["io.buildpacks.stacks.jammy"]
     uri = "https://artifacts.paketo.io/python/python_3.9.18_linux_x64_jammy_26e47486.tgz"
-    deprecation_date = "2025-10-05T00:00:00Z"
+    deprecation_date = "2025-10-31T00:00:00Z"
     version = "3.9.18"
 
   [[metadata.dependencies]]
@@ -124,7 +124,7 @@ api = "0.7"
     source-checksum = "sha256:504ce8cfd59addc04c22f590377c6be454ae7406cb1ebf6f5a350149225a9354"
     stacks = ["io.buildpacks.stacks.bionic"]
     uri = "https://artifacts.paketo.io/python/python_3.9.18_linux_x64_bionic_688350eb.tgz"
-    deprecation_date = "2025-10-05T00:00:00Z"
+    deprecation_date = "2025-10-31T00:00:00Z"
     version = "3.9.18"
 
   [[metadata.dependencies]]
@@ -138,7 +138,7 @@ api = "0.7"
     source-checksum = "sha256:504ce8cfd59addc04c22f590377c6be454ae7406cb1ebf6f5a350149225a9354"
     stacks = ["*"]
     uri = "https://www.python.org/ftp/python/3.9.18/Python-3.9.18.tgz"
-    deprecation_date = "2025-10-05T00:00:00Z"
+    deprecation_date = "2025-10-31T00:00:00Z"
     version = "3.9.18"
 
   [[metadata.dependencies]]
@@ -194,7 +194,7 @@ api = "0.7"
     source-checksum = "sha256:698ec55234c1363bd813b460ed53b0f108877c7a133d48bde9a50a1eb57b7e65"
     stacks = ["io.buildpacks.stacks.jammy"]
     uri = "https://artifacts.paketo.io/python/python_3.10.13_linux_x64_jammy_8ba9a081.tgz"
-    deprecation_date = "2026-10-04T00:00:00Z"
+    deprecation_date = "2026-10-31T00:00:00Z"
     version = "3.10.13"
 
   [[metadata.dependencies]]
@@ -208,7 +208,7 @@ api = "0.7"
     source-checksum = "sha256:698ec55234c1363bd813b460ed53b0f108877c7a133d48bde9a50a1eb57b7e65"
     stacks = ["io.buildpacks.stacks.bionic"]
     uri = "https://artifacts.paketo.io/python/python_3.10.13_linux_x64_bionic_19a092d0.tgz"
-    deprecation_date = "2026-10-04T00:00:00Z"
+    deprecation_date = "2026-10-31T00:00:00Z"
     version = "3.10.13"
 
   [[metadata.dependencies]]
@@ -222,7 +222,7 @@ api = "0.7"
     source-checksum = "sha256:698ec55234c1363bd813b460ed53b0f108877c7a133d48bde9a50a1eb57b7e65"
     stacks = ["*"]
     uri = "https://www.python.org/ftp/python/3.10.13/Python-3.10.13.tgz"
-    deprecation_date = "2026-10-04T00:00:00Z"
+    deprecation_date = "2026-10-31T00:00:00Z"
     version = "3.10.13"
 
   [[metadata.dependencies]]
@@ -278,7 +278,7 @@ api = "0.7"
     source-checksum = "sha256:d3019a613b9e8761d260d9ebe3bd4df63976de30464e5c0189566e1ae3f61889"
     stacks = ["io.buildpacks.stacks.jammy"]
     uri = "https://artifacts.paketo.io/python/python_3.11.8_linux_x64_jammy_569af6f3.tgz"
-    deprecation_date = "2027-10-24T00:00:00Z"
+    deprecation_date = "2027-10-31T00:00:00Z"
     version = "3.11.8"
 
   [[metadata.dependencies]]
@@ -292,7 +292,7 @@ api = "0.7"
     source-checksum = "sha256:d3019a613b9e8761d260d9ebe3bd4df63976de30464e5c0189566e1ae3f61889"
     stacks = ["io.buildpacks.stacks.bionic"]
     uri = "https://artifacts.paketo.io/python/python_3.11.8_linux_x64_bionic_b1b60a01.tgz"
-    deprecation_date = "2027-10-24T00:00:00Z"
+    deprecation_date = "2027-10-31T00:00:00Z"
     version = "3.11.8"
 
   [[metadata.dependencies]]
@@ -306,7 +306,7 @@ api = "0.7"
     source-checksum = "sha256:d3019a613b9e8761d260d9ebe3bd4df63976de30464e5c0189566e1ae3f61889"
     stacks = ["*"]
     uri = "https://www.python.org/ftp/python/3.11.8/Python-3.11.8.tgz"
-    deprecation_date = "2027-10-24T00:00:00Z"
+    deprecation_date = "2027-10-31T00:00:00Z"
     version = "3.11.8"
 
   [[metadata.dependencies]]
@@ -376,7 +376,7 @@ api = "0.7"
     source-checksum = "sha256:a7c4f6a9dc423d8c328003254ab0c9338b83037bd787d680826a5bf84308116e"
     stacks = ["io.buildpacks.stacks.jammy"]
     uri = "https://artifacts.paketo.io/python/python_3.12.2_linux_x64_jammy_aca1ad62.tgz"
-    deprecation_date = "2028-10-02T00:00:00Z"
+    deprecation_date = "2028-10-31T00:00:00Z"
     version = "3.12.2"
 
   [[metadata.dependencies]]
@@ -390,7 +390,7 @@ api = "0.7"
     source-checksum = "sha256:a7c4f6a9dc423d8c328003254ab0c9338b83037bd787d680826a5bf84308116e"
     stacks = ["io.buildpacks.stacks.bionic"]
     uri = "https://artifacts.paketo.io/python/python_3.12.2_linux_x64_bionic_b1593a6d.tgz"
-    deprecation_date = "2028-10-02T00:00:00Z"
+    deprecation_date = "2028-10-31T00:00:00Z"
     version = "3.12.2"
 
   [[metadata.dependencies]]
@@ -404,7 +404,7 @@ api = "0.7"
     source-checksum = "sha256:a7c4f6a9dc423d8c328003254ab0c9338b83037bd787d680826a5bf84308116e"
     stacks = ["*"]
     uri = "https://www.python.org/ftp/python/3.12.2/Python-3.12.2.tgz"
-    deprecation_date = "2028-10-02T00:00:00Z"
+    deprecation_date = "2028-10-31T00:00:00Z"
     version = "3.12.2"
 
   [[metadata.dependencies]]

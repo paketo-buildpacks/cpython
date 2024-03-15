@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -8,7 +9,9 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"time"
 
+	"github.com/Masterminds/semver/v3"
 	"github.com/joshuatcasey/collections"
 	"github.com/joshuatcasey/libdependency/retrieve"
 	"github.com/joshuatcasey/libdependency/upstream"
@@ -77,15 +80,21 @@ func generateMetadata(versionFetcher versionology.VersionFetcher) ([]versionolog
 		return nil, err
 	}
 
+	eolDate, err := getEOL(versionFetcher.Version())
+	if err != nil {
+		return nil, err
+	}
+
 	configMetadataDependency := cargo.ConfigMetadataDependency{
-		CPE:            fmt.Sprintf("cpe:2.3:a:python:python:%s:*:*:*:*:*:*:*", version),
-		ID:             "python",
-		Licenses:       retrieve.LookupLicenses(sourceURL, upstream.DefaultDecompress),
-		Name:           "Python",
-		PURL:           retrieve.GeneratePURL("python", version, sourceSHA256, sourceURL),
-		Source:         sourceURL,
-		SourceChecksum: fmt.Sprintf("sha256:%s", sourceSHA256),
-		Version:        version,
+		CPE:             fmt.Sprintf("cpe:2.3:a:python:python:%s:*:*:*:*:*:*:*", version),
+		ID:              "python",
+		Licenses:        retrieve.LookupLicenses(sourceURL, upstream.DefaultDecompress),
+		Name:            "Python",
+		PURL:            retrieve.GeneratePURL("python", version, sourceSHA256, sourceURL),
+		Source:          sourceURL,
+		SourceChecksum:  fmt.Sprintf("sha256:%s", sourceSHA256),
+		Version:         version,
+		DeprecationDate: eolDate,
 	}
 
 	return collections.TransformFuncWithError(supportedStacks, func(pair StackAndTargetPair) (versionology.Dependency, error) {
@@ -102,10 +111,10 @@ func generateMetadata(versionFetcher versionology.VersionFetcher) ([]versionolog
 func getSha256(sourceURL string, version string) (string, error) {
 	resp, err := http.Get(sourceURL)
 	if err != nil {
-		return "", fmt.Errorf("failed to query url: %w", err)
+		return "", fmt.Errorf("failed to query url %q: %w", sourceURL, err)
 	}
 	if resp.StatusCode != http.StatusOK {
-		return "", fmt.Errorf("failed to query url %s with: status code %d", sourceURL, resp.StatusCode)
+		return "", fmt.Errorf("failed to query url %q with: status code %d", sourceURL, resp.StatusCode)
 	}
 
 	defer resp.Body.Close()
@@ -130,6 +139,43 @@ func getSha256(sourceURL string, version string) (string, error) {
 
 	calculator := fs.NewChecksumCalculator()
 	return calculator.Sum(tarballPath)
+}
+
+func getEOL(version *semver.Version) (*time.Time, error) {
+	minorVersion := fmt.Sprintf("%d.%d", version.Major(), version.Minor())
+	endpoint := fmt.Sprintf("https://endoflife.date/api/python/%s.json", minorVersion)
+	resp, err := http.Get(endpoint)
+	if err != nil {
+		return nil, fmt.Errorf("failed to query url %q: %w", endpoint, err)
+	}
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("failed to query url %q with: status code %d", endpoint, resp.StatusCode)
+	}
+
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	type eolData struct {
+		EolString string `json:"eol"`
+	}
+
+	d := eolData{}
+
+	err = json.Unmarshal(body, &d)
+	if err != nil {
+		return nil, fmt.Errorf("could not unmarshal eol metadata: %w", err)
+	}
+
+	eol, err := time.Parse(time.DateOnly, d.EolString)
+	if err != nil {
+		return nil, fmt.Errorf("could not parse eol %q: %w", d.EolString, err)
+	}
+
+	return &eol, nil
 }
 
 func main() {
