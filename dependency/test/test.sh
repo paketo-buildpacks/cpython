@@ -71,6 +71,19 @@ main() {
       test \
       --tarballPath "/tarball_path/$(basename "${tarball_path}")" \
       --expectedVersion "${expectedVersion}"
+  elif [[ $(basename -- "${tarball_path}") == *"noble"* ]]; then
+    echo "Running noble test..."
+    docker build \
+      --tag test \
+      --file noble.Dockerfile \
+      .
+
+    docker run \
+      --rm \
+      --volume "$(dirname -- "${tarball_path}"):/tarball_path" \
+      test \
+      --tarballPath "/tarball_path/$(basename "${tarball_path}")" \
+      --expectedVersion "${expectedVersion}"
   else
     echo "bionic or jammy not found - skipping tests"
   fi
