@@ -328,6 +328,19 @@ api = "0.7"
     version = "3.11.9"
 
   [[metadata.dependencies]]
+    checksum = "sha256:877bd7130f769b99cfb6981f2c4f6b2bde1a882c8057ec903a31050f05683792"
+    cpe = "cpe:2.3:a:python:python:3.11.9:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.11.9?checksum=e7de3240a8bc2b1e1ba5c81bf943f06861ff494b69fda990ce2722a504c6153d&download_url=https://www.python.org/ftp/python/3.11.9/Python-3.11.9.tgz"
+    source = "https://www.python.org/ftp/python/3.11.9/Python-3.11.9.tgz"
+    source-checksum = "sha256:e7de3240a8bc2b1e1ba5c81bf943f06861ff494b69fda990ce2722a504c6153d"
+    stacks = ["io.buildpacks.stacks.noble"]
+    uri = "https://artifacts.paketo.io/python/python_3.11.9_linux_x64_noble_877bd713.tgz"
+    version = "3.11.9"
+
+  [[metadata.dependencies]]
     checksum = "sha256:aca1ad6266821d090f44466e8c01f2c41fb33da12d1c650d70ba555809abc55b"
     cpe = "cpe:2.3:a:python:python:3.12.2:*:*:*:*:*:*:*"
     id = "python"
@@ -403,6 +416,19 @@ api = "0.7"
     source-checksum = "sha256:a6b9459f45a6ebbbc1af44f5762623fa355a0c87208ed417628b379d762dddb0"
     stacks = ["*"]
     uri = "https://www.python.org/ftp/python/3.12.3/Python-3.12.3.tgz"
+    version = "3.12.3"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:0910952cebf242edf92f5c53d19356c7f8bacf338713ab3c575a4b039eab95a9"
+    cpe = "cpe:2.3:a:python:python:3.12.3:*:*:*:*:*:*:*"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    purl = "pkg:generic/python@3.12.3?checksum=a6b9459f45a6ebbbc1af44f5762623fa355a0c87208ed417628b379d762dddb0&download_url=https://www.python.org/ftp/python/3.12.3/Python-3.12.3.tgz"
+    source = "https://www.python.org/ftp/python/3.12.3/Python-3.12.3.tgz"
+    source-checksum = "sha256:a6b9459f45a6ebbbc1af44f5762623fa355a0c87208ed417628b379d762dddb0"
+    stacks = ["io.buildpacks.stacks.noble"]
+    uri = "https://artifacts.paketo.io/python/python_3.12.3_linux_x64_noble_0910952c.tgz"
     version = "3.12.3"
 
   [[metadata.dependency-constraints]]
