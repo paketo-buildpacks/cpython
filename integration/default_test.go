@@ -271,5 +271,51 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 			})
 		})
 
+		context("when the BP_CPYTHON_RM_SETUPTOOLS environment variable is set", func() {
+			var container2 occam.Container
+
+			it.After(func() {
+				Expect(docker.Container.Remove.Execute(container2.ID)).To(Succeed())
+			})
+
+			it("builds with the defaults and setuptools is not installed", func() {
+				var err error
+				var logs fmt.Stringer
+				image, logs, err = pack.WithNoColor().Build.
+					WithPullPolicy("never").
+					WithBuildpacks(
+						settings.Buildpacks.Cpython.Online,
+						settings.Buildpacks.BuildPlan.Online,
+					).
+					WithEnv(map[string]string{
+						"BP_CPYTHON_RM_SETUPTOOLS": "value-is-ignored",
+					}).
+					Execute(name, source)
+				Expect(err).ToNot(HaveOccurred(), logs.String)
+
+				container, err = docker.Container.Run.
+					WithCommand("python3 server.py").
+					WithEnv(map[string]string{"PORT": "8080"}).
+					WithPublish("8080").
+					Execute(image.ID)
+				Expect(err).ToNot(HaveOccurred())
+
+				Eventually(container).Should(BeAvailable())
+				Eventually(container).Should(Serve(ContainSubstring("hello world")).OnPort(8080))
+
+				// check that setuptools is not installed.
+				// since we cannot get the return code, echo a string that we can search for if the command fails
+				container2, err = docker.Container.Run.
+					WithCommand("python3 -m pip show setuptools || echo not-installed").
+					Execute(image.ID)
+				Expect(err).NotTo(HaveOccurred())
+
+				Eventually(func() string {
+					cLogs, err := docker.Container.Logs.Execute(container2.ID)
+					Expect(err).NotTo(HaveOccurred())
+					return cLogs.String()
+				}).Should(ContainSubstring("not-installed"))
+			})
+		})
 	})
 }
