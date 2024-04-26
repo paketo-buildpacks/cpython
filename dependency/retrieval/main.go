@@ -24,6 +24,7 @@ type StackAndTargetPair struct {
 }
 
 var supportedStacks = []StackAndTargetPair{
+	{stacks: []string{"io.buildpacks.stacks.noble"}, target: "noble"},
 	{stacks: []string{"io.buildpacks.stacks.jammy"}, target: "jammy"},
 	{stacks: []string{"io.buildpacks.stacks.bionic"}, target: "bionic"},
 	{stacks: []string{"*"}, target: "NONE"},
