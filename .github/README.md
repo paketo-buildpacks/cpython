@@ -1,6 +1,6 @@
 # Paketo Buildpack for CPython Cloud Native
 
-A copy of the upstream README.md can be found here: [README-upstream.md](README-upstream.md)
+A copy of the upstream README.md can be found here: [README-upstream.md](../README-upstream.md)
 
 # Plotly Branches
 
