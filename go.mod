@@ -4,7 +4,7 @@ go 1.18
 
 replace (
 	// https://github.com/testcontainers/testcontainers-go/releases/tag/v0.17.0
-	github.com/docker/docker => github.com/docker/docker v20.10.3-0.20221013203545-33ab36d6b304+incompatible // 22.06 branch
+	github.com/docker/docker => github.com/docker/docker v24.0.7+incompatible // 22.06 branch
 	// v0.15.0 not compatible with latest github.com/docker/docker
 	github.com/testcontainers/testcontainers-go => github.com/testcontainers/testcontainers-go v0.17.0
 )
@@ -42,7 +42,7 @@ require (
 	github.com/becheran/wildmatch-go v1.0.0 // indirect
 	github.com/bmatcuk/doublestar/v4 v4.6.1 // indirect
 	github.com/cenkalti/backoff/v4 v4.2.1 // indirect
-	github.com/cloudflare/circl v1.3.6 // indirect
+	github.com/cloudflare/circl v1.3.7 // indirect
 	github.com/containerd/containerd v1.7.11 // indirect
 	github.com/containerd/log v0.1.0 // indirect
 	github.com/containerd/stargz-snapshotter/estargz v0.15.1 // indirect
