@@ -185,7 +185,7 @@ api = "0.7"
     uri = "http://dash-app-resources.plotly-system.svc.cluster.local/packages/kpack-offline-files/python_3.9.15_linux_x64_bionic_702289c2.tgz"
     version = "3.9.15"
 
-  [metadata.dependencies]]
+  [[metadata.dependencies]]
     checksum = "sha256:53444ba7a18131bdc5733ba24ccc7c5054f670405acf27f18c3578e5a38814a0"
     cpe = "cpe:2.3:a:python:python:3.9.15:*:*:*:*:*:*:*"
     id = "python"
