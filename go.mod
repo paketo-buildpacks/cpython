@@ -1,6 +1,6 @@
 module github.com/paketo-buildpacks/cpython
 
-go 1.23.6
+go 1.24.0
 
 require (
 	github.com/BurntSushi/toml v1.3.2
