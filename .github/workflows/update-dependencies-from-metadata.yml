@@ -289,7 +289,10 @@ jobs:
           version: ${{ matrix.includes.version }}
           target: ${{ matrix.includes.target }}
           checksum: ${{ steps.get-checksum.outputs.checksum }}
-          uri: ${{ steps.upload.outputs.dependency-uri }}
+          # uri: ${{ steps.upload.outputs.dependency-uri }}
+          # hardcoded for now, since we are not uploading to S3
+          # https://github.com/paketo-buildpacks/cpython/actions/runs/16249889394/job/45878136004
+          uri: https://artifacts.paketo.io/python/python_3.13.5_linux_x64_bionic_f60cca3e.tgz
           file: ${{ steps.dependency-metadata.outputs.file }}
 
       - name: Upload modified metadata
