@@ -10,6 +10,9 @@ dpkg -x /var/cache/apt/archives/libtcl8.6_*.deb "${DEST_DIR}"
 dpkg -x /var/cache/apt/archives/libtk8.6_*.deb "${DEST_DIR}"
 dpkg -x /var/cache/apt/archives/libxss1_*.deb "${DEST_DIR}"
 
+# x86_64
+# aarch64
+
 function main() {
   local version output_dir target upstream_tarball working_dir
   version=""
@@ -111,7 +114,11 @@ function main() {
     sha256=$(sha256sum temp.tgz)
     sha256="${sha256:0:64}"
 
-    output_tarball_name="python_${version}_linux_x64_${target}_${sha256:0:8}.tgz"
+    architecture="amd64" # $(arch) returns "x86_64" on amd64 systems
+    if [ $(arch) = "aarch64" ]; then
+      architecture="arm64"
+    fi
+    output_tarball_name="python_${version}_linux_${architecture}_${target}_${sha256:0:8}.tgz"
 
     echo "Building tarball ${output_tarball_name}"
 

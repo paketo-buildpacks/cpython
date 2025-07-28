@@ -3,7 +3,7 @@ name: Update Dependencies From Metadata (Retrieve, Metadata, Compile, Test, Crea
 on:
   workflow_dispatch:
   schedule:
-    - cron: '57 13 * * *' # daily at 13:57 UTC
+    - cron: '20 03 * * *' # daily at 03:20 UTC
 
 jobs:
   retrieve:
@@ -244,20 +244,21 @@ jobs:
           echo "artifact-file=$(basename ./*.tgz)" >> "$GITHUB_OUTPUT"
           echo "checksum-file=$(basename ./*.tgz.checksum)" >> "$GITHUB_OUTPUT"
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_S3_DEPENDENCIES_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_S3_DEPENDENCIES_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+      # TODO: uncomment before PR
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v2
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_S3_DEPENDENCIES_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_S3_DEPENDENCIES_SECRET_ACCESS_KEY }}
+      #     aws-region: us-east-1
 
-      - name: Upload to S3
-        id: upload
-        uses: paketo-buildpacks/github-config/actions/dependency/upload-to-s3@main
-        with:
-          bucket-name: "paketo-buildpacks"
-          dependency-name: ${{ needs.retrieve.outputs.id }}
-          artifact-path: ${{ steps.get-file-names.outputs.artifact-file }}
+      # - name: Upload to S3
+      #   id: upload
+      #   uses: paketo-buildpacks/github-config/actions/dependency/upload-to-s3@main
+      #   with:
+      #     bucket-name: "paketo-buildpacks"
+      #     dependency-name: ${{ needs.retrieve.outputs.id }}
+      #     artifact-path: ${{ steps.get-file-names.outputs.artifact-file }}
 
       - name: Get Checksum
         id: get-checksum
