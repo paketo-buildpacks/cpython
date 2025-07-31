@@ -282,6 +282,11 @@ jobs:
           metadata_file_name="${{ matrix.includes.target }}-${{ matrix.includes.version }}-metadata-file.json"
           cat metadata.json | jq -r ['.[] | select( .version == "${{ matrix.includes.version }}" and .target == "${{ matrix.includes.target }}")'] > $metadata_file_name
           echo "file=$(echo $metadata_file_name)" >> "$GITHUB_OUTPUT"
+          # TODO: remove these lines before PR
+          echo "metadata.json file contents:"
+          cat metadata.json
+          echo "metadata_file_name $metadata_file_name file contents:"
+          cat metadata.json | jq -r ['.[] | select( .version == "${{ matrix.includes.version }}" and .target == "${{ matrix.includes.target }}")']
 
       - name: Update `checksum` and `uri` in metadata for ${{ matrix.includes.target }} ${{ matrix.includes.version }}
         if: ${{ matrix.includes.checksum == '' && matrix.includes.uri == '' }}
@@ -290,11 +295,7 @@ jobs:
           version: ${{ matrix.includes.version }}
           target: ${{ matrix.includes.target }}
           checksum: ${{ steps.get-checksum.outputs.checksum }}
-          # TODO: uncomment before PR
           uri: ${{ steps.upload.outputs.dependency-uri }}
-          # hardcoded for now, since we are not uploading to S3
-          # https://github.com/paketo-buildpacks/cpython/actions/runs/16249889394/job/45878136004
-          # uri: https://artifacts.paketo.io/python/python_3.13.5_linux_x64_bionic_f60cca3e.tgz
           file: ${{ steps.dependency-metadata.outputs.file }}
 
       - name: Upload modified metadata
@@ -369,28 +370,28 @@ jobs:
         run: |
           git diff
 
-      - name: Commit
-        id: commit
-        uses: paketo-buildpacks/github-config/actions/pull-request/create-commit@main
-        with:
-          message: "Updating buildpack.toml with new versions ${{ steps.update.outputs.new-versions }}"
-          pathspec: "."
-          keyid: ${{ secrets.PAKETO_BOT_GPG_SIGNING_KEY_ID }}
-          key: ${{ secrets.PAKETO_BOT_GPG_SIGNING_KEY }}
+      # - name: Commit
+      #   id: commit
+      #   uses: paketo-buildpacks/github-config/actions/pull-request/create-commit@main
+      #   with:
+      #     message: "Updating buildpack.toml with new versions ${{ steps.update.outputs.new-versions }}"
+      #     pathspec: "."
+      #     keyid: ${{ secrets.PAKETO_BOT_GPG_SIGNING_KEY_ID }}
+      #     key: ${{ secrets.PAKETO_BOT_GPG_SIGNING_KEY }}
 
-      - name: Push Branch 'automation/dependencies/update-from-metadata'
-        if: ${{ steps.commit.outputs.commit_sha != '' }}
-        uses: paketo-buildpacks/github-config/actions/pull-request/push-branch@main
-        with:
-          branch: automation/dependencies/update-from-metadata
+      # - name: Push Branch 'automation/dependencies/update-from-metadata'
+      #   if: ${{ steps.commit.outputs.commit_sha != '' }}
+      #   uses: paketo-buildpacks/github-config/actions/pull-request/push-branch@main
+      #   with:
+      #     branch: automation/dependencies/update-from-metadata
 
-      - name: Open Pull Request
-        if: ${{ steps.commit.outputs.commit_sha != '' }}
-        uses: paketo-buildpacks/github-config/actions/pull-request/open@main
-        with:
-          token: ${{ secrets.PAKETO_BOT_GITHUB_TOKEN }}
-          title: "Updates buildpack.toml with ${{ steps.update.outputs.new-versions }}"
-          branch: automation/buildpack.toml/update-from-metadata
+      # - name: Open Pull Request
+      #   if: ${{ steps.commit.outputs.commit_sha != '' }}
+      #   uses: paketo-buildpacks/github-config/actions/pull-request/open@main
+      #   with:
+      #     token: ${{ secrets.PAKETO_BOT_GITHUB_TOKEN }}
+      #     title: "Updates buildpack.toml with ${{ steps.update.outputs.new-versions }}"
+      #     branch: automation/buildpack.toml/update-from-metadata
 
   failure:
     name: Alert on Failure
