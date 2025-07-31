@@ -5,11 +5,9 @@ go 1.24.5
 // This is required because of a breaking change in a newer version
 replace github.com/ekzhu/minhash-lsh => github.com/ekzhu/minhash-lsh v0.0.0-20171225071031-5c06ee8586a1
 
-replace github.com/paketo-buildpacks/libdependency => github.com/paketo-buildpacks/libdependency v0.1.1-0.20250728003521-0de6b601eeb7
-
 require (
 	github.com/Masterminds/semver/v3 v3.4.0
-	github.com/paketo-buildpacks/libdependency v0.1.0
+	github.com/paketo-buildpacks/libdependency v0.1.1
 	github.com/paketo-buildpacks/packit/v2 v2.22.0
 	golang.org/x/exp v0.0.0-20250408133849-7e4ce0ab07d0
 )
