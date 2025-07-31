@@ -63,6 +63,12 @@ jobs:
           printf "compilation-json<<%s\n%s\n%s\n" "${delimiter}" "${compilation}" "${delimiter}" >> "$GITHUB_OUTPUT" # see https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
           echo "compilation-length=$complength" >> "$GITHUB_OUTPUT"
 
+          # TODO: remove this line before PR
+          echo "compilation-json:"
+          echo "${compilation}"
+          echo ""
+          echo "metadata.json file contents:"
+          cat "${OUTPUT}"
 
       - name: Upload `${{ steps.retrieve.outputs.metadata-filepath }}`
         uses: actions/upload-artifact@v4
@@ -358,6 +364,9 @@ jobs:
           shopt -s inherit_errexit
 
           jq -s 'add' ${{ steps.make-outputdir.outputs.outputdir }}/metadata-files/* > "${{ steps.make-outputdir.outputs.outputdir }}/metadata.json"
+          # TODO: remove these lines before PR
+          echo "Combined metadata.json file contents:"
+          cat "${{ steps.make-outputdir.outputs.outputdir }}/metadata.json"
 
       - name: Update dependencies from metadata.json
         id: update
