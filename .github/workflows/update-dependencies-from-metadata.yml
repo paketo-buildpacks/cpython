@@ -260,6 +260,7 @@ jobs:
 
       - name: Upload to S3
         id: upload
+        # TODO: fix before PR
         # uses: paketo-buildpacks/github-config/actions/dependency/upload-to-s3@main
         uses: jericop/github-config/actions/dependency/upload-to-s3@mock-upload
         with:
@@ -296,7 +297,9 @@ jobs:
 
       - name: Update `checksum` and `uri` in metadata for ${{ matrix.includes.target }} ${{ matrix.includes.version }}
         if: ${{ matrix.includes.checksum == '' && matrix.includes.uri == '' }}
-        uses: paketo-buildpacks/github-config/actions/dependency/update-metadata-json@main
+        # TODO: fix before PR
+        # uses: paketo-buildpacks/github-config/actions/dependency/update-metadata-json@main
+        uses: jericop/github-config/actions/dependency/update-metadata-json@mock-upload
         with:
           version: ${{ matrix.includes.version }}
           target: ${{ matrix.includes.target }}
@@ -370,7 +373,9 @@ jobs:
 
       - name: Update dependencies from metadata.json
         id: update
-        uses: paketo-buildpacks/github-config/actions/dependency/update-from-metadata@main
+        # TODO: fix before PR
+        # uses: paketo-buildpacks/github-config/actions/dependency/update-from-metadata@main
+        uses: jericop/github-config/actions/dependency/update-from-metadata@mock-upload
         with:
           buildpack_toml_path: "${{ github.workspace }}/buildpack.toml"
           metadata_file_path: "${{ steps.make-outputdir.outputs.outputdir }}/metadata.json"
