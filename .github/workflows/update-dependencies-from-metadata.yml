@@ -252,13 +252,14 @@ jobs:
       #     aws-secret-access-key: ${{ secrets.AWS_S3_DEPENDENCIES_SECRET_ACCESS_KEY }}
       #     aws-region: us-east-1
 
-      # - name: Upload to S3
-      #   id: upload
-      #   uses: paketo-buildpacks/github-config/actions/dependency/upload-to-s3@main
-      #   with:
-      #     bucket-name: "paketo-buildpacks"
-      #     dependency-name: ${{ needs.retrieve.outputs.id }}
-      #     artifact-path: ${{ steps.get-file-names.outputs.artifact-file }}
+      - name: Upload to S3
+        id: upload
+        # uses: paketo-buildpacks/github-config/actions/dependency/upload-to-s3@main
+        uses: jericop/github-config/actions/dependency/upload-to-s3@mock-upload
+        with:
+          bucket-name: "paketo-buildpacks"
+          dependency-name: ${{ needs.retrieve.outputs.id }}
+          artifact-path: ${{ steps.get-file-names.outputs.artifact-file }}
 
       - name: Get Checksum
         id: get-checksum
@@ -289,10 +290,11 @@ jobs:
           version: ${{ matrix.includes.version }}
           target: ${{ matrix.includes.target }}
           checksum: ${{ steps.get-checksum.outputs.checksum }}
-          # uri: ${{ steps.upload.outputs.dependency-uri }}
+          # TODO: uncomment before PR
+          uri: ${{ steps.upload.outputs.dependency-uri }}
           # hardcoded for now, since we are not uploading to S3
           # https://github.com/paketo-buildpacks/cpython/actions/runs/16249889394/job/45878136004
-          uri: https://artifacts.paketo.io/python/python_3.13.5_linux_x64_bionic_f60cca3e.tgz
+          # uri: https://artifacts.paketo.io/python/python_3.13.5_linux_x64_bionic_f60cca3e.tgz
           file: ${{ steps.dependency-metadata.outputs.file }}
 
       - name: Upload modified metadata
