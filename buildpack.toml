@@ -28,6 +28,8 @@ api = "0.7"
     stacks = ["io.buildpacks.stacks.noble"]
     uri = "https://artifacts.paketo.io/python/python_3.10.15_linux_x64_noble_b0d3f0d0.tgz"
     version = "3.10.15"
+    os = "linux"
+    arch = "amd64"
 
   [[metadata.dependencies]]
     checksum = "sha256:38f7ffdc842d8781275b0ff39291cfa54b481074f9f7b892f2e64a63067407a4"
@@ -42,6 +44,8 @@ api = "0.7"
     stacks = ["io.buildpacks.stacks.jammy"]
     uri = "https://artifacts.paketo.io/python/python_3.10.15_linux_x64_jammy_38f7ffdc.tgz"
     version = "3.10.15"
+    os = "linux"
+    arch = "amd64"
 
   [[metadata.dependencies]]
     checksum = "sha256:052a32b22820839c54b5c08d7ba0b08ad8f6d0d4214d69df5c7acdfc4164712a"
@@ -56,6 +60,8 @@ api = "0.7"
     stacks = ["io.buildpacks.stacks.bionic"]
     uri = "https://artifacts.paketo.io/python/python_3.10.15_linux_x64_bionic_052a32b2.tgz"
     version = "3.10.15"
+    os = "linux"
+    arch = "amd64"
 
   [[metadata.dependencies]]
     checksum = "sha256:a27864e5ba2a4474f8f6c58ab92ff52767ac8b66f1646923355a53fe3ef15074"
@@ -70,6 +76,8 @@ api = "0.7"
     stacks = ["*"]
     uri = "https://www.python.org/ftp/python/3.10.15/Python-3.10.15.tgz"
     version = "3.10.15"
+    os = "linux"
+    arch = "amd64"
 
   [[metadata.dependencies]]
     checksum = "sha256:4e06af6b0b9469ed6f206a93c36f12961e677f13f3dfd6fbfe8b3940b409e5d7"
@@ -84,6 +92,8 @@ api = "0.7"
     stacks = ["io.buildpacks.stacks.noble"]
     uri = "https://artifacts.paketo.io/python/python_3.10.16_linux_x64_noble_4e06af6b.tgz"
     version = "3.10.16"
+    os = "linux"
+    arch = "amd64"
 
   [[metadata.dependencies]]
     checksum = "sha256:96edafd66c86512b8e49631b50ce74333a016ab4f6472cc3d1a45d6e7bb47459"
@@ -98,6 +108,8 @@ api = "0.7"
     stacks = ["io.buildpacks.stacks.jammy"]
     uri = "https://artifacts.paketo.io/python/python_3.10.16_linux_x64_jammy_96edafd6.tgz"
     version = "3.10.16"
+    os = "linux"
+    arch = "amd64"
 
   [[metadata.dependencies]]
     checksum = "sha256:357004dbd5fb7ba474aa11e30bc4ba90629d514236fc9fbc10fd8addb7f07302"
@@ -112,6 +124,8 @@ api = "0.7"
     stacks = ["io.buildpacks.stacks.bionic"]
     uri = "https://artifacts.paketo.io/python/python_3.10.16_linux_x64_bionic_357004db.tgz"
     version = "3.10.16"
+    os = "linux"
+    arch = "amd64"
 
   [[metadata.dependencies]]
     checksum = "sha256:f2e22ed965a93cfeb642378ed6e6cdbc127682664b24123679f3d013fafe9cd0"
@@ -126,6 +140,8 @@ api = "0.7"
     stacks = ["*"]
     uri = "https://www.python.org/ftp/python/3.10.16/Python-3.10.16.tgz"
     version = "3.10.16"
+    os = "linux"
+    arch = "amd64"
 
   [[metadata.dependency-constraints]]
     constraint = "3.10.*"
