@@ -64,11 +64,16 @@ jobs:
           echo "compilation-length=$complength" >> "$GITHUB_OUTPUT"
 
           # TODO: remove this line before PR
+          echo "id=$id"
+          echo "length=$length"
+          echo "compilation-length=$complength"
           echo "compilation-json:"
           echo "${compilation}"
           echo ""
           echo "metadata.json file contents:"
           cat "${OUTPUT}"
+          echo "metadata-filepath=${OUTPUT}"
+          printf "metadata-json<<%s\n%s\n%s\n" "${delimiter}" "${content}" "${delimiter}" >> "$GITHUB_OUTPUT" # see https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
 
       - name: Upload `${{ steps.retrieve.outputs.metadata-filepath }}`
         uses: actions/upload-artifact@v4
@@ -101,6 +106,8 @@ jobs:
           if test -d "dependency/actions/compile"; then
             echo "Compilation action provided"
             echo "should-compile=true" >> "$GITHUB_OUTPUT"
+            # TODO: remove this line before PR
+            echo "should-compile=true"
           fi
 
       - name: Has Testing Action?
@@ -109,6 +116,8 @@ jobs:
           if test -d "dependency/test"; then
             echo "Testing file provided"
             echo "should-test=true" >> "$GITHUB_OUTPUT"
+            # TODO: remove this line before PR
+            echo "should-test=true"
           fi
 
   test:
@@ -144,6 +153,9 @@ jobs:
           set -euo pipefail
           shopt -s inherit_errexit
 
+          # TODO: remove this line before PR
+          set -x
+
           curl ${{ matrix.includes.uri }} \
             --fail-with-body \
             --show-error \
@@ -157,6 +169,8 @@ jobs:
         working-directory: dependency
         if: ${{ needs.get-compile-and-test.outputs.should-test == 'true' }}
         run: |
+          # TODO: remove this line before PR
+          set -x
           make test \
             version="${{ matrix.includes.version }}" \
             tarballPath="${{ steps.make-outputdir.outputs.outputdir }}/*.tgz"
