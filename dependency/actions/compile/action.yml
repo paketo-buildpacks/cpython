@@ -12,10 +12,21 @@ inputs:
   target:
     description: 'dependency OS target variant'
     required: true
+  os:
+    description: 'platform OS (e.g., linux)'
+    required: true
+  arch:
+    description: 'platform architecture (e.g., amd64)'
+    required: true
 
 runs:
   using: 'composite'
   steps:
+
+  # TODO: remove this before PR
+  - name: print contents of output dir before compilation
+    shell: bash
+    run: ls -lah ${{ inputs.outputDir }}
 
   - name: docker build
     id: docker-build
@@ -23,7 +34,7 @@ runs:
       SKIP_LOGIN: true
     uses: actions-hub/docker/cli@master
     with:
-      args: "build -t compilation -f dependency/actions/compile/${{ inputs.target }}.Dockerfile dependency/actions/compile"
+      args: "build --platform ${{ inputs.os }}/${{ inputs.arch }} -t compilation -f dependency/actions/compile/${{ inputs.target }}.Dockerfile dependency/actions/compile"
 
   - name: docker run
     id: docker-run
@@ -31,7 +42,7 @@ runs:
     env:
       SKIP_LOGIN: true
     with:
-      args: "run -v ${{ inputs.outputDir }}:/home compilation --version ${{ inputs.version }} --outputDir /home --target ${{ inputs.target }}"
+      args: "run --platform ${{ inputs.os }}/${{ inputs.arch }} -v ${{ inputs.outputDir }}:/home compilation --version ${{ inputs.version }} --outputDir /home --target ${{ inputs.target }}"
 
   - name: print contents of output dir
     shell: bash
