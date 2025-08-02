@@ -22,10 +22,13 @@ on:
         description: 'platform architecture (e.g., amd64)'
         required: true
         type: string
+      shouldCompile:
+        description: 'whether to compile the dependency'
+        required: true
+        type: boolean
       shouldTest:
         description: 'whether to test the dependency after compilation'
         required: true
-        default: false
         type: boolean
       uploadArtifactName:
         description: 'name of the artifact to upload'
@@ -63,6 +66,7 @@ jobs:
       id: docker-build
       env:
         SKIP_LOGIN: true
+      if: ${{ inputs.shouldCompile == true || inputs.shouldCompile == 'true' }}
       uses: actions-hub/docker/cli@master
       with:
         args: "build --platform ${{ inputs.os }}/${{ inputs.arch }} -t compilation -f dependency/actions/compile/${{ inputs.target }}.Dockerfile dependency/actions/compile"
@@ -72,6 +76,7 @@ jobs:
       uses: actions-hub/docker/cli@master
       env:
         SKIP_LOGIN: true
+      if: ${{ inputs.shouldCompile == true || inputs.shouldCompile == 'true' }}
       with:
         args: "run --platform ${{ inputs.os }}/${{ inputs.arch }} -v ${{ steps.compile-setup.outputs.outputdir }}:/home compilation --version ${{ inputs.version }} --outputDir /home --target ${{ inputs.target }}"
 
@@ -81,7 +86,7 @@ jobs:
 
     - name: Test Dependency
       working-directory: dependency
-      if: ${{ inputs.shouldTest == true || inputs.shouldTest == 'true' }}
+      if: ${{ (inputs.shouldCompile == true || inputs.shouldCompile == 'true') && (inputs.shouldTest == true || inputs.shouldTest == 'true') }}
       run: |
         #!/usr/bin/env bash
         set -euo pipefail
@@ -93,6 +98,7 @@ jobs:
 
     - name: Upload compiled artifact
       uses: actions/upload-artifact@v4
+      if: ${{ inputs.shouldCompile == true || inputs.shouldCompile == 'true' }}
       with:
         name: '${{ inputs.uploadArtifactName }}'
         path: '${{ steps.compile-setup.outputs.outputdir }}/*'
