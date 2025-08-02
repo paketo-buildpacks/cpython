@@ -5,6 +5,9 @@ on:
   schedule:
     - cron: '20 03 * * *' # daily at 03:20 UTC
 
+env:
+  DOCKER_CLI_EXPERIMENTAL: 'enabled'
+
 jobs:
   retrieve:
     name: Retrieve New Versions and Generate Metadata
@@ -176,8 +179,6 @@ jobs:
             tarballPath="${{ steps.make-outputdir.outputs.outputdir }}/*.tgz"
   compile:
     name: Compile and Test Dependency
-    env:
-      DOCKER_CLI_EXPERIMENTAL: 'enabled'
     needs:
       - retrieve
       - get-compile-and-test
@@ -194,6 +195,13 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v4
+
+      - name: Enable experimental features for Docker daemon and CLI
+        run: |
+          echo '{"experimental": true}' | sudo tee /etc/docker/daemon.json
+          sudo systemctl restart docker
+          mkdir -p ~/.docker
+          echo '{"experimental": "enabled"}' | sudo tee ~/.docker/config.json
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
