@@ -229,6 +229,10 @@ jobs:
           echo "artifact-file=$(basename ./*.tgz)" >> "$GITHUB_OUTPUT"
           echo "checksum-file=$(basename ./*.tgz.checksum)" >> "$GITHUB_OUTPUT"
 
+          # TODO: remove these lines before PR
+          echo "artifact-file=$(basename ./*.tgz)"
+          echo "checksum-file=$(basename ./*.tgz.checksum)"
+
       # TODO: uncomment before PR
       # - name: Configure AWS Credentials
       #   uses: aws-actions/configure-aws-credentials@v2
@@ -265,14 +269,15 @@ jobs:
           set -euo pipefail
           shopt -s inherit_errexit
 
-          metadata_file_name="${{ matrix.includes.target }}-${{ matrix.includes.version }}-metadata-file.json"
-          cat metadata.json | jq -r ['.[] | select( .version == "${{ matrix.includes.version }}" and .target == "${{ matrix.includes.target }}")'] > $metadata_file_name
+          metadata_file_name="${{ matrix.includes.target }}-${{ matrix.includes.version }}-${{ matrix.includes.os }}-${{ matrix.includes.arch }}-metadata-file.json"
+          cat metadata.json | jq -r ['.[] | select( .version == "${{ matrix.includes.version }}" and .target == "${{ matrix.includes.target }}" and .os == "${{ matrix.includes.os }}" and .arch == "${{ matrix.includes.arch }}")'] > $metadata_file_name
           echo "file=$(echo $metadata_file_name)" >> "$GITHUB_OUTPUT"
           # TODO: remove these lines before PR
+          echo "metadata_file_name=$metadata_file_name"
           echo "metadata.json file contents:"
           cat metadata.json
           echo "metadata_file_name $metadata_file_name file contents:"
-          cat metadata.json | jq -r ['.[] | select( .version == "${{ matrix.includes.version }}" and .target == "${{ matrix.includes.target }}")']
+          cat metadata.json | jq -r ['.[] | select( .version == "${{ matrix.includes.version }}" and .target == "${{ matrix.includes.target }}" and .os == "${{ matrix.includes.os }}" and .arch == "${{ matrix.includes.arch }}")']
 
       - name: Update `checksum` and `uri` in metadata for ${{ matrix.includes.target }} ${{ matrix.includes.version }}
         if: ${{ matrix.includes.checksum == '' && matrix.includes.uri == '' }}
