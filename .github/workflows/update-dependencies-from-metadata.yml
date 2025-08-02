@@ -5,9 +5,6 @@ on:
   schedule:
     - cron: '20 03 * * *' # daily at 03:20 UTC
 
-env:
-  DOCKER_CLI_EXPERIMENTAL: 'enabled'
-
 jobs:
   retrieve:
     name: Retrieve New Versions and Generate Metadata
