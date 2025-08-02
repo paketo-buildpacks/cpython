@@ -193,63 +193,23 @@ jobs:
     if: ${{ needs.retrieve.outputs.compilation-length > 0 && (needs.get-compile-and-test.outputs.should-compile == 'true' || needs.get-compile-and-test.outputs.should-test == 'true') }}
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-
-      - name: Enable experimental features for Docker daemon and CLI
-        run: |
-          echo '{"experimental": true}' | sudo tee /etc/docker/daemon.json
-          sudo systemctl restart docker
-          mkdir -p ~/.docker
-          echo '{"experimental": "enabled"}' | sudo tee ~/.docker/config.json
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Make Temporary Artifact Directory
-        id: make-outputdir
-        run: |
-          echo "outputdir=$(mktemp -d)" >> "$GITHUB_OUTPUT"
-
       # Compile if all of the following conditions are met:
-      #   (1) compilation Github Action presetn in the buildpack directory
+      #   (1) compilation Github Action present in the buildpack directory
       #   (2) checksum in metadata.json is empty
       #   (3) URI in metadata.json is empty
+      # Test the dependency tarball if:
+      #   (1) dependency testing code is present in the buildpack directory
       - name: Compile version ${{ matrix.includes.version }} on ${{ matrix.includes.target }} ${{ matrix.includes.os }}/${{ matrix.includes.arch }} Dockerfile
         id: compile
         if: ${{ needs.get-compile-and-test.outputs.should-compile && matrix.includes.checksum == '' && matrix.includes.uri == '' }}
-        uses: ./dependency/actions/compile
+        uses: ./dependency/actions/compile/reusable-workflow.yml
         with:
           version: "${{ matrix.includes.version }}"
-          outputdir: "${{ steps.make-outputdir.outputs.outputdir }}"
           target: "${{ matrix.includes.target }}"
           os: "${{ matrix.includes.os }}"
           arch: "${{ matrix.includes.arch }}"
-
-      # If compiled, upload the tarball and checksum file for usage in the Update metadata job
-      - name: Upload workflow asset
-        uses: actions/upload-artifact@v4
-        if: ${{ needs.get-compile-and-test.outputs.should-compile && matrix.includes.checksum == '' && matrix.includes.uri == '' }}
-        with:
-          name: '${{ needs.retrieve.outputs.id }}-${{ matrix.includes.version }}-${{ matrix.includes.os }}-${{ matrix.includes.arch }}-${{ matrix.includes.target }}'
-          path: '${{ steps.make-outputdir.outputs.outputdir }}/*'
-
-      # Test the dependency tarball if:
-      #   (1) dependency testing code is present in the buildpack directory
-      - name: Test Dependency
-        working-directory: dependency
-        if: ${{ needs.get-compile-and-test.outputs.should-test == 'true' }}
-        run: |
-          #!/usr/bin/env bash
-          set -euo pipefail
-          shopt -s inherit_errexit
-
-          make test \
-            version="${{ matrix.includes.version }}" \
-            tarballPath="${{ steps.make-outputdir.outputs.outputdir }}/*.tgz"
+          shouldTest: ${{ needs.get-compile-and-test.outputs.should-test == 'true' }}
+          uploadArtifactName: "${{ needs.retrieve.outputs.id }}-${{ matrix.includes.version }}-${{ matrix.includes.os }}-${{ matrix.includes.arch }}-${{ matrix.includes.target }}"
 
   # Add in the checksum and URI fields to the metadata if the dependency was compiled
   update-metadata:
