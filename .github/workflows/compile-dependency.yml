@@ -78,7 +78,7 @@ jobs:
         SKIP_LOGIN: true
       if: ${{ inputs.shouldCompile == true || inputs.shouldCompile == 'true' }}
       with:
-        args: "run --platform ${{ inputs.os }}/${{ inputs.arch }} -v ${{ steps.compile-setup.outputs.outputdir }}:/home compilation --version ${{ inputs.version }} --outputDir /home --target ${{ inputs.target }}"
+        args: "run --platform ${{ inputs.os }}/${{ inputs.arch }} -v ${{ steps.compile-setup.outputs.outputdir }}:/home compilation --outputDir /home --target ${{ inputs.target }} --version ${{ inputs.version }} --os ${{ inputs.os }} --arch ${{ inputs.arch }}"
 
     - name: Print contents of output dir
       shell: bash
