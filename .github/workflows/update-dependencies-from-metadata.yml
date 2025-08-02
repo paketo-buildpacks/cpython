@@ -205,7 +205,7 @@ jobs:
       - name: Compile version ${{ matrix.includes.version }} on ${{ matrix.includes.target }} ${{ matrix.includes.os }}/${{ matrix.includes.arch }} Dockerfile
         id: compile
         if: ${{ needs.get-compile-and-test.outputs.should-compile && matrix.includes.checksum == '' && matrix.includes.uri == '' }}
-        uses: ./dependency/actions/compile/reusable-workflow.yml
+        uses: ./.github/workflows/compile-workflow.yml
         with:
           version: "${{ matrix.includes.version }}"
           target: "${{ matrix.includes.target }}"

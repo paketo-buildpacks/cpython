@@ -9,22 +9,28 @@ on:
       version:
         description: 'dependency version'
         required: true
+        type: string
       target:
         description: 'dependency OS target variant'
         required: true
+        type: string
       os:
         description: 'platform OS (e.g., linux)'
         required: true
+        type: string
       arch:
         description: 'platform architecture (e.g., amd64)'
         required: true
+        type: string
       shouldTest:
         description: 'whether to test the dependency after compilation'
         required: true
         default: false
+        type: boolean
       uploadArtifactName:
         description: 'name of the artifact to upload'
         required: true
+        type: string
 
 jobs:
   compile:
