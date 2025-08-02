@@ -287,6 +287,8 @@ jobs:
         with:
           version: ${{ matrix.includes.version }}
           target: ${{ matrix.includes.target }}
+          os: ${{ matrix.includes.os }}
+          arch: ${{ matrix.includes.arch }}
           checksum: ${{ steps.get-checksum.outputs.checksum }}
           uri: ${{ steps.upload.outputs.dependency-uri }}
           file: ${{ steps.dependency-metadata.outputs.file }}
