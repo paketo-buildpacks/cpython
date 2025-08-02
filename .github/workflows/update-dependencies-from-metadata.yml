@@ -193,6 +193,9 @@ jobs:
     if: ${{ needs.retrieve.outputs.compilation-length > 0 && (needs.get-compile-and-test.outputs.should-compile == 'true' || needs.get-compile-and-test.outputs.should-test == 'true') }}
     runs-on: ubuntu-latest
     steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
       # Compile if all of the following conditions are met:
       #   (1) compilation Github Action present in the buildpack directory
       #   (2) checksum in metadata.json is empty
