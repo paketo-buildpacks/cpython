@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
-shopt -s inherit_errexit
+
+if [[ "$(uname)" != "Darwin" ]]; then
+  shopt -s inherit_errexit
+fi
 
 parent_dir="$(cd "$(dirname "$0")" && pwd)"
 
@@ -89,13 +92,15 @@ main() {
   fi
 
   if [[ -f "$target.Dockerfile" ]]; then
-    echo "Running ${target} test..."
+    echo "Building image with dockerfile ${target}.Dockerfile..."
     docker build \
+      --quiet \
       --tag test \
       --file "${target}.Dockerfile" \
       ${docker_platform_arg} \
       .
 
+    echo "Running ${target} test..."
     docker run \
       --rm \
       --volume "$(dirname -- "${tarball_path}"):/tarball_path" \

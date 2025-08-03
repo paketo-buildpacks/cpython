@@ -1,6 +1,6 @@
 FROM ubuntu:jammy
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
   apt-get -y install curl openssl
