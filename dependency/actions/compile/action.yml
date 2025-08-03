@@ -1,3 +1,7 @@
+# This composite action works when called from a workflow that has qemu and buildkit set up.
+# Docker daemon and cli experimental features must also be enabled.
+# Compilation is slow when run on emulated platforms, so the .github/workflows/compile-dependency.yml
+# reusable workflow is used instead of this composite action. This is left here for reference.
 name: 'Compile CPython on Target'
 description: |
   Compiles CPython
@@ -22,11 +26,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-
-  # TODO: remove this before PR
-  - name: print contents of output dir before compilation
-    shell: bash
-    run: ls -lah ${{ inputs.outputDir }}
 
   - name: docker build
     id: docker-build
