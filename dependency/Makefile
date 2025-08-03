@@ -12,4 +12,6 @@ test:
 	@cd test; \
 	./test.sh \
 		--tarballPath $(tarballPath) \
-		--expectedVersion $(version)
+		--expectedVersion $(version) \
+		--expectedOS $(os) \
+		--expectedArch $(arch)

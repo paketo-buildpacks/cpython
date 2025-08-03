@@ -94,7 +94,9 @@ jobs:
 
         make test \
           version="${{ inputs.version }}" \
-          tarballPath="${{ steps.compile-setup.outputs.outputdir }}/*.tgz"
+          tarballPath="${{ steps.compile-setup.outputs.outputdir }}/*.tgz" \
+          os="${{ inputs.os }}" \
+          arch="${{ inputs.arch }}"
 
     - name: Upload compiled artifact
       uses: actions/upload-artifact@v4

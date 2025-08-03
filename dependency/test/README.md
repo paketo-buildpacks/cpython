@@ -8,7 +8,7 @@ To test locally:
 $ ./test.sh \
   --tarballPath ${output_dir}/*.tgz \
   --expectedVersion 3.10.7
-tarballPath=/tmp/output_dir/python_3.10.7_linux_x64_jammy_ad0be19c.tgz
+tarballPath=/tmp/output_dir/python_3.10.7_linux_arm64_jammy_ad0be19c.tgz
 expectedVersion=3.10.7
 All tests passed!
 
@@ -16,7 +16,7 @@ All tests passed!
 $ /tmp/test/test.sh \
   --tarballPath ${output_dir}/*.tgz \
   --expectedVersion 999.999.999
-tarballPath=/tmp/output_dir/python_3.10.7_linux_x64_jammy_ad0be19c.tgz
+tarballPath=/tmp/output_dir/python_3.10.7_linux_arm64_jammy_ad0be19c.tgz
 expectedVersion=999.999.999
 Version 3.10.7 does not match expected version 999.999.999
 ```
