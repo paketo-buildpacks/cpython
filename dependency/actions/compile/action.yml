@@ -1,3 +1,7 @@
+# This composite action works when called from a workflow that has qemu and buildkit set up.
+# Docker daemon and cli experimental features must also be enabled.
+# Compilation is slow when run on emulated platforms, so the .github/workflows/compile-dependency.yml
+# reusable workflow is used instead of this composite action. This is left here for reference.
 name: 'Compile CPython on Target'
 description: |
   Compiles CPython
@@ -12,6 +16,12 @@ inputs:
   target:
     description: 'dependency OS target variant'
     required: true
+  os:
+    description: 'platform OS (e.g., linux)'
+    required: true
+  arch:
+    description: 'platform architecture (e.g., amd64)'
+    required: true
 
 runs:
   using: 'composite'
@@ -23,7 +33,7 @@ runs:
       SKIP_LOGIN: true
     uses: actions-hub/docker/cli@master
     with:
-      args: "build -t compilation -f dependency/actions/compile/${{ inputs.target }}.Dockerfile dependency/actions/compile"
+      args: "build --platform ${{ inputs.os }}/${{ inputs.arch }} -t compilation -f dependency/actions/compile/${{ inputs.target }}.Dockerfile dependency/actions/compile"
 
   - name: docker run
     id: docker-run
@@ -31,7 +41,7 @@ runs:
     env:
       SKIP_LOGIN: true
     with:
-      args: "run -v ${{ inputs.outputDir }}:/home compilation --version ${{ inputs.version }} --outputDir /home --target ${{ inputs.target }}"
+      args: "run --platform ${{ inputs.os }}/${{ inputs.arch }} -v ${{ inputs.outputDir }}:/home compilation --version ${{ inputs.version }} --outputDir /home --target ${{ inputs.target }}"
 
   - name: print contents of output dir
     shell: bash

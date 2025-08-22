@@ -12,10 +12,10 @@ import (
 	"time"
 
 	"github.com/Masterminds/semver/v3"
-	"github.com/joshuatcasey/collections"
-	"github.com/joshuatcasey/libdependency/retrieve"
-	"github.com/joshuatcasey/libdependency/upstream"
-	"github.com/joshuatcasey/libdependency/versionology"
+	"github.com/paketo-buildpacks/libdependency/collections"
+	"github.com/paketo-buildpacks/libdependency/retrieve"
+	"github.com/paketo-buildpacks/libdependency/upstream"
+	"github.com/paketo-buildpacks/libdependency/versionology"
 	"github.com/paketo-buildpacks/packit/v2/cargo"
 	"github.com/paketo-buildpacks/packit/v2/fs"
 	"golang.org/x/exp/slices"
@@ -31,6 +31,36 @@ var supportedStacks = []StackAndTargetPair{
 	{stacks: []string{"io.buildpacks.stacks.jammy"}, target: "jammy"},
 	{stacks: []string{"io.buildpacks.stacks.bionic"}, target: "bionic"},
 	{stacks: []string{"*"}, target: "NONE"},
+}
+
+type PlatformStackTarget struct {
+	stacks []string
+	target string
+	os string
+	arch string
+}
+
+var supportedPlatforms = map[string][]string{
+	"linux": {"amd64", "arm64"},
+}
+
+func getSuportedPlatformStackTargets() []PlatformStackTarget {
+	var platformStackTargets []PlatformStackTarget
+
+	for os, architectures := range supportedPlatforms {
+		for _, arch := range architectures {
+			for _, pair := range supportedStacks {
+				platformStackTargets = append(platformStackTargets, PlatformStackTarget{
+					stacks: pair.stacks,
+					target: pair.target,
+					os:     os,
+					arch:   arch,
+				})
+			}
+		}
+	}
+
+	return platformStackTargets
 }
 
 func getAsString(url string) (string, error) {
@@ -85,26 +115,32 @@ func generateMetadata(versionFetcher versionology.VersionFetcher) ([]versionolog
 		return nil, err
 	}
 
-	configMetadataDependency := cargo.ConfigMetadataDependency{
-		CPE:             fmt.Sprintf("cpe:2.3:a:python:python:%s:*:*:*:*:*:*:*", version),
-		ID:              "python",
-		Licenses:        retrieve.LookupLicenses(sourceURL, upstream.DefaultDecompress),
-		Name:            "Python",
-		PURL:            retrieve.GeneratePURL("python", version, sourceSHA256, sourceURL),
-		Source:          sourceURL,
-		SourceChecksum:  fmt.Sprintf("sha256:%s", sourceSHA256),
-		Version:         version,
-		DeprecationDate: eolDate,
-	}
+	cpe := fmt.Sprintf("cpe:2.3:a:python:python:%s:*:*:*:*:*:*:*", version)
+	licenses := retrieve.LookupLicenses(sourceURL, upstream.DefaultDecompress)
+	purl := retrieve.GeneratePURL("python", version, sourceSHA256, sourceURL)
 
-	return collections.TransformFuncWithError(supportedStacks, func(pair StackAndTargetPair) (versionology.Dependency, error) {
-		configMetadataDependency.Stacks = pair.stacks
+	return collections.TransformFuncWithError(getSuportedPlatformStackTargets(), func(platformTarget PlatformStackTarget) (versionology.Dependency, error) {
+		fmt.Printf("Generating metadata for %s %s %s %s\n", platformTarget.os, platformTarget.arch, platformTarget.target, version)
+		configMetadataDependency := cargo.ConfigMetadataDependency{
+			CPE:             cpe,
+			ID:              "python",
+			Licenses:        licenses,
+			Name:            "Python",
+			PURL:            purl,
+			Source:          sourceURL,
+			SourceChecksum:  fmt.Sprintf("sha256:%s", sourceSHA256),
+			Version:         version,
+			DeprecationDate: eolDate,
+			Stacks:          platformTarget.stacks,
+			OS:              platformTarget.os,
+			Arch:            platformTarget.arch,
+		}
 
-		if slices.Contains(pair.stacks, "*") {
+		if slices.Contains(platformTarget.stacks, "*") {
 			configMetadataDependency.Checksum = configMetadataDependency.SourceChecksum
 			configMetadataDependency.URI = configMetadataDependency.Source
 		}
-		return versionology.NewDependency(configMetadataDependency, pair.target)
+		return versionology.NewDependency(configMetadataDependency, platformTarget.target)
 	})
 }
 

@@ -15,6 +15,9 @@ function main() {
   version=""
   output_dir=""
   target=""
+  # These were the original values before os and arch args were added
+  os="linux"
+  arch="x64"
   upstream_tarball=""
   working_dir=$(mktemp -d)
 
@@ -32,6 +35,16 @@ function main() {
 
       --target)
         target="${2}"
+        shift 2
+        ;;
+
+      --os)
+        os="${2}"
+        shift 2
+        ;;
+
+      --arch)
+        arch="${2}"
         shift 2
         ;;
 
@@ -63,6 +76,8 @@ function main() {
   echo "version=${version}"
   echo "output_dir=${output_dir}"
   echo "target=${target}"
+  echo "os=${os}"
+  echo "arch=${arch}"
 
   pushd "${working_dir}" > /dev/null
     upstream_tarball="https://www.python.org/ftp/python/${version}/Python-${version}.tgz"
@@ -85,7 +100,7 @@ function main() {
         --with-ensurepip=yes \
         --with-dbmliborder=bdb:gdbm \
         --with-tcltk-includes="-I/usr/include/tcl8.6" \
-        --with-tcltk-libs="-L/usr/lib/x86_64-linux-gnu -ltcl8.6 -L/usr/lib/x86_64-linux-gnu -ltk8.6" \
+        --with-tcltk-libs="-L/usr/lib/$(arch)-linux-gnu -ltcl8.6 -L/usr/lib/$(arch)-linux-gnu -ltk8.6" \
         --with-openssl="/usr/" \
         --prefix="${DEST_DIR}" \
         --enable-unicode=ucs4
@@ -111,7 +126,7 @@ function main() {
     sha256=$(sha256sum temp.tgz)
     sha256="${sha256:0:64}"
 
-    output_tarball_name="python_${version}_linux_x64_${target}_${sha256:0:8}.tgz"
+    output_tarball_name="python_${version}_${os}_${arch}_${target}_${sha256:0:8}.tgz"
 
     echo "Building tarball ${output_tarball_name}"
 

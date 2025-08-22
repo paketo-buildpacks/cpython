@@ -20,8 +20,11 @@ output_dir=$(mktemp -d)
 ```
 
 3. Run compilation and use a volume mount to access it:
+
+When --os and --arch are omitted, --os defaults to `linux` and --arch defaults to `x64` for backward compatibility.
+
 ```shell
-$ docker run --volume $output_dir:/tmp/compilation compilation-<target> --outputDir /tmp/compilation --target <target> --version <version> 
+$ docker run --volume $output_dir:/tmp/compilation compilation-<target> --outputDir /tmp/compilation --target <target> --version <version> --os <os> --arch <arch>
 
 # Noble example
 $ docker run --volume $output_dir:/tmp/compilation compilation-noble --outputDir /tmp/compilation --target noble --version 3.10.7
