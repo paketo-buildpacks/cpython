@@ -3,3 +3,6 @@
 .bin
 /bin
 /build
+/linux
+/darwin
+/windows
