@@ -5,8 +5,7 @@ subsequent buildpacks and in the final running container. It also sets the
 `$PYTHONPATH` environment variable for subsequent buildpacks and launch-time
 processes.
 
-The buildpack is published for consumption at `gcr.io/paketo-buildpacks/cpython` and
-`paketobuildpacks/cpython`.
+The buildpack is published for consumption at `paketobuildpacks/cpython`.
 
 ## Behavior
 

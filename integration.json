@@ -4,5 +4,5 @@
     "index.docker.io/paketobuildpacks/builder-jammy-buildpackless-base:latest",
     "index.docker.io/jericop/amazonlinux-builder:base"
   ],
-  "build-plan": "github.com/paketo-community/build-plan"
+  "build-plan": "index.docker.io/paketocommunity/build-plan"
 }
