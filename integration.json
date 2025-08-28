@@ -1,7 +1,7 @@
 {
   "builders": [
-    "index.docker.io/paketobuildpacks/builder:buildpackless-base",
     "index.docker.io/paketobuildpacks/builder-jammy-buildpackless-base:latest",
+    "index.docker.io/paketobuildpacks/ubuntu-noble-builder-buildpackless:latest",
     "index.docker.io/jericop/amazonlinux-builder:base"
   ],
   "build-plan": "index.docker.io/paketocommunity/build-plan"
