@@ -1,7 +1,7 @@
 # Dependency
 
 Pre-compiled distributions of Python are provided for the Paketo stacks (i.e.
-`io.buildpacks.stack.jammy` and `io.buildpacks.stacks.bionic`).
+`io.buildpacks.stack.jammy` and `io.buildpacks.stacks.noble`).
 
 Source distributions of Python are provided for all other linux stacks.
 

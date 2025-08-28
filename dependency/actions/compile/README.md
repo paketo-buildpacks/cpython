@@ -9,9 +9,6 @@ docker build --tag compilation-noble --file noble.Dockerfile .
 
 # Jammy example
 docker build --tag compilation-jammy --file jammy.Dockerfile .
-
-# Bionic example
-docker build --tag compilation-bionic --file bionic.Dockerfile .
 ```
 
 2. Make the output directory:
@@ -31,7 +28,4 @@ $ docker run --volume $output_dir:/tmp/compilation compilation-noble --outputDir
 
 # Jammy example
 $ docker run --volume $output_dir:/tmp/compilation compilation-jammy --outputDir /tmp/compilation --target jammy --version 3.10.7
-
-# Bionic example
-$ docker run --volume $output_dir:/tmp/compilation compilation-bionic --outputDir /tmp/compilation --target bionic --version 3.10.7
 ```

@@ -57,7 +57,7 @@ pack build my-app --env BP_CPYTHON_VERSION=3.10.*
 ### `BP_CPYTHON_CONFIGURE_FLAGS`
 The `BP_CPYTHON_CONFIGURE_FLAGS` variable allows you to specify configure flags
 when python is installed from source. This is only applicable when using custom
-stacks. Paketo stacks such as `io.buildpacks.stacks.bionic` install pre-built binaries.
+stacks. Paketo stacks such as `io.buildpacks.stacks.jammy` install pre-built binaries.
 
 * The format is space-separated strings, and they are passed directly to the
   `cpython` `./configure` process , e.g. `--foo --bar=baz`.
@@ -133,6 +133,6 @@ $ ./scripts/unit.sh && ./scripts/integration.sh
 This buildpack is currently only supported on linux distributions.
 
 Pre-compiled distributions of Python are provided for the Paketo stacks (i.e.
-`io.buildpacks.stack.jammy` and `io.buildpacks.stacks.bionic`).
+`io.buildpacks.stack.jammy` and `io.buildpacks.stacks.noble`).
 
 Source distributions of Python are provided for all other linux stacks.
