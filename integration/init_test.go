@@ -106,7 +106,7 @@ func TestIntegration(t *testing.T) {
 
 	suite := spec.New("Integration", spec.Report(report.Terminal{}), spec.Parallel())
 	suite("Default", testDefault)
-	if strings.Contains(builder.LocalInfo.Stack.ID, "jammy") || strings.Contains(builder.LocalInfo.Stack.ID, "bionic") {
+	if strings.Contains(builder.LocalInfo.Stack.ID, "jammy") || strings.Contains(builder.LocalInfo.Stack.ID, "noble") {
 		suite("Offline", testOffline)
 	}
 	suite("LayerReuse", testLayerReuse)
@@ -116,7 +116,7 @@ func TestIntegration(t *testing.T) {
 func dependenciesForStack() []Dependency {
 	var stackMatcher = "*"
 	switch builder.LocalInfo.Stack.ID {
-	case "io.buildpacks.stacks.bionic", "io.buildpacks.stacks.jammy":
+	case "io.buildpacks.stacks.noble", "io.buildpacks.stacks.jammy":
 		stackMatcher = builder.LocalInfo.Stack.ID
 	default:
 	}

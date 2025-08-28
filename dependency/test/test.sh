@@ -62,11 +62,11 @@ main() {
   echo "Outside image: expectedOS=${expectedOS}"
   echo "Outside image: expectedArch=${expectedArch}"
 
-  # Expects tarball_path filename such as: python_3.10.18_linux_amd64_bionic_ed1b62b3.tgz
-  tarballVersion=$(echo $(basename "${tarball_path}") | cut -d_ -f2) # ie: 3.10.18
+  # Expects tarball_path filename such as: python_3.13.7_linux_arm64_noble_1b008ba3.tgz
+  tarballVersion=$(echo $(basename "${tarball_path}") | cut -d_ -f2) # ie: 3.13.7
   os=$(echo $(basename "${tarball_path}") | cut -d_ -f3 | tr '_' '/') # ie: linux
-  arch=$(echo $(basename "${tarball_path}") | cut -d_ -f4 | tr '_' '/') # ie: amd64
-  target=$(echo $(basename "${tarball_path}") | cut -d_ -f5) # ie: bionic
+  arch=$(echo $(basename "${tarball_path}") | cut -d_ -f4 | tr '_' '/') # ie: arm64
+  target=$(echo $(basename "${tarball_path}") | cut -d_ -f5) # ie: noble
 
   if [[ "${tarballVersion}" != "${expectedVersion}" ]]; then
     echo "Tarball version (${tarballVersion}) does not match expected version (${expectedVersion})"
