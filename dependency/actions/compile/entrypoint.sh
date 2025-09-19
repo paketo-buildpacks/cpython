@@ -113,6 +113,8 @@ function main() {
   popd > /dev/null
 
   pushd "${DEST_DIR}" > /dev/null
+    LD_LIBRARY_PATH="${DEST_DIR}/lib" "${DEST_DIR}/bin/pip3" install -U setuptools pip
+
     tar --create \
       --gzip \
       --verbose \
