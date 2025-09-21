@@ -54,6 +54,18 @@ pack build my-app --env BP_CPYTHON_VERSION=3.10.*
     value = '3.10.*' # any valid semver constraints (e.g. 3.10.2, 3.*) are acceptable
 ```
 
+### `BP_CPYTHON_RM_SETUPTOOLS`
+The `BP_CPYTHON_RM_SETUPTOOLS` flag when set instructs the buildpack to remove `setuptools` from the
+version of Python that is installed. The bundled `setuptools` version is often old and may be flagged
+by scanners as vulnerable to CVEs.
+
+You may set this environment variable to `true`, or any value, and the buildpack will then remove
+`setuptools` from the app image when it runs.
+
+Please note that the actual value of this flag does not matter. The buildpack only checks that it is
+set. If you do not want to trigger this behavior, then you need to unset the environment variable.
+Setting it to `false` will not do anything.
+
 ### `BP_CPYTHON_CONFIGURE_FLAGS`
 The `BP_CPYTHON_CONFIGURE_FLAGS` variable allows you to specify configure flags
 when python is installed from source. This is only applicable when using custom
