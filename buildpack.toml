@@ -10,20 +10,8 @@ api = "0.7"
     uri = "https://github.com/paketo-buildpacks/cpython/blob/main/LICENSE"
 
 [metadata]
-  include-files = [
-    "buildpack.toml",
-    "linux/amd64/bin/build",
-    "linux/amd64/bin/detect",
-    "linux/amd64/bin/env",
-    "linux/amd64/bin/run",
-    "linux/arm64/bin/build",
-    "linux/arm64/bin/detect",
-    "linux/arm64/bin/env",
-    "linux/arm64/bin/run",
-  ]
-
+  include-files = ["buildpack.toml", "linux/amd64/bin/build", "linux/amd64/bin/detect", "linux/amd64/bin/env", "linux/amd64/bin/run", "linux/arm64/bin/build", "linux/arm64/bin/detect", "linux/arm64/bin/env", "linux/arm64/bin/run"]
   pre-package = "./scripts/build.sh --target linux/amd64 --target linux/arm64"
-
   [metadata.default-versions]
     python = "3.10.x"
 
@@ -61,7 +49,7 @@ api = "0.7"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:f885c1f6e0fd9e1c3425fdfe67b646cff08d29f726bd8b806891df05c9085d6f"
+    checksum = "sha256:364e18ff58205fa755e4b6f5b5ff51ca62b89dc05898df233fbeada9abf4e1b2"
     cpe = "cpe:2.3:a:python:python:3.9.22:*:*:*:*:*:*:*"
     deprecation_date = "2025-10-31T00:00:00Z"
     id = "python"
@@ -72,12 +60,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.9.22/Python-3.9.22.tgz"
     source-checksum = "sha256:76f4daef4ffce6fd107280a0db8d108b1f896c1c22f09d8300efd90a69c4298b"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.9.22_linux_amd64_jammy_f885c1f6.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.9.22_linux_amd64_jammy_364e18ff.tgz"
     version = "3.9.22"
 
   [[metadata.dependencies]]
     arch = "arm64"
-    checksum = "sha256:9b638ae00e80f44ba18b43e95b7d5a8e35707c8e6f10c1c90e095c9ec2ea3743"
+    checksum = "sha256:32355f7a4c05d3a1b298d978cd6b46e7816408b697504e69a6d48c7165a89796"
     cpe = "cpe:2.3:a:python:python:3.9.22:*:*:*:*:*:*:*"
     deprecation_date = "2025-10-31T00:00:00Z"
     id = "python"
@@ -88,12 +76,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.9.22/Python-3.9.22.tgz"
     source-checksum = "sha256:76f4daef4ffce6fd107280a0db8d108b1f896c1c22f09d8300efd90a69c4298b"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.9.22_linux_arm64_jammy_9b638ae0.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.9.22_linux_arm64_jammy_32355f7a.tgz"
     version = "3.9.22"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:e143f5f9200102f345ad2944c2548ebfa366c5447b8322a5041bbb0b43fdf3e4"
+    checksum = "sha256:7bda89b8ef4e8bfec0b81d0f8d3606b9199bc4136ff0c6483a281145a7ee0c5e"
     cpe = "cpe:2.3:a:python:python:3.9.22:*:*:*:*:*:*:*"
     deprecation_date = "2025-10-31T00:00:00Z"
     id = "python"
@@ -104,12 +92,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.9.22/Python-3.9.22.tgz"
     source-checksum = "sha256:76f4daef4ffce6fd107280a0db8d108b1f896c1c22f09d8300efd90a69c4298b"
     stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.9.22_linux_amd64_noble_e143f5f9.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.9.22_linux_amd64_noble_7bda89b8.tgz"
     version = "3.9.22"
 
   [[metadata.dependencies]]
     arch = "arm64"
-    checksum = "sha256:f80faef39af09376aefd61379d806c507ef9d4442762f33459062eef389969aa"
+    checksum = "sha256:417736040e7ae47524d7831a87d53f8e35af623b8d68b2bf09346fcd01f0e946"
     cpe = "cpe:2.3:a:python:python:3.9.22:*:*:*:*:*:*:*"
     deprecation_date = "2025-10-31T00:00:00Z"
     id = "python"
@@ -120,7 +108,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.9.22/Python-3.9.22.tgz"
     source-checksum = "sha256:76f4daef4ffce6fd107280a0db8d108b1f896c1c22f09d8300efd90a69c4298b"
     stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.9.22_linux_arm64_noble_f80faef3.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.9.22_linux_arm64_noble_41773604.tgz"
     version = "3.9.22"
 
   [[metadata.dependencies]]
@@ -157,7 +145,7 @@ api = "0.7"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:5cb00a3328a770bed31969e91c63af4f4d32a7a5c72a6a0b28fa6747006e56ff"
+    checksum = "sha256:10239d9181a6e4cd63a715e63710e6507cb45887cf57d7fe539a1bf8bb086131"
     cpe = "cpe:2.3:a:python:python:3.9.23:*:*:*:*:*:*:*"
     deprecation_date = "2025-10-31T00:00:00Z"
     id = "python"
@@ -168,12 +156,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.9.23/Python-3.9.23.tgz"
     source-checksum = "sha256:9a69aad184dc1d06f6819930741da3a328d34875a41f8ba33875774dbfc51b51"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.9.23_linux_amd64_jammy_5cb00a33.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.9.23_linux_amd64_jammy_10239d91.tgz"
     version = "3.9.23"
 
   [[metadata.dependencies]]
     arch = "arm64"
-    checksum = "sha256:96523b63a1079f8303ff5459c8fbe1c592833752a67e93656dbaf05a2f950cc1"
+    checksum = "sha256:b8c4621f613cdd8aac7f8027995b966a20f9352ff3d48753e0851134d0889950"
     cpe = "cpe:2.3:a:python:python:3.9.23:*:*:*:*:*:*:*"
     deprecation_date = "2025-10-31T00:00:00Z"
     id = "python"
@@ -184,12 +172,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.9.23/Python-3.9.23.tgz"
     source-checksum = "sha256:9a69aad184dc1d06f6819930741da3a328d34875a41f8ba33875774dbfc51b51"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.9.23_linux_arm64_jammy_96523b63.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.9.23_linux_arm64_jammy_b8c4621f.tgz"
     version = "3.9.23"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:c067138b441da0c8a493e663c210fa32e39cf25d4c7b44c493470ef7440ba80c"
+    checksum = "sha256:46b11d206d77874c203a6d61ced0e25a7750432ca449d641fcaf1bfddde26dec"
     cpe = "cpe:2.3:a:python:python:3.9.23:*:*:*:*:*:*:*"
     deprecation_date = "2025-10-31T00:00:00Z"
     id = "python"
@@ -200,12 +188,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.9.23/Python-3.9.23.tgz"
     source-checksum = "sha256:9a69aad184dc1d06f6819930741da3a328d34875a41f8ba33875774dbfc51b51"
     stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.9.23_linux_amd64_noble_c067138b.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.9.23_linux_amd64_noble_46b11d20.tgz"
     version = "3.9.23"
 
   [[metadata.dependencies]]
     arch = "arm64"
-    checksum = "sha256:5e87c7a73ef14f91492e8c495e794233681d7ed87c665d0497d8f4c7c5cccef1"
+    checksum = "sha256:54f05c30269e64570b244b45413001d278411150ec94d9c19cced56735b7bf16"
     cpe = "cpe:2.3:a:python:python:3.9.23:*:*:*:*:*:*:*"
     deprecation_date = "2025-10-31T00:00:00Z"
     id = "python"
@@ -216,7 +204,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.9.23/Python-3.9.23.tgz"
     source-checksum = "sha256:9a69aad184dc1d06f6819930741da3a328d34875a41f8ba33875774dbfc51b51"
     stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.9.23_linux_arm64_noble_5e87c7a7.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.9.23_linux_arm64_noble_54f05c30.tgz"
     version = "3.9.23"
 
   [[metadata.dependencies]]
@@ -253,7 +241,7 @@ api = "0.7"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:fc9b66b6fadb9c90bce05ddf9a1e61eb88d7c98e08e179f451b42463a6c116c2"
+    checksum = "sha256:58138f322ee6fa14a08201e65c9cb627459ed343b7c2b15d42ff4ee6eb4d0c1d"
     cpe = "cpe:2.3:a:python:python:3.10.17:*:*:*:*:*:*:*"
     deprecation_date = "2026-10-31T00:00:00Z"
     id = "python"
@@ -264,12 +252,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.10.17/Python-3.10.17.tgz"
     source-checksum = "sha256:8fcda0fbdc131859a4a4223abb925fd522a77e3fb3b52c46cea5f3bc2ae0cd9f"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.10.17_linux_amd64_jammy_fc9b66b6.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.10.17_linux_amd64_jammy_58138f32.tgz"
     version = "3.10.17"
 
   [[metadata.dependencies]]
     arch = "arm64"
-    checksum = "sha256:36e7a57ca5b61a76a335c5aacc3daabf3fff4851c99541197174f43033c613e5"
+    checksum = "sha256:c36daadd8b405ee7b543ecc570d99c2b1946c6769a8bb7960712a17520610d94"
     cpe = "cpe:2.3:a:python:python:3.10.17:*:*:*:*:*:*:*"
     deprecation_date = "2026-10-31T00:00:00Z"
     id = "python"
@@ -280,12 +268,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.10.17/Python-3.10.17.tgz"
     source-checksum = "sha256:8fcda0fbdc131859a4a4223abb925fd522a77e3fb3b52c46cea5f3bc2ae0cd9f"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.10.17_linux_arm64_jammy_36e7a57c.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.10.17_linux_arm64_jammy_c36daadd.tgz"
     version = "3.10.17"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:ca653f8f48adf4c3d187a5a7bcd6e14a0c938c1bd94fc48ad1cde3e35c8104a2"
+    checksum = "sha256:ff9279b330e7a97ff9131c84c656617589ae92d4ee6ecc948c0b392d88e86e24"
     cpe = "cpe:2.3:a:python:python:3.10.17:*:*:*:*:*:*:*"
     deprecation_date = "2026-10-31T00:00:00Z"
     id = "python"
@@ -296,12 +284,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.10.17/Python-3.10.17.tgz"
     source-checksum = "sha256:8fcda0fbdc131859a4a4223abb925fd522a77e3fb3b52c46cea5f3bc2ae0cd9f"
     stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.10.17_linux_amd64_noble_ca653f8f.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.10.17_linux_amd64_noble_ff9279b3.tgz"
     version = "3.10.17"
 
   [[metadata.dependencies]]
     arch = "arm64"
-    checksum = "sha256:68b209779131cd51aae2cd7dda9a4c0dafb10659a43631a8c08807a3f0717fd4"
+    checksum = "sha256:812280aa927bf7522c8f44643958b4266a754b3480721a61a158965d29fdb4bc"
     cpe = "cpe:2.3:a:python:python:3.10.17:*:*:*:*:*:*:*"
     deprecation_date = "2026-10-31T00:00:00Z"
     id = "python"
@@ -312,7 +300,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.10.17/Python-3.10.17.tgz"
     source-checksum = "sha256:8fcda0fbdc131859a4a4223abb925fd522a77e3fb3b52c46cea5f3bc2ae0cd9f"
     stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.10.17_linux_arm64_noble_68b20977.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.10.17_linux_arm64_noble_812280aa.tgz"
     version = "3.10.17"
 
   [[metadata.dependencies]]
@@ -349,7 +337,7 @@ api = "0.7"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:d2f7b4c76f1a10cfd369ca2be0d219e13c37f6f177cc6b8c3007ebca590dc211"
+    checksum = "sha256:793f7cb563a1218f6b0de0d4c3ec5d34e266fd7c9a1c59eb7960c4b91ff5b704"
     cpe = "cpe:2.3:a:python:python:3.10.18:*:*:*:*:*:*:*"
     deprecation_date = "2026-10-31T00:00:00Z"
     id = "python"
@@ -360,12 +348,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.10.18/Python-3.10.18.tgz"
     source-checksum = "sha256:1b19ab802518eb36a851f5ddef571862c7a31ece533109a99df6d5af0a1ceb99"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.10.18_linux_amd64_jammy_d2f7b4c7.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.10.18_linux_amd64_jammy_793f7cb5.tgz"
     version = "3.10.18"
 
   [[metadata.dependencies]]
     arch = "arm64"
-    checksum = "sha256:d64401ff4a7a04af2315e617bde0edebc6c1e0e39b9d8419f5357c4f4848bb77"
+    checksum = "sha256:97670df3d7000a67d39fbfc8d88c6e47a851c8243cc12c867b57f16fbaab1557"
     cpe = "cpe:2.3:a:python:python:3.10.18:*:*:*:*:*:*:*"
     deprecation_date = "2026-10-31T00:00:00Z"
     id = "python"
@@ -376,12 +364,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.10.18/Python-3.10.18.tgz"
     source-checksum = "sha256:1b19ab802518eb36a851f5ddef571862c7a31ece533109a99df6d5af0a1ceb99"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.10.18_linux_arm64_jammy_d64401ff.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.10.18_linux_arm64_jammy_97670df3.tgz"
     version = "3.10.18"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:322c92b723090f4b622db792fb0dbcdca1efaf64281a41729350718459ea24e9"
+    checksum = "sha256:bbbff3243b10a05eb66bbba80cca67764b460f80775bab4e02de3838b8ed40eb"
     cpe = "cpe:2.3:a:python:python:3.10.18:*:*:*:*:*:*:*"
     deprecation_date = "2026-10-31T00:00:00Z"
     id = "python"
@@ -392,12 +380,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.10.18/Python-3.10.18.tgz"
     source-checksum = "sha256:1b19ab802518eb36a851f5ddef571862c7a31ece533109a99df6d5af0a1ceb99"
     stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.10.18_linux_amd64_noble_322c92b7.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.10.18_linux_amd64_noble_bbbff324.tgz"
     version = "3.10.18"
 
   [[metadata.dependencies]]
     arch = "arm64"
-    checksum = "sha256:1b0746eaa612e225729a8406e8438517b5910c675fd224f504b8394500d60d66"
+    checksum = "sha256:5c3f2217aa5a8d905257f069bd648f790d6f367d335e729c6d824c6bdc6b9ed7"
     cpe = "cpe:2.3:a:python:python:3.10.18:*:*:*:*:*:*:*"
     deprecation_date = "2026-10-31T00:00:00Z"
     id = "python"
@@ -408,7 +396,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.10.18/Python-3.10.18.tgz"
     source-checksum = "sha256:1b19ab802518eb36a851f5ddef571862c7a31ece533109a99df6d5af0a1ceb99"
     stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.10.18_linux_arm64_noble_1b0746ea.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.10.18_linux_arm64_noble_5c3f2217.tgz"
     version = "3.10.18"
 
   [[metadata.dependencies]]
@@ -445,7 +433,7 @@ api = "0.7"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:af76b1eb7652015e4f9bf636693bc49314e2127c927185cc7333157a87b0f18b"
+    checksum = "sha256:56cb55dba00ab585fafea345d5d6226cfbd14cf1e9951dc616a03d84e22d8191"
     cpe = "cpe:2.3:a:python:python:3.11.12:*:*:*:*:*:*:*"
     deprecation_date = "2027-10-31T00:00:00Z"
     id = "python"
@@ -456,12 +444,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.11.12/Python-3.11.12.tgz"
     source-checksum = "sha256:379c9929a989a9d65a1f5d854e011f4872b142259f4fc0a8c4062d2815ed7fba"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.11.12_linux_amd64_jammy_af76b1eb.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.11.12_linux_amd64_jammy_56cb55db.tgz"
     version = "3.11.12"
 
   [[metadata.dependencies]]
     arch = "arm64"
-    checksum = "sha256:0d828eae9cb459600b4445c7c951ebce0ea22dcf8c512a012fec55c40eb66737"
+    checksum = "sha256:c0bf7f89b1398690e5772e2afb2654db56d18803559a63080783cb5ed727b941"
     cpe = "cpe:2.3:a:python:python:3.11.12:*:*:*:*:*:*:*"
     deprecation_date = "2027-10-31T00:00:00Z"
     id = "python"
@@ -472,12 +460,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.11.12/Python-3.11.12.tgz"
     source-checksum = "sha256:379c9929a989a9d65a1f5d854e011f4872b142259f4fc0a8c4062d2815ed7fba"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.11.12_linux_arm64_jammy_0d828eae.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.11.12_linux_arm64_jammy_c0bf7f89.tgz"
     version = "3.11.12"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:ec535781780a751f4b9ae7c9b159e93c52919b63947f0e09feed5c786f75cca9"
+    checksum = "sha256:05edbd5d562bd569343c4fee9da6f6ced059d3ae6ed1c1568370a7e5d80969da"
     cpe = "cpe:2.3:a:python:python:3.11.12:*:*:*:*:*:*:*"
     deprecation_date = "2027-10-31T00:00:00Z"
     id = "python"
@@ -488,12 +476,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.11.12/Python-3.11.12.tgz"
     source-checksum = "sha256:379c9929a989a9d65a1f5d854e011f4872b142259f4fc0a8c4062d2815ed7fba"
     stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.11.12_linux_amd64_noble_ec535781.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.11.12_linux_amd64_noble_05edbd5d.tgz"
     version = "3.11.12"
 
   [[metadata.dependencies]]
     arch = "arm64"
-    checksum = "sha256:388ac3784f71c90986b97558b627a0b481f05f7ed4771b3695eaab3808f37c98"
+    checksum = "sha256:b53707e3a7d0287eb54112363993adabc06145611b5b986ae0384c715d755144"
     cpe = "cpe:2.3:a:python:python:3.11.12:*:*:*:*:*:*:*"
     deprecation_date = "2027-10-31T00:00:00Z"
     id = "python"
@@ -504,7 +492,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.11.12/Python-3.11.12.tgz"
     source-checksum = "sha256:379c9929a989a9d65a1f5d854e011f4872b142259f4fc0a8c4062d2815ed7fba"
     stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.11.12_linux_arm64_noble_388ac378.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.11.12_linux_arm64_noble_b53707e3.tgz"
     version = "3.11.12"
 
   [[metadata.dependencies]]
@@ -541,7 +529,7 @@ api = "0.7"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:4656d8ec5b7d1c2020664c91e3013509ac55ac5191e5acef793a52f9b2de9310"
+    checksum = "sha256:8f5976ac165c7728faa7c8abfc9cd8a562b44d1963eb9eaaf65aaeb6a41bb25d"
     cpe = "cpe:2.3:a:python:python:3.11.13:*:*:*:*:*:*:*"
     deprecation_date = "2027-10-31T00:00:00Z"
     id = "python"
@@ -552,12 +540,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.11.13/Python-3.11.13.tgz"
     source-checksum = "sha256:0f1a22f4dfd34595a29cf69ee7ea73b9eff8b1cc89d7ab29b3ab0ec04179dad8"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.11.13_linux_amd64_jammy_4656d8ec.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.11.13_linux_amd64_jammy_8f5976ac.tgz"
     version = "3.11.13"
 
   [[metadata.dependencies]]
     arch = "arm64"
-    checksum = "sha256:1c8dd7601156a2feef84a8c427c9f7883050de248cd70e61f058f96251cec100"
+    checksum = "sha256:c442e52c93cb9a5de778e5d7c3415e15d03e47b18fb703653e86739c47e81f74"
     cpe = "cpe:2.3:a:python:python:3.11.13:*:*:*:*:*:*:*"
     deprecation_date = "2027-10-31T00:00:00Z"
     id = "python"
@@ -568,12 +556,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.11.13/Python-3.11.13.tgz"
     source-checksum = "sha256:0f1a22f4dfd34595a29cf69ee7ea73b9eff8b1cc89d7ab29b3ab0ec04179dad8"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.11.13_linux_arm64_jammy_1c8dd760.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.11.13_linux_arm64_jammy_c442e52c.tgz"
     version = "3.11.13"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:f84d690f053378bdc9a80fa9411c36ff533b31688823282b1692fff126386e20"
+    checksum = "sha256:198b9a4c792f6482b320d114b01364ed555efebf783ae3a75803121b6a076e0a"
     cpe = "cpe:2.3:a:python:python:3.11.13:*:*:*:*:*:*:*"
     deprecation_date = "2027-10-31T00:00:00Z"
     id = "python"
@@ -584,12 +572,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.11.13/Python-3.11.13.tgz"
     source-checksum = "sha256:0f1a22f4dfd34595a29cf69ee7ea73b9eff8b1cc89d7ab29b3ab0ec04179dad8"
     stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.11.13_linux_amd64_noble_f84d690f.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.11.13_linux_amd64_noble_198b9a4c.tgz"
     version = "3.11.13"
 
   [[metadata.dependencies]]
     arch = "arm64"
-    checksum = "sha256:3d3c7445884a92bc77444cb6528ba1067086c64e7dd3712495a730af50536c97"
+    checksum = "sha256:f812985b3e93e0da50872434d15ecac82caf89548e99a29194833e5315d24bc1"
     cpe = "cpe:2.3:a:python:python:3.11.13:*:*:*:*:*:*:*"
     deprecation_date = "2027-10-31T00:00:00Z"
     id = "python"
@@ -600,7 +588,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.11.13/Python-3.11.13.tgz"
     source-checksum = "sha256:0f1a22f4dfd34595a29cf69ee7ea73b9eff8b1cc89d7ab29b3ab0ec04179dad8"
     stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.11.13_linux_arm64_noble_3d3c7445.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.11.13_linux_arm64_noble_f812985b.tgz"
     version = "3.11.13"
 
   [[metadata.dependencies]]
@@ -637,7 +625,7 @@ api = "0.7"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:690e58a0045f295005632c4a7802aab0859eeb30a4971c616cf2d4eb6d2704d8"
+    checksum = "sha256:1fc38fd4dc0daec2cc9494ac6bb96005c941f292f2b2aa903cca16f6932f625b"
     cpe = "cpe:2.3:a:python:python:3.12.10:*:*:*:*:*:*:*"
     deprecation_date = "2028-10-31T00:00:00Z"
     id = "python"
@@ -648,12 +636,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.12.10/Python-3.12.10.tgz"
     source-checksum = "sha256:15d9c623abfd2165fe816ea1fb385d6ed8cf3c664661ab357f1782e3036a6dac"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.12.10_linux_amd64_jammy_690e58a0.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.12.10_linux_amd64_jammy_1fc38fd4.tgz"
     version = "3.12.10"
 
   [[metadata.dependencies]]
     arch = "arm64"
-    checksum = "sha256:9903311321c4cfe39910cd0f4013288abe470ff18cd1ac218fff372787049f04"
+    checksum = "sha256:8bb2529afa4ee10f5eeb93877d92a82ff11315293a5a5c9f491e8bd9b85ce15a"
     cpe = "cpe:2.3:a:python:python:3.12.10:*:*:*:*:*:*:*"
     deprecation_date = "2028-10-31T00:00:00Z"
     id = "python"
@@ -664,12 +652,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.12.10/Python-3.12.10.tgz"
     source-checksum = "sha256:15d9c623abfd2165fe816ea1fb385d6ed8cf3c664661ab357f1782e3036a6dac"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.12.10_linux_arm64_jammy_99033113.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.12.10_linux_arm64_jammy_8bb2529a.tgz"
     version = "3.12.10"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:1cec2adf52f7f4cb86847ef57b77a25eb6e3b19779bc96975c7be022037cb53c"
+    checksum = "sha256:8493eb62d6bdd5dbe0552b3c9c53176ae25622848584b4511a95d85a6dac236d"
     cpe = "cpe:2.3:a:python:python:3.12.10:*:*:*:*:*:*:*"
     deprecation_date = "2028-10-31T00:00:00Z"
     id = "python"
@@ -680,12 +668,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.12.10/Python-3.12.10.tgz"
     source-checksum = "sha256:15d9c623abfd2165fe816ea1fb385d6ed8cf3c664661ab357f1782e3036a6dac"
     stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.12.10_linux_amd64_noble_1cec2adf.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.12.10_linux_amd64_noble_8493eb62.tgz"
     version = "3.12.10"
 
   [[metadata.dependencies]]
     arch = "arm64"
-    checksum = "sha256:dcc35a8565a717773c18a840e91f5cd25fd9489cb12534dbc05a117bc3314bd2"
+    checksum = "sha256:388424de627589162559116c80afdea76601695b2d69f56fed1ce0803b1104c8"
     cpe = "cpe:2.3:a:python:python:3.12.10:*:*:*:*:*:*:*"
     deprecation_date = "2028-10-31T00:00:00Z"
     id = "python"
@@ -696,7 +684,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.12.10/Python-3.12.10.tgz"
     source-checksum = "sha256:15d9c623abfd2165fe816ea1fb385d6ed8cf3c664661ab357f1782e3036a6dac"
     stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.12.10_linux_arm64_noble_dcc35a85.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.12.10_linux_arm64_noble_388424de.tgz"
     version = "3.12.10"
 
   [[metadata.dependencies]]
@@ -733,7 +721,7 @@ api = "0.7"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:9f16be3435c58d2bf85b2e928941c9102a9abc31ddc5829044ebf9e1fcd7c156"
+    checksum = "sha256:10d2135c5c5d25d239d14afd80812c57aaefe41d46055db7b609eaf110d9df61"
     cpe = "cpe:2.3:a:python:python:3.12.11:*:*:*:*:*:*:*"
     deprecation_date = "2028-10-31T00:00:00Z"
     id = "python"
@@ -744,12 +732,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.12.11/Python-3.12.11.tgz"
     source-checksum = "sha256:7b8d59af8216044d2313de8120bfc2cc00a9bd2e542f15795e1d616c51faf3d6"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.12.11_linux_amd64_jammy_9f16be34.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.12.11_linux_amd64_jammy_10d2135c.tgz"
     version = "3.12.11"
 
   [[metadata.dependencies]]
     arch = "arm64"
-    checksum = "sha256:f4f34741d9028dff9cf275246bc00ff576f756f77a5a7960af74a464cbed0a2e"
+    checksum = "sha256:00691f774b3400335dc20f1fb881ad3dd8eff9176990118cf502922605480333"
     cpe = "cpe:2.3:a:python:python:3.12.11:*:*:*:*:*:*:*"
     deprecation_date = "2028-10-31T00:00:00Z"
     id = "python"
@@ -760,12 +748,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.12.11/Python-3.12.11.tgz"
     source-checksum = "sha256:7b8d59af8216044d2313de8120bfc2cc00a9bd2e542f15795e1d616c51faf3d6"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.12.11_linux_arm64_jammy_f4f34741.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.12.11_linux_arm64_jammy_00691f77.tgz"
     version = "3.12.11"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:74a9891ef9d8cb9d23890a29945b1bce66eed743235fa892e525aa0a603a9035"
+    checksum = "sha256:429bd972db43575d9a3a99440113a9d2c66c3ee0b0cfb8f590417663e671d3b1"
     cpe = "cpe:2.3:a:python:python:3.12.11:*:*:*:*:*:*:*"
     deprecation_date = "2028-10-31T00:00:00Z"
     id = "python"
@@ -776,12 +764,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.12.11/Python-3.12.11.tgz"
     source-checksum = "sha256:7b8d59af8216044d2313de8120bfc2cc00a9bd2e542f15795e1d616c51faf3d6"
     stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.12.11_linux_amd64_noble_74a9891e.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.12.11_linux_amd64_noble_429bd972.tgz"
     version = "3.12.11"
 
   [[metadata.dependencies]]
     arch = "arm64"
-    checksum = "sha256:5d12ae2c47862289c132b90b6e634ef98ce421439123983e9fbe613ca99f1f09"
+    checksum = "sha256:73beba97a60c30d25786d7e49f3c5a1949dc36fa3ff942e2fd410c5450308f23"
     cpe = "cpe:2.3:a:python:python:3.12.11:*:*:*:*:*:*:*"
     deprecation_date = "2028-10-31T00:00:00Z"
     id = "python"
@@ -792,7 +780,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.12.11/Python-3.12.11.tgz"
     source-checksum = "sha256:7b8d59af8216044d2313de8120bfc2cc00a9bd2e542f15795e1d616c51faf3d6"
     stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.12.11_linux_arm64_noble_5d12ae2c.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.12.11_linux_arm64_noble_73beba97.tgz"
     version = "3.12.11"
 
   [[metadata.dependencies]]
@@ -829,7 +817,7 @@ api = "0.7"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:c23d9ed516506053c5311d15c3225e7f6ca32027440cba91387c0384c5a81edf"
+    checksum = "sha256:07c6843ae887afba85abedb3fca5287effbc83e276a2284ca1f6f9d0f9451bba"
     cpe = "cpe:2.3:a:python:python:3.13.6:*:*:*:*:*:*:*"
     deprecation_date = "2029-10-31T00:00:00Z"
     id = "python"
@@ -840,12 +828,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.13.6/Python-3.13.6.tgz"
     source-checksum = "sha256:6cf50672cc03928488817d45af24bc927a48f910fe7893d6f388130e59ba98d7"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.13.6_linux_amd64_jammy_c23d9ed5.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.13.6_linux_amd64_jammy_07c6843a.tgz"
     version = "3.13.6"
 
   [[metadata.dependencies]]
     arch = "arm64"
-    checksum = "sha256:233b140ef5125072019e0ab6542fa08973812a04fe5112c83d9f2767f7783c74"
+    checksum = "sha256:aedd3003ef2109a77635ba80215067f1502b5662f90f0db459db8a1316c6944f"
     cpe = "cpe:2.3:a:python:python:3.13.6:*:*:*:*:*:*:*"
     deprecation_date = "2029-10-31T00:00:00Z"
     id = "python"
@@ -856,12 +844,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.13.6/Python-3.13.6.tgz"
     source-checksum = "sha256:6cf50672cc03928488817d45af24bc927a48f910fe7893d6f388130e59ba98d7"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.13.6_linux_arm64_jammy_233b140e.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.13.6_linux_arm64_jammy_aedd3003.tgz"
     version = "3.13.6"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:2f21938fb61489fce12276cd70389f74efcbf6c74c9fee623315ad89f0e3fde8"
+    checksum = "sha256:ba4472471681ae43b0b97136452bc9944050fe6da7d872962b93ee8bcfa86608"
     cpe = "cpe:2.3:a:python:python:3.13.6:*:*:*:*:*:*:*"
     deprecation_date = "2029-10-31T00:00:00Z"
     id = "python"
@@ -872,12 +860,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.13.6/Python-3.13.6.tgz"
     source-checksum = "sha256:6cf50672cc03928488817d45af24bc927a48f910fe7893d6f388130e59ba98d7"
     stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.13.6_linux_amd64_noble_2f21938f.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.13.6_linux_amd64_noble_ba447247.tgz"
     version = "3.13.6"
 
   [[metadata.dependencies]]
     arch = "arm64"
-    checksum = "sha256:601e0af3c391e500da268fd76bcc1cfd5ac7edc64bff7bbd1540563a041da1a2"
+    checksum = "sha256:b11392af64cdcac6356c8c5383eae96cb88cd2e8e05c263a43a4e00e23050770"
     cpe = "cpe:2.3:a:python:python:3.13.6:*:*:*:*:*:*:*"
     deprecation_date = "2029-10-31T00:00:00Z"
     id = "python"
@@ -888,7 +876,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.13.6/Python-3.13.6.tgz"
     source-checksum = "sha256:6cf50672cc03928488817d45af24bc927a48f910fe7893d6f388130e59ba98d7"
     stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.13.6_linux_arm64_noble_601e0af3.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.13.6_linux_arm64_noble_b11392af.tgz"
     version = "3.13.6"
 
   [[metadata.dependencies]]
@@ -925,7 +913,7 @@ api = "0.7"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:1e522cfe3734f432173c406bbc7c46350321502c05621a0b650d8a87bb03f1cf"
+    checksum = "sha256:d8ef96f92c6a690b87b3ea261eb8c75a8f1d58c4acbba3bb899822a54c100c6f"
     cpe = "cpe:2.3:a:python:python:3.13.7:*:*:*:*:*:*:*"
     deprecation_date = "2029-10-31T00:00:00Z"
     id = "python"
@@ -936,12 +924,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.13.7/Python-3.13.7.tgz"
     source-checksum = "sha256:6c9d80839cfa20024f34d9a6dd31ae2a9cd97ff5e980e969209746037a5153b2"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.13.7_linux_amd64_jammy_1e522cfe.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.13.7_linux_amd64_jammy_d8ef96f9.tgz"
     version = "3.13.7"
 
   [[metadata.dependencies]]
     arch = "arm64"
-    checksum = "sha256:05d5eb91d4564299e136bdfcb1e96c4b7a81ed0ec6375fe23bd5b1c1ab43740f"
+    checksum = "sha256:1b144092f7afd4a8ce9f308311b3c970c5e68ce682db3891670da37420a2bbe8"
     cpe = "cpe:2.3:a:python:python:3.13.7:*:*:*:*:*:*:*"
     deprecation_date = "2029-10-31T00:00:00Z"
     id = "python"
@@ -952,12 +940,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.13.7/Python-3.13.7.tgz"
     source-checksum = "sha256:6c9d80839cfa20024f34d9a6dd31ae2a9cd97ff5e980e969209746037a5153b2"
     stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.13.7_linux_arm64_jammy_05d5eb91.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.13.7_linux_arm64_jammy_1b144092.tgz"
     version = "3.13.7"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:26a14cdf63cbe3c626d459435b41cd4435c2c72654f4d69d6ae76af2665a0db0"
+    checksum = "sha256:72b47693a28f810a1e7c4bfca433381dd068776419d78bd04fd388eb4161f1d3"
     cpe = "cpe:2.3:a:python:python:3.13.7:*:*:*:*:*:*:*"
     deprecation_date = "2029-10-31T00:00:00Z"
     id = "python"
@@ -968,12 +956,12 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.13.7/Python-3.13.7.tgz"
     source-checksum = "sha256:6c9d80839cfa20024f34d9a6dd31ae2a9cd97ff5e980e969209746037a5153b2"
     stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.13.7_linux_amd64_noble_26a14cdf.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.13.7_linux_amd64_noble_72b47693.tgz"
     version = "3.13.7"
 
   [[metadata.dependencies]]
     arch = "arm64"
-    checksum = "sha256:1b008ba32509ca0333b98e469cdb5df4593c7b846de96a9d72d5806cb7a799fc"
+    checksum = "sha256:b3af0171b1f24e2c1846ab7fec0ab4beeb5ecb5a198450b71431274bce974621"
     cpe = "cpe:2.3:a:python:python:3.13.7:*:*:*:*:*:*:*"
     deprecation_date = "2029-10-31T00:00:00Z"
     id = "python"
@@ -984,7 +972,7 @@ api = "0.7"
     source = "https://www.python.org/ftp/python/3.13.7/Python-3.13.7.tgz"
     source-checksum = "sha256:6c9d80839cfa20024f34d9a6dd31ae2a9cd97ff5e980e969209746037a5153b2"
     stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.13.7_linux_arm64_noble_1b008ba3.tgz"
+    uri = "https://artifacts.paketo.io/python/python_3.13.7_linux_arm64_noble_b3af0171.tgz"
     version = "3.13.7"
 
   [[metadata.dependency-constraints]]
