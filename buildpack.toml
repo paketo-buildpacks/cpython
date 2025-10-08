@@ -999,6 +999,11 @@ api = "0.7"
     constraint = "3.13.*"
     id = "python"
     patches = 2
+  
+  [[metadata.dependency-constraints]]
+    constraint = "3.14.*"
+    id = "python"
+    patches = 2
 
 [[stacks]]
   id = "*"
