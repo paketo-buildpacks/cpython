@@ -13,7 +13,7 @@ api = "0.7"
   include-files = ["buildpack.toml", "linux/amd64/bin/build", "linux/amd64/bin/detect", "linux/amd64/bin/env", "linux/amd64/bin/run", "linux/arm64/bin/build", "linux/arm64/bin/detect", "linux/arm64/bin/env", "linux/arm64/bin/run"]
   pre-package = "./scripts/build.sh --target linux/amd64 --target linux/arm64"
   [metadata.default-versions]
-    python = "3.10.x"
+    python = "3.11.x"
 
   [[metadata.dependencies]]
     arch = "amd64"
