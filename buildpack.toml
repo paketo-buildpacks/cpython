@@ -976,11 +976,6 @@ api = "0.7"
     version = "3.13.9"
 
   [[metadata.dependency-constraints]]
-    constraint = "3.9.*"
-    id = "python"
-    patches = 2
-
-  [[metadata.dependency-constraints]]
     constraint = "3.10.*"
     id = "python"
     patches = 2
