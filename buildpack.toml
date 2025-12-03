@@ -593,102 +593,6 @@ api = "0.7"
 
   [[metadata.dependencies]]
     arch = "amd64"
-    checksum = "sha256:06108fe96f4089b7d9e0096cb4ca9c81ddcd5135f779a7de94cf59abcaa4b53f"
-    cpe = "cpe:2.3:a:python:python:3.13.8:*:*:*:*:*:*:*"
-    deprecation_date = "2029-10-31T00:00:00Z"
-    id = "python"
-    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
-    name = "Python"
-    os = "linux"
-    purl = "pkg:generic/python@3.13.8?checksum=06108fe96f4089b7d9e0096cb4ca9c81ddcd5135f779a7de94cf59abcaa4b53f&download_url=https://www.python.org/ftp/python/3.13.8/Python-3.13.8.tgz"
-    source = "https://www.python.org/ftp/python/3.13.8/Python-3.13.8.tgz"
-    source-checksum = "sha256:06108fe96f4089b7d9e0096cb4ca9c81ddcd5135f779a7de94cf59abcaa4b53f"
-    stacks = ["*"]
-    uri = "https://www.python.org/ftp/python/3.13.8/Python-3.13.8.tgz"
-    version = "3.13.8"
-
-  [[metadata.dependencies]]
-    arch = "arm64"
-    checksum = "sha256:06108fe96f4089b7d9e0096cb4ca9c81ddcd5135f779a7de94cf59abcaa4b53f"
-    cpe = "cpe:2.3:a:python:python:3.13.8:*:*:*:*:*:*:*"
-    deprecation_date = "2029-10-31T00:00:00Z"
-    id = "python"
-    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
-    name = "Python"
-    os = "linux"
-    purl = "pkg:generic/python@3.13.8?checksum=06108fe96f4089b7d9e0096cb4ca9c81ddcd5135f779a7de94cf59abcaa4b53f&download_url=https://www.python.org/ftp/python/3.13.8/Python-3.13.8.tgz"
-    source = "https://www.python.org/ftp/python/3.13.8/Python-3.13.8.tgz"
-    source-checksum = "sha256:06108fe96f4089b7d9e0096cb4ca9c81ddcd5135f779a7de94cf59abcaa4b53f"
-    stacks = ["*"]
-    uri = "https://www.python.org/ftp/python/3.13.8/Python-3.13.8.tgz"
-    version = "3.13.8"
-
-  [[metadata.dependencies]]
-    arch = "amd64"
-    checksum = "sha256:ba7e9c23f01d43d055c456bc8f85862456a7721684a7d6c1936cf3725b4d40a0"
-    cpe = "cpe:2.3:a:python:python:3.13.8:*:*:*:*:*:*:*"
-    deprecation_date = "2029-10-31T00:00:00Z"
-    id = "python"
-    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
-    name = "Python"
-    os = "linux"
-    purl = "pkg:generic/python@3.13.8?checksum=06108fe96f4089b7d9e0096cb4ca9c81ddcd5135f779a7de94cf59abcaa4b53f&download_url=https://www.python.org/ftp/python/3.13.8/Python-3.13.8.tgz"
-    source = "https://www.python.org/ftp/python/3.13.8/Python-3.13.8.tgz"
-    source-checksum = "sha256:06108fe96f4089b7d9e0096cb4ca9c81ddcd5135f779a7de94cf59abcaa4b53f"
-    stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.13.8_linux_amd64_jammy_ba7e9c23.tgz"
-    version = "3.13.8"
-
-  [[metadata.dependencies]]
-    arch = "arm64"
-    checksum = "sha256:ff00f013651dd22a3356ce8ea03757a5aeeee25c80120728ab7e3e6384324ff4"
-    cpe = "cpe:2.3:a:python:python:3.13.8:*:*:*:*:*:*:*"
-    deprecation_date = "2029-10-31T00:00:00Z"
-    id = "python"
-    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
-    name = "Python"
-    os = "linux"
-    purl = "pkg:generic/python@3.13.8?checksum=06108fe96f4089b7d9e0096cb4ca9c81ddcd5135f779a7de94cf59abcaa4b53f&download_url=https://www.python.org/ftp/python/3.13.8/Python-3.13.8.tgz"
-    source = "https://www.python.org/ftp/python/3.13.8/Python-3.13.8.tgz"
-    source-checksum = "sha256:06108fe96f4089b7d9e0096cb4ca9c81ddcd5135f779a7de94cf59abcaa4b53f"
-    stacks = ["io.buildpacks.stacks.jammy"]
-    uri = "https://artifacts.paketo.io/python/python_3.13.8_linux_arm64_jammy_ff00f013.tgz"
-    version = "3.13.8"
-
-  [[metadata.dependencies]]
-    arch = "amd64"
-    checksum = "sha256:ea33ceee00e7e39e3bd5d235c9d82a40065bb2e78d0d7c04abf36e92faaf7fc1"
-    cpe = "cpe:2.3:a:python:python:3.13.8:*:*:*:*:*:*:*"
-    deprecation_date = "2029-10-31T00:00:00Z"
-    id = "python"
-    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
-    name = "Python"
-    os = "linux"
-    purl = "pkg:generic/python@3.13.8?checksum=06108fe96f4089b7d9e0096cb4ca9c81ddcd5135f779a7de94cf59abcaa4b53f&download_url=https://www.python.org/ftp/python/3.13.8/Python-3.13.8.tgz"
-    source = "https://www.python.org/ftp/python/3.13.8/Python-3.13.8.tgz"
-    source-checksum = "sha256:06108fe96f4089b7d9e0096cb4ca9c81ddcd5135f779a7de94cf59abcaa4b53f"
-    stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.13.8_linux_amd64_noble_ea33ceee.tgz"
-    version = "3.13.8"
-
-  [[metadata.dependencies]]
-    arch = "arm64"
-    checksum = "sha256:2375a35838bdf7d3e35812ca307219eec23fd3de292926f6eb1a2c8f0ae616eb"
-    cpe = "cpe:2.3:a:python:python:3.13.8:*:*:*:*:*:*:*"
-    deprecation_date = "2029-10-31T00:00:00Z"
-    id = "python"
-    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
-    name = "Python"
-    os = "linux"
-    purl = "pkg:generic/python@3.13.8?checksum=06108fe96f4089b7d9e0096cb4ca9c81ddcd5135f779a7de94cf59abcaa4b53f&download_url=https://www.python.org/ftp/python/3.13.8/Python-3.13.8.tgz"
-    source = "https://www.python.org/ftp/python/3.13.8/Python-3.13.8.tgz"
-    source-checksum = "sha256:06108fe96f4089b7d9e0096cb4ca9c81ddcd5135f779a7de94cf59abcaa4b53f"
-    stacks = ["io.buildpacks.stacks.noble"]
-    uri = "https://artifacts.paketo.io/python/python_3.13.8_linux_arm64_noble_2375a358.tgz"
-    version = "3.13.8"
-
-  [[metadata.dependencies]]
-    arch = "amd64"
     checksum = "sha256:c4c066af19c98fb7835d473bebd7e23be84f6e9874d47db9e39a68ee5d0ce35c"
     cpe = "cpe:2.3:a:python:python:3.13.9:*:*:*:*:*:*:*"
     deprecation_date = "2029-10-31T00:00:00Z"
@@ -785,6 +689,102 @@ api = "0.7"
 
   [[metadata.dependencies]]
     arch = "amd64"
+    checksum = "sha256:de5930852e95ba8c17b56548e04648470356ac47f7506014664f8f510d7bd61b"
+    cpe = "cpe:2.3:a:python:python:3.13.10:*:*:*:*:*:*:*"
+    deprecation_date = "2029-10-31T00:00:00Z"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    os = "linux"
+    purl = "pkg:generic/python@3.13.10?checksum=de5930852e95ba8c17b56548e04648470356ac47f7506014664f8f510d7bd61b&download_url=https://www.python.org/ftp/python/3.13.10/Python-3.13.10.tgz"
+    source = "https://www.python.org/ftp/python/3.13.10/Python-3.13.10.tgz"
+    source-checksum = "sha256:de5930852e95ba8c17b56548e04648470356ac47f7506014664f8f510d7bd61b"
+    stacks = ["*"]
+    uri = "https://www.python.org/ftp/python/3.13.10/Python-3.13.10.tgz"
+    version = "3.13.10"
+
+  [[metadata.dependencies]]
+    arch = "arm64"
+    checksum = "sha256:de5930852e95ba8c17b56548e04648470356ac47f7506014664f8f510d7bd61b"
+    cpe = "cpe:2.3:a:python:python:3.13.10:*:*:*:*:*:*:*"
+    deprecation_date = "2029-10-31T00:00:00Z"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    os = "linux"
+    purl = "pkg:generic/python@3.13.10?checksum=de5930852e95ba8c17b56548e04648470356ac47f7506014664f8f510d7bd61b&download_url=https://www.python.org/ftp/python/3.13.10/Python-3.13.10.tgz"
+    source = "https://www.python.org/ftp/python/3.13.10/Python-3.13.10.tgz"
+    source-checksum = "sha256:de5930852e95ba8c17b56548e04648470356ac47f7506014664f8f510d7bd61b"
+    stacks = ["*"]
+    uri = "https://www.python.org/ftp/python/3.13.10/Python-3.13.10.tgz"
+    version = "3.13.10"
+
+  [[metadata.dependencies]]
+    arch = "amd64"
+    checksum = "sha256:859731ad29e40cf633a49eb43398865419c66a1659fe67d69932d6bc457f468c"
+    cpe = "cpe:2.3:a:python:python:3.13.10:*:*:*:*:*:*:*"
+    deprecation_date = "2029-10-31T00:00:00Z"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    os = "linux"
+    purl = "pkg:generic/python@3.13.10?checksum=de5930852e95ba8c17b56548e04648470356ac47f7506014664f8f510d7bd61b&download_url=https://www.python.org/ftp/python/3.13.10/Python-3.13.10.tgz"
+    source = "https://www.python.org/ftp/python/3.13.10/Python-3.13.10.tgz"
+    source-checksum = "sha256:de5930852e95ba8c17b56548e04648470356ac47f7506014664f8f510d7bd61b"
+    stacks = ["io.buildpacks.stacks.jammy"]
+    uri = "https://artifacts.paketo.io/python/python_3.13.10_linux_amd64_jammy_859731ad.tgz"
+    version = "3.13.10"
+
+  [[metadata.dependencies]]
+    arch = "arm64"
+    checksum = "sha256:c55da4224535d3c6f8c552cabeed205525c3a0fb06fa8b4d6aef0d210191b272"
+    cpe = "cpe:2.3:a:python:python:3.13.10:*:*:*:*:*:*:*"
+    deprecation_date = "2029-10-31T00:00:00Z"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    os = "linux"
+    purl = "pkg:generic/python@3.13.10?checksum=de5930852e95ba8c17b56548e04648470356ac47f7506014664f8f510d7bd61b&download_url=https://www.python.org/ftp/python/3.13.10/Python-3.13.10.tgz"
+    source = "https://www.python.org/ftp/python/3.13.10/Python-3.13.10.tgz"
+    source-checksum = "sha256:de5930852e95ba8c17b56548e04648470356ac47f7506014664f8f510d7bd61b"
+    stacks = ["io.buildpacks.stacks.jammy"]
+    uri = "https://artifacts.paketo.io/python/python_3.13.10_linux_arm64_jammy_c55da422.tgz"
+    version = "3.13.10"
+
+  [[metadata.dependencies]]
+    arch = "amd64"
+    checksum = "sha256:68cfd8d9e003c1c544b5d4cae8576cc24312eb9458321491046639f0e9562002"
+    cpe = "cpe:2.3:a:python:python:3.13.10:*:*:*:*:*:*:*"
+    deprecation_date = "2029-10-31T00:00:00Z"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    os = "linux"
+    purl = "pkg:generic/python@3.13.10?checksum=de5930852e95ba8c17b56548e04648470356ac47f7506014664f8f510d7bd61b&download_url=https://www.python.org/ftp/python/3.13.10/Python-3.13.10.tgz"
+    source = "https://www.python.org/ftp/python/3.13.10/Python-3.13.10.tgz"
+    source-checksum = "sha256:de5930852e95ba8c17b56548e04648470356ac47f7506014664f8f510d7bd61b"
+    stacks = ["io.buildpacks.stacks.noble"]
+    uri = "https://artifacts.paketo.io/python/python_3.13.10_linux_amd64_noble_68cfd8d9.tgz"
+    version = "3.13.10"
+
+  [[metadata.dependencies]]
+    arch = "arm64"
+    checksum = "sha256:6f2349e6285687a1636d04c08f72423602846b1ce921a6a6a70d8b7c6d66e23c"
+    cpe = "cpe:2.3:a:python:python:3.13.10:*:*:*:*:*:*:*"
+    deprecation_date = "2029-10-31T00:00:00Z"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    os = "linux"
+    purl = "pkg:generic/python@3.13.10?checksum=de5930852e95ba8c17b56548e04648470356ac47f7506014664f8f510d7bd61b&download_url=https://www.python.org/ftp/python/3.13.10/Python-3.13.10.tgz"
+    source = "https://www.python.org/ftp/python/3.13.10/Python-3.13.10.tgz"
+    source-checksum = "sha256:de5930852e95ba8c17b56548e04648470356ac47f7506014664f8f510d7bd61b"
+    stacks = ["io.buildpacks.stacks.noble"]
+    uri = "https://artifacts.paketo.io/python/python_3.13.10_linux_arm64_noble_6f2349e6.tgz"
+    version = "3.13.10"
+
+  [[metadata.dependencies]]
+    arch = "amd64"
     checksum = "sha256:88d2da4eed42fa9a5f42ff58a8bc8988881bd6c547e297e46682c2687638a851"
     cpe = "cpe:2.3:a:python:python:3.14.0:*:*:*:*:*:*:*"
     deprecation_date = "2030-10-31T00:00:00Z"
@@ -878,6 +878,102 @@ api = "0.7"
     stacks = ["io.buildpacks.stacks.noble"]
     uri = "https://artifacts.paketo.io/python/python_3.14.0_linux_arm64_noble_a50c4b3d.tgz"
     version = "3.14.0"
+
+  [[metadata.dependencies]]
+    arch = "amd64"
+    checksum = "sha256:8343f001dede23812c7e9c6064f776bade2ef5813f46f0ae4b5a4c10c9069e9a"
+    cpe = "cpe:2.3:a:python:python:3.14.1:*:*:*:*:*:*:*"
+    deprecation_date = "2030-10-31T00:00:00Z"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    os = "linux"
+    purl = "pkg:generic/python@3.14.1?checksum=8343f001dede23812c7e9c6064f776bade2ef5813f46f0ae4b5a4c10c9069e9a&download_url=https://www.python.org/ftp/python/3.14.1/Python-3.14.1.tgz"
+    source = "https://www.python.org/ftp/python/3.14.1/Python-3.14.1.tgz"
+    source-checksum = "sha256:8343f001dede23812c7e9c6064f776bade2ef5813f46f0ae4b5a4c10c9069e9a"
+    stacks = ["*"]
+    uri = "https://www.python.org/ftp/python/3.14.1/Python-3.14.1.tgz"
+    version = "3.14.1"
+
+  [[metadata.dependencies]]
+    arch = "arm64"
+    checksum = "sha256:8343f001dede23812c7e9c6064f776bade2ef5813f46f0ae4b5a4c10c9069e9a"
+    cpe = "cpe:2.3:a:python:python:3.14.1:*:*:*:*:*:*:*"
+    deprecation_date = "2030-10-31T00:00:00Z"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    os = "linux"
+    purl = "pkg:generic/python@3.14.1?checksum=8343f001dede23812c7e9c6064f776bade2ef5813f46f0ae4b5a4c10c9069e9a&download_url=https://www.python.org/ftp/python/3.14.1/Python-3.14.1.tgz"
+    source = "https://www.python.org/ftp/python/3.14.1/Python-3.14.1.tgz"
+    source-checksum = "sha256:8343f001dede23812c7e9c6064f776bade2ef5813f46f0ae4b5a4c10c9069e9a"
+    stacks = ["*"]
+    uri = "https://www.python.org/ftp/python/3.14.1/Python-3.14.1.tgz"
+    version = "3.14.1"
+
+  [[metadata.dependencies]]
+    arch = "amd64"
+    checksum = "sha256:9ed91ca3f1fea6ad194e9f706d6783adeeb70f46164c058585af1976e7b3bacb"
+    cpe = "cpe:2.3:a:python:python:3.14.1:*:*:*:*:*:*:*"
+    deprecation_date = "2030-10-31T00:00:00Z"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    os = "linux"
+    purl = "pkg:generic/python@3.14.1?checksum=8343f001dede23812c7e9c6064f776bade2ef5813f46f0ae4b5a4c10c9069e9a&download_url=https://www.python.org/ftp/python/3.14.1/Python-3.14.1.tgz"
+    source = "https://www.python.org/ftp/python/3.14.1/Python-3.14.1.tgz"
+    source-checksum = "sha256:8343f001dede23812c7e9c6064f776bade2ef5813f46f0ae4b5a4c10c9069e9a"
+    stacks = ["io.buildpacks.stacks.jammy"]
+    uri = "https://artifacts.paketo.io/python/python_3.14.1_linux_amd64_jammy_9ed91ca3.tgz"
+    version = "3.14.1"
+
+  [[metadata.dependencies]]
+    arch = "arm64"
+    checksum = "sha256:e92ec4c94919aad69d9a9a49ceaf1fc3e13140a48ab6be7fd19b78d558d03b70"
+    cpe = "cpe:2.3:a:python:python:3.14.1:*:*:*:*:*:*:*"
+    deprecation_date = "2030-10-31T00:00:00Z"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    os = "linux"
+    purl = "pkg:generic/python@3.14.1?checksum=8343f001dede23812c7e9c6064f776bade2ef5813f46f0ae4b5a4c10c9069e9a&download_url=https://www.python.org/ftp/python/3.14.1/Python-3.14.1.tgz"
+    source = "https://www.python.org/ftp/python/3.14.1/Python-3.14.1.tgz"
+    source-checksum = "sha256:8343f001dede23812c7e9c6064f776bade2ef5813f46f0ae4b5a4c10c9069e9a"
+    stacks = ["io.buildpacks.stacks.jammy"]
+    uri = "https://artifacts.paketo.io/python/python_3.14.1_linux_arm64_jammy_e92ec4c9.tgz"
+    version = "3.14.1"
+
+  [[metadata.dependencies]]
+    arch = "amd64"
+    checksum = "sha256:115b37de14aa35137f2450465e0301a6942ee84ad2bc269e051a3df7f51e9e6f"
+    cpe = "cpe:2.3:a:python:python:3.14.1:*:*:*:*:*:*:*"
+    deprecation_date = "2030-10-31T00:00:00Z"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    os = "linux"
+    purl = "pkg:generic/python@3.14.1?checksum=8343f001dede23812c7e9c6064f776bade2ef5813f46f0ae4b5a4c10c9069e9a&download_url=https://www.python.org/ftp/python/3.14.1/Python-3.14.1.tgz"
+    source = "https://www.python.org/ftp/python/3.14.1/Python-3.14.1.tgz"
+    source-checksum = "sha256:8343f001dede23812c7e9c6064f776bade2ef5813f46f0ae4b5a4c10c9069e9a"
+    stacks = ["io.buildpacks.stacks.noble"]
+    uri = "https://artifacts.paketo.io/python/python_3.14.1_linux_amd64_noble_115b37de.tgz"
+    version = "3.14.1"
+
+  [[metadata.dependencies]]
+    arch = "arm64"
+    checksum = "sha256:80a76f59a4e30f37533369048badb513f57fc7cd43357dfaefd823fa9dfbb3ca"
+    cpe = "cpe:2.3:a:python:python:3.14.1:*:*:*:*:*:*:*"
+    deprecation_date = "2030-10-31T00:00:00Z"
+    id = "python"
+    licenses = ["0BSD", "CNRI-Python-GPL-Compatible", "PSF-2.0"]
+    name = "Python"
+    os = "linux"
+    purl = "pkg:generic/python@3.14.1?checksum=8343f001dede23812c7e9c6064f776bade2ef5813f46f0ae4b5a4c10c9069e9a&download_url=https://www.python.org/ftp/python/3.14.1/Python-3.14.1.tgz"
+    source = "https://www.python.org/ftp/python/3.14.1/Python-3.14.1.tgz"
+    source-checksum = "sha256:8343f001dede23812c7e9c6064f776bade2ef5813f46f0ae4b5a4c10c9069e9a"
+    stacks = ["io.buildpacks.stacks.noble"]
+    uri = "https://artifacts.paketo.io/python/python_3.14.1_linux_arm64_noble_80a76f59.tgz"
+    version = "3.14.1"
 
   [[metadata.dependency-constraints]]
     constraint = "3.10.*"
