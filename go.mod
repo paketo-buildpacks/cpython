@@ -2,6 +2,13 @@ module github.com/paketo-buildpacks/cpython
 
 go 1.25.5
 
+replace (
+	// pinned back until https://github.com/containerd/containerd/issues/12493 is resolved and containerd/containerd handles the new runtime spec.
+	// after that we will need to decide how to adapt rundmc's pidlimit logic to handle the change from int64 to *int64.
+	github.com/containerd/cgroups/v3 => github.com/containerd/cgroups/v3 v3.1.0
+	github.com/opencontainers/runtime-spec => github.com/opencontainers/runtime-spec v1.2.1
+)
+
 require (
 	github.com/BurntSushi/toml v1.6.0
 	github.com/onsi/gomega v1.38.3
