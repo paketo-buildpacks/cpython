@@ -5,6 +5,8 @@ go 1.27.1
 // This is required because of a breaking change in a newer version
 replace github.com/ekzhu/minhash-lsh => github.com/ekzhu/minhash-lsh v0.0.0-20171225071031-5c06ee8586a1
 
+replace github.com/go-enry/go-license-detector/v4 => github.com/go-enry/go-license-detector/v4 v4.3.0
+
 require (
 	github.com/Masterminds/semver/v3 v3.5.0
 	github.com/paketo-buildpacks/libdependency v0.2.1
