@@ -10,7 +10,7 @@ replace github.com/go-enry/go-license-detector/v4 => github.com/go-enry/go-licen
 require (
 	github.com/Masterminds/semver/v3 v3.5.0
 	github.com/paketo-buildpacks/libdependency v0.2.1
-	github.com/paketo-buildpacks/packit/v2 v2.25.7
+	github.com/paketo-buildpacks/packit/v2 v2.25.8
 	golang.org/x/exp v0.0.0-20260410095643-746e56fc9e2f
 )
 
