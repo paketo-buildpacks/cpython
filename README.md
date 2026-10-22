@@ -145,7 +145,7 @@ $ ./scripts/unit.sh && ./scripts/integration.sh
 This buildpack is currently only supported on linux distributions.
 
 Pre-compiled distributions of Python are provided for the Paketo stacks (i.e.
-`io.buildpacks.stack.jammy`, `io.buildpacks.stacks.noble`, `and
-io.buildpacks.stacks.resolute`).
+`io.buildpacks.stack.jammy`, `io.buildpacks.stacks.noble`, and
+`io.buildpacks.stacks.resolute`).
 
 Source distributions of Python are provided for all other linux stacks.
