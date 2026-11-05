@@ -4,6 +4,9 @@ Running compilation locally:
 ```shell
 docker build --tag compilation-<target> --file <target>.Dockerfile .
 
+# Resolute example
+docker build --tag compilation-resolute --file resolute.Dockerfile .
+
 # Noble example
 docker build --tag compilation-noble --file noble.Dockerfile .
 
@@ -23,9 +26,12 @@ When --os and --arch are omitted, --os defaults to `linux` and --arch defaults t
 ```shell
 $ docker run --volume $output_dir:/tmp/compilation compilation-<target> --outputDir /tmp/compilation --target <target> --version <version> --os <os> --arch <arch>
 
+# Resolute example
+$ docker run --volume $output_dir:/tmp/compilation compilation-resolute --outputDir /tmp/compilation --target resolute --version 3.11.17
+
 # Noble example
-$ docker run --volume $output_dir:/tmp/compilation compilation-noble --outputDir /tmp/compilation --target noble --version 3.10.7
+$ docker run --volume $output_dir:/tmp/compilation compilation-noble --outputDir /tmp/compilation --target noble --version 3.11.17
 
 # Jammy example
-$ docker run --volume $output_dir:/tmp/compilation compilation-jammy --outputDir /tmp/compilation --target jammy --version 3.10.7
+$ docker run --volume $output_dir:/tmp/compilation compilation-jammy --outputDir /tmp/compilation --target jammy --version 3.11.17
 ```
